@@ -1,5 +1,6 @@
 import React from 'react';
 import List from '../do-dont/List.jsx';
+import utils from '../../Utils/utils.js';
 
 class ListsPage extends React.Component {
     
@@ -13,7 +14,7 @@ class ListsPage extends React.Component {
     return(
         <div style={{textAlign:"center"}}>
             <h1>{this.props.route.pageTitle}</h1>
-            <h3>This is the ListsPage</h3>
+            <div>{utils.getDateObj().dateStrP}</div>
             <List></List>
         </div>
 

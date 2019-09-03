@@ -5,12 +5,13 @@ var _fbRef;
 var _getFirebaseRef = function _getFirebaseRef() {
   if (!_fbRef){
     const config = {
-        apiKey: "AIzaSyCgr8v6ARCjL8OzSZRGDNS1JeKLz4bKFtc",
-        authDomain: "math-game-c66ec.firebaseapp.com",
-        databaseURL: "https://math-game-c66ec.firebaseio.com",
-        projectId: "math-game-c66ec",
-        storageBucket: "math-game-c66ec.appspot.com",
-        messagingSenderId: "447354560168"
+        apiKey: "AIzaSyDRL0tGplOcdGP4dCCrA3sXCOusGbkNmgM",
+        authDomain: "do-dont.firebaseapp.com",
+        databaseURL: "https://do-dont.firebaseio.com",
+        projectId: "do-dont",
+        storageBucket: "do-dont.appspot.com",
+        messagingSenderId: "1088307007360",
+        appId: "1:1088307007360:web:d4d9ebc195ba62e0"
       };
 
       firebase.initializeApp(config);

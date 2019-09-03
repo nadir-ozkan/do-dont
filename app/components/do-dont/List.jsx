@@ -1,4 +1,6 @@
 import React from 'react';
+import firebase, {fbRef, githubProvider} from '../../firebase/index.js';
+import utils from '../../Utils/utils.js';
 
 class ListItem extends React.Component {
     constructor(props){
@@ -6,7 +8,7 @@ class ListItem extends React.Component {
         this.state = {
             checked : props.checked
         }
-    }    
+    }
 
     handleClick(e){
         console.log(e.target.checked);
@@ -21,20 +23,20 @@ class ListItem extends React.Component {
     render(){
         return(
             <div>
-                <input type="checkbox" 
+                <input type="checkbox"
                     value = {this.props.text}
-                    defaultChecked={this.state.checked} 
+                    defaultChecked={this.state.checked}
                     onClick={this.handleClick.bind(this)}
                 />
                 <span>{this.props.fbKey} - {this.props.text}</span>
-                
+
             </div>
         );
     }
 }
 
 class List extends React.Component {
-    
+
     constructor(){
         super();
         this.state = {
@@ -48,45 +50,25 @@ class List extends React.Component {
                     fbKey : "1",
                     text : "İp hopla",
                     checked : true
-                },  
+                },
                 {
                     fbKey : "2",
                     text : "10 K yürü",
                     checked : false
-                },   
+                },
                 {
                     fbKey : "4",
                     text : "Multivitamin al",
                     checked : false
-                },    
+                },
                 {
                     fbKey : "5",
                     text : "Omega 3 ye",
                     checked : false
-                },                                                                                              
-            ]            
+                },
+            ]
         }
-        
-    }
 
-    addLeadingZero(sayi) {
-        sayi = "" + sayi; // metin olarak algılanmasını garantile
-        return sayi.length==1 ? "0" + sayi : sayi;
-    }
-
-    getDateObj(){
-        const simdi = new Date();
-        const gun = this.addLeadingZero(simdi.getDate());
-        const ay = this.addLeadingZero(simdi.getMonth() + 1);
-        const yil = simdi.getFullYear().toString();        
-
-        return {
-            dateStr : gun + "_" + ay + "_" + yil,
-            gun,
-            ay, 
-            yil
-        }
-        
     }
 
     onCheckedChange(fbKey, checked) {
@@ -99,10 +81,7 @@ class List extends React.Component {
            }
         });
         this.setState({items : newItems}, () => {
-            // save items and percentage to fb
-            // console.log(this.getDateObj());
-            // alert(this.getDateObj().dateStr + " -> " + this.percentage);
-            // this.createList();
+            this.saveList();
         });
     }
 
@@ -135,15 +114,15 @@ class List extends React.Component {
                         }
                     },
                     dontItems : {
-                        
+
                         }
                     }
                 }
             }
-        
+
         console.log(JSON.stringify(lists));
     }
-    
+
     calculatePercentage(){
         const itemsCount = this.state.items.length;
         let checkedCount = 0;
@@ -155,6 +134,64 @@ class List extends React.Component {
         return parseInt(checkedCount / itemsCount * 100, 10);
     }
 
+    objToArray(obj) {
+        let arr = [];
+        Object.keys(obj).forEach((key) => {
+            arr.push(obj[key]);
+        });
+        return arr;
+    }
+
+    componentWillMount() {
+        const refStr = "users/Ayca/list1/items/entries";
+        this.getListEntries(refStr)
+            .then((result) => {
+                if (result) {
+
+                    let entryArray = this.objToArray(result);
+                    entryArray.sort(function(a,b) {
+                        return b.saveDate - a.saveDate;
+                    });
+        
+                    console.log(entryArray);        
+                }
+            });
+    }
+
+    getListEntries(refStr) {
+      return new Promise(function(resolve, reject) {
+        fbRef.child(refStr).once("value")
+            .then((ss) => {
+                ss.exists() ? resolve(ss.val()) : resolve(null);
+            })
+            .catch((hata) => {
+                console.log("Hata " + hata.toString());
+                throw hata;
+            });
+      });
+    }
+
+    saveList(){
+        // const refStr = "users/Ayca/list1/items/entries/" + getDateObj().dateStr;
+        const refStr = "users/Ayca/list1/items/entries/03_09_2019";
+        const dateObj = utils.getDateObj();
+
+        fbRef.child(refStr)
+            .set(
+                {
+                    does : this.state.items,
+                    doesPercent : this.percentage,
+                    donts : this.state.items, // buraya donts listesi gelecek
+                    dontsPercent : this.percentage, // buraya donts yüzdesi gelecek                
+                    saveDate : dateObj.jsTime,
+                    saveDateStr : dateObj.dateStrP
+                }
+            )
+            .then(()=> {
+                console.log("Kayıt işlemi başarıyla yapıldı...");
+            });
+    }
+
     renderList(){
 
         const {items} = this.state;
@@ -163,7 +200,7 @@ class List extends React.Component {
             return this.state.items.map((item)=>{
                 return (
                     <div key={item.fbKey}>
-                        <ListItem 
+                        <ListItem
                             {...item}
                             onCheckedChange = {this.onCheckedChange.bind(this)}
                         ></ListItem>
@@ -181,7 +218,7 @@ class List extends React.Component {
         return(
             <div>
                 {this.renderList()}
-                <div style={{margin : "10px auto", fontSize : "24px"}}> % {this.percentage} </div>     
+                <div style={{margin : "10px auto", fontSize : "24px"}}> % {this.percentage} </div>
             </div>
         );
   }
