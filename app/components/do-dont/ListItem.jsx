@@ -19,8 +19,19 @@ class ListItem extends React.Component {
     }
 
     render(){
+    
+        const ItemStyle = {
+            marginBottom : "5px",
+            marginTop : "5px",
+            height : "1.25em"
+        }
+
+        if (this.state.checked) {
+            ItemStyle.background = "green";
+        }
+
         return(
-            <div>
+            <div style={ItemStyle}>
                 <input type="checkbox"
                     value = {this.props.text}
                     defaultChecked={this.state.checked}

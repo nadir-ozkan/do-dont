@@ -1,12 +1,15 @@
 {
-  "name": "react-wheater-app",
+  "name": "do-dont-app",
   "version": "0.0.1",
-  "description": "Complete React Course Wheater App",
+  "description": "Simple Checklist App",
   "author": "Nadir Özkan",
   "license": "MIT",
   "scripts": {
     "start": "webpack-dev-server --progress",
     "build": "cross-env NODE_ENV=production node_modules/.bin/webpack -p --progress --colors"
+  },
+  "engines" : {
+      "node" : "10.15.0"
   },
   "devDependencies": {
     "babel-core": "~6.7.*",

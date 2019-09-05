@@ -53,7 +53,7 @@ class ListContainer extends React.Component{
     }
 
     componentWillMount() {
-        this.insertNewListItems();
+        //this.insertNewListItems();
     }
 
     componentDidMount(){
@@ -150,7 +150,8 @@ class ListContainer extends React.Component{
             "Bir bardak su iç",
             "2. Yemek",
             "Bir bardak su iç",
-            "Meditasyon yap"
+            "Meditasyon yap",
+            "5K yürüyüş"
         ];
         newItems.forEach((item) => {
             const doItemsRef = "users/Ayca/list1/items/doItems";
