@@ -16,12 +16,51 @@ class ListContainer extends React.Component{
         this.currentIndex = 0;
         this.itemsList = [];
         this.itemsListCount = 0;
+
+        this.mockData = [
+            {
+                does : [
+                    {checked: false, fbKey: "-a", text: "Item 1"},
+                    {checked: true, fbKey: "-ab", text: "Item 2"},
+                    {checked: false, fbKey: "-abf", text: "Item 3"},
+                    {checked: true, fbKey: "-adeer", text: "Item 4"},
+                    {checked: false, fbKey: "-aff", text: "Item 5"}
+                ],
+                saveDateStr : "05.09.2019"
+            },
+            {
+                does : [
+                    {checked: false, fbKey: "-sa", text: "Item 1"},
+                    {checked: false, fbKey: "-ssab", text: "Item 2"},
+                    {checked: false, fbKey: "-sddabf", text: "Item 3"},
+                    {checked: false, fbKey: "-22adeer", text: "Item 4"},
+                    {checked: false, fbKey: "-1aff", text: "Item 5"}
+                ],
+                saveDateStr : "03.09.2019"
+            },
+            {
+                does : [
+                    {checked: true, fbKey: "3-sa", text: "Item 1"},
+                    {checked: true, fbKey: "3-ssab", text: "Item 2"},
+                    {checked: true, fbKey: "3-sddabf", text: "Item 3"},
+                    {checked: true, fbKey: "3-22adeer", text: "Item 4"},
+                    {checked: true, fbKey: "3-1aff", text: "Item 5"}
+                ],
+                saveDateStr : "01.09.2019"
+            },
+        ]
+    
+    }
+
+    componentWillMount() {
+        this.insertNewListItems();
     }
 
     componentDidMount(){
 
         // const refStr = "users/Ayca/list1/items/entries";
         const refStr = "users/Ayca/list1";
+ 
         this.getData(refStr)
             .then((result) => {
                 if (result) {
@@ -47,6 +86,20 @@ class ListContainer extends React.Component{
                 const dateObj = utils.getDateObj();
                 const entries = JSON.parse(localStorage.getItem("entries"));
         
+                if (entries.length == 0) {
+                    const doItems = JSON.parse(localStorage.getItem("doItems"));
+                    if (doItems) {
+                        const doItemsArr = Object.keys(doItems).map((key) => {
+                            return {
+                                fbKey : key,
+                                text : doItems[key],
+                                checked : false
+                            }
+                        });
+                        this.setState({items : doItemsArr});
+                    }
+                }
+                
                 if (entries) {
                     if (entries[0].saveDateStr !== dateObj.dateStrP) {
                         const doItems = JSON.parse(localStorage.getItem("doItems"));
@@ -84,7 +137,21 @@ class ListContainer extends React.Component{
     }
 
     insertNewListItems(){
-        const newItems = ["2 Litre su iç", "İp zıpla", "10 K yürüyüvergari", "Multivitamin al", "Omega3 ye"];
+        const newItems = [
+            "Bir bardak su iç", 
+            "Surya Namaskar", 
+            "5K yürüyüş", 
+            "Bir bardak su iç", 
+            "Pilates yap",
+            "Yüz bakımı",
+            "1. Yemek",
+            "Bir bardak su iç",
+            "Haplarını al",
+            "Bir bardak su iç",
+            "2. Yemek",
+            "Bir bardak su iç",
+            "Meditasyon yap"
+        ];
         newItems.forEach((item) => {
             const doItemsRef = "users/Ayca/list1/items/doItems";
             fbRef.child(doItemsRef)

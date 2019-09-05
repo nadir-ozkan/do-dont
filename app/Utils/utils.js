@@ -24,9 +24,11 @@ const getDateObj = function(){
 
 const objToArray = function (obj) {
     let arr = [];
-    Object.keys(obj).forEach((key) => {
-        arr.push(obj[key]);
-    });
+    if (obj) {
+        Object.keys(obj).forEach((key) => {
+            arr.push(obj[key]);
+        });
+    }
     return arr;
 }
 
