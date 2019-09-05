@@ -73,19 +73,9 @@ class List extends React.Component {
         return isNaN(result) ? 0 : result;
     }
 
-    objToArray(obj) {
-        let arr = [];
-        Object.keys(obj).forEach((key) => {
-            arr.push(obj[key]);
-        });
-        return arr;
+    componentWillReceiveProps(nextProps){
+
     }
-
-    // Neden hepsini ayrı ayrı alıyorsun ki, hepsini bir arada alsan.
-
-    // todo : GetEntries -> Önce LocalStorege'a bak, orada yok ise firebase veritabanından al.
-    // todo : GetDoItems -> Aynı şekilde...
-    // todo : GetDontItems -> Aynı şekilde...
 
     componentDidMount(){
 
@@ -97,7 +87,7 @@ class List extends React.Component {
 
                     console.log(result);
 
-                    let entriesArray = this.objToArray(result.items.entries);
+                    let entriesArray = utils.objToArray(result.items.entries);
                     entriesArray.sort(function(a,b) {
                         return b.saveDate - a.saveDate;
                     });

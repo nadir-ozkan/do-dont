@@ -9,9 +9,8 @@ class ListContainer extends React.Component{
         const {DateStyle} = Styles;
         return (
             <div>
-                <div style={DateStyle} >{utils.getDateObj().dateStrP}</div>
-                <List></List>
-                
+                <div style={DateStyle}>{utils.getDateObj().dateStrP}</div>
+                <List items={null}></List>
             </div>
         )
         

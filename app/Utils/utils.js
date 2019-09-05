@@ -22,7 +22,16 @@ const getDateObj = function(){
     
 }
 
+const objToArray = function (obj) {
+    let arr = [];
+    Object.keys(obj).forEach((key) => {
+        arr.push(obj[key]);
+    });
+    return arr;
+}
+
 module.exports = {
     getDateObj,
-    addLeadingZero 
+    addLeadingZero,
+    objToArray
 }

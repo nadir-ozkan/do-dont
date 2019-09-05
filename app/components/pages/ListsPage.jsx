@@ -1,5 +1,4 @@
 import React from 'react';
-import List from '../do-dont/List.jsx';
 import ListContainer from '../do-dont/ListContainer.jsx';
 import utils from '../../Utils/utils.js';
 
