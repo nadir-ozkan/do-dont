@@ -194,7 +194,7 @@ class List extends React.Component {
                 );
             });
         } else {
-            return "Yapmanız gereken hiçbirşey yok. Ne mutlu size!";
+            return "Liste yüklenirken lütfen bekleyiniz!";
         }
 
     }
