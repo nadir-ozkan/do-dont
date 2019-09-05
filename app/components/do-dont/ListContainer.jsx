@@ -6,11 +6,16 @@ import List from "./List.jsx";
 
 class ListContainer extends React.Component{
     render(){
-        const {DateStyle} = Styles;
+        const {DateStyle, ButtonsDivStyle} = Styles;
         return (
             <div>
                 <div style={DateStyle}>{utils.getDateObj().dateStrP}</div>
                 <List items={null}></List>
+                <div style={ButtonsDivStyle}>
+                    <button id="prevButton">Prev</button>
+                    {/* <button id="todayButton">Today</button> */}
+                    <button id="nextButton">Next</button>            
+                </div>
             </div>
         )
         
@@ -23,6 +28,10 @@ const Styles = {
         textAlign : "center",
         background : "cornflowerblue",
         padding : "5px",
+    },
+    ButtonsDivStyle : {
+        display : "flex",
+        justifyContent :"space-between"
     }
 }
 
