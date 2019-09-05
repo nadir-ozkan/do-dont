@@ -28,7 +28,7 @@ class ListItem extends React.Component {
                     defaultChecked={this.state.checked}
                     onClick={this.handleClick.bind(this)}
                 />
-                <span>{this.props.fbKey} - {this.props.text}</span>
+                <span>{this.props.text}</span>
 
             </div>
         );
@@ -40,33 +40,7 @@ class List extends React.Component {
     constructor(){
         super();
         this.state = {
-            items : [
-                {
-                    fbKey : "0",
-                    text : "2 litre su iç",
-                    checked : false
-                },
-                {
-                    fbKey : "1",
-                    text : "İp hopla",
-                    checked : true
-                },
-                {
-                    fbKey : "2",
-                    text : "10 K yürü",
-                    checked : false
-                },
-                {
-                    fbKey : "4",
-                    text : "Multivitamin al",
-                    checked : false
-                },
-                {
-                    fbKey : "5",
-                    text : "Omega 3 ye",
-                    checked : false
-                },
-            ]
+            items : []
         }
 
     }
@@ -85,44 +59,6 @@ class List extends React.Component {
         });
     }
 
-    createList(){
-        let lists = {
-            list1 : {
-                items : {
-                    doItems : {
-                        "0" : "2 litre su iç",
-                        "1" : "İp hopla",
-                        "2" : "10 K yürü",
-                        "3" : "Multivitamin al",
-                        "4" : "Omega 3 ye"
-                        },
-                    entries : {
-                        "29_08_2019" : {
-                            does : {
-                                "0" : true,
-                                "1" : false,
-                                "2" : false,
-                                "3" : false,
-                                "4" : true
-                            },
-                            doesPercent : 40,
-                            donts : {
-                                "0" : true,
-                                "1" : false
-                            },
-                            dontsPercent : 50
-                        }
-                    },
-                    dontItems : {
-
-                        }
-                    }
-                }
-            }
-
-        console.log(JSON.stringify(lists));
-    }
-
     calculatePercentage(){
         const itemsCount = this.state.items.length;
         let checkedCount = 0;
@@ -131,7 +67,10 @@ class List extends React.Component {
                 checkedCount++
             }
         });
-        return parseInt(checkedCount / itemsCount * 100, 10);
+
+        const result = parseInt(checkedCount / itemsCount * 100, 10);
+
+        return isNaN(result) ? 0 : result;
     }
 
     objToArray(obj) {
@@ -142,38 +81,76 @@ class List extends React.Component {
         return arr;
     }
 
-    componentWillMount() {
-        const refStr = "users/Ayca/list1/items/entries";
-        this.getListEntries(refStr)
+    // Neden hepsini ayrı ayrı alıyorsun ki, hepsini bir arada alsan.
+
+    // todo : GetEntries -> Önce LocalStorege'a bak, orada yok ise firebase veritabanından al.
+    // todo : GetDoItems -> Aynı şekilde...
+    // todo : GetDontItems -> Aynı şekilde...
+
+    componentDidMount(){
+
+        // const refStr = "users/Ayca/list1/items/entries";
+        const refStr = "users/Ayca/list1";
+        this.getData(refStr)
             .then((result) => {
                 if (result) {
 
-                    let entryArray = this.objToArray(result);
-                    entryArray.sort(function(a,b) {
+                    console.log(result);
+
+                    let entriesArray = this.objToArray(result.items.entries);
+                    entriesArray.sort(function(a,b) {
                         return b.saveDate - a.saveDate;
                     });
         
-                    console.log(entryArray);        
+                    console.log(entriesArray);     
+                    localStorage.setItem("entries", JSON.stringify(entriesArray));
+                   
                 }
+
+                localStorage.setItem("doItems", JSON.stringify(result.items.doItems));
+            
+                const dateObj = utils.getDateObj();
+                const entries = JSON.parse(localStorage.getItem("entries"));
+        
+                if (entries) {
+                    if (entries[0].saveDateStr !== dateObj.dateStrP) {
+                        const doItems = JSON.parse(localStorage.getItem("doItems"));
+                        if (doItems) {
+                            const doItemsArr = Object.keys(doItems).map((key) => {
+                                return {
+                                    fbKey : key,
+                                    text : doItems[key],
+                                    checked : false
+                                }
+                            });
+                            this.setState({items : doItemsArr});
+                        }
+                    } else {
+                        this.setState({items : entries[0].does});
+                    }   
+                }
+
             });
+
     }
 
-    getListEntries(refStr) {
-      return new Promise(function(resolve, reject) {
-        fbRef.child(refStr).once("value")
-            .then((ss) => {
-                ss.exists() ? resolve(ss.val()) : resolve(null);
-            })
-            .catch((hata) => {
-                console.log("Hata " + hata.toString());
-                throw hata;
-            });
-      });
+    getData(refStr) {
+        return new Promise(function(resolve, reject) {
+            fbRef.child(refStr).once("value")
+                .then((ss) => {
+                    ss.exists() ? resolve(ss.val()) : resolve(null);
+                })
+                .catch((hata) => {
+                    console.log("Hata " + hata.toString());
+                    reject(hata);
+                    throw hata;
+                });
+          });
     }
 
     saveList(){
-        // const refStr = "users/Ayca/list1/items/entries/" + getDateObj().dateStr;
-        const refStr = "users/Ayca/list1/items/entries/03_09_2019";
+        const refStr = "users/Ayca/list1/items/entries/" + utils.getDateObj().dateStr;
+        // const refStr = "users/Ayca/list1/items/entries/03_09_2019";
         const dateObj = utils.getDateObj();
 
         fbRef.child(refStr)
@@ -190,6 +167,15 @@ class List extends React.Component {
             .then(()=> {
                 console.log("Kayıt işlemi başarıyla yapıldı...");
             });
+    }
+
+    insertNewListItems(){
+        const newItems = ["2 Litre su iç", "İp zıpla", "10 K yürüyüvergari", "Multivitamin al", "Omega3 ye"];
+        newItems.forEach((item) => {
+            const doItemsRef = "users/Ayca/list1/items/doItems";
+            fbRef.child(doItemsRef)
+                .push(item);
+        });
     }
 
     renderList(){
