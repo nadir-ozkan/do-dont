@@ -11,10 +11,10 @@ class ListsPage extends React.Component {
     }
 
     render(){
-    const {MainDivStyle} = Styles;
+    const {MainDivStyle, PageTitleStyle} = Styles;
     return(
         <div style={MainDivStyle}>
-            <h1>{this.props.route.pageTitle}</h1>
+            <h1 style={PageTitleStyle}>{this.props.route.pageTitle}</h1>
             <ListContainer></ListContainer>
         </div>
 
@@ -29,6 +29,9 @@ const Styles = {
         padding : "10px",
         width : "fit-content",
         fontSize : "18px"
+    },
+    PageTitleStyle : {
+        textAlign : "center"
     }
 }
 

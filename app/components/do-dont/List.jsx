@@ -20,12 +20,19 @@ class ListItem extends React.Component {
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.checked != this.state.checked) {
+            this.setState({checked : nextProps.checked});
+        }
+    }
+
     render(){
         return(
             <div>
                 <input type="checkbox"
                     value = {this.props.text}
                     defaultChecked={this.state.checked}
+                    checked={this.state.checked ? "checked" : null}
                     onClick={this.handleClick.bind(this)}
                 />
                 <span>{this.props.text}</span>
@@ -37,12 +44,13 @@ class ListItem extends React.Component {
 
 class List extends React.Component {
 
-    constructor(){
-        super();
-        this.state = {
-            items : []
-        }
-
+    constructor(props){
+        super(props);
+        this.state = { items : [] }
+    }
+    
+    componentWillReceiveProps(nextProps) {
+        this.setState({items : nextProps.items});
     }
 
     onCheckedChange(fbKey, checked) {
@@ -73,71 +81,6 @@ class List extends React.Component {
         return isNaN(result) ? 0 : result;
     }
 
-    componentWillReceiveProps(nextProps){
-
-    }
-
-    componentDidMount(){
-
-        // const refStr = "users/Ayca/list1/items/entries";
-        const refStr = "users/Ayca/list1";
-        this.getData(refStr)
-            .then((result) => {
-                if (result) {
-
-                    console.log(result);
-
-                    let entriesArray = utils.objToArray(result.items.entries);
-                    entriesArray.sort(function(a,b) {
-                        return b.saveDate - a.saveDate;
-                    });
-        
-                    console.log(entriesArray);     
-                    localStorage.setItem("entries", JSON.stringify(entriesArray));
-                   
-                }
-
-                localStorage.setItem("doItems", JSON.stringify(result.items.doItems));
-            
-                const dateObj = utils.getDateObj();
-                const entries = JSON.parse(localStorage.getItem("entries"));
-        
-                if (entries) {
-                    if (entries[0].saveDateStr !== dateObj.dateStrP) {
-                        const doItems = JSON.parse(localStorage.getItem("doItems"));
-                        if (doItems) {
-                            const doItemsArr = Object.keys(doItems).map((key) => {
-                                return {
-                                    fbKey : key,
-                                    text : doItems[key],
-                                    checked : false
-                                }
-                            });
-                            this.setState({items : doItemsArr});
-                        }
-                    } else {
-                        this.setState({items : entries[0].does});
-                    }   
-                }
-
-            });
-
-    }
-
-    getData(refStr) {
-        return new Promise(function(resolve, reject) {
-            fbRef.child(refStr).once("value")
-                .then((ss) => {
-                    ss.exists() ? resolve(ss.val()) : resolve(null);
-                })
-                .catch((hata) => {
-                    console.log("Hata " + hata.toString());
-                    reject(hata);
-                    throw hata;
-                });
-          });
-    }
-
     saveList(){
         const refStr = "users/Ayca/list1/items/entries/" + utils.getDateObj().dateStr;
         // const refStr = "users/Ayca/list1/items/entries/03_09_2019";
@@ -157,15 +100,6 @@ class List extends React.Component {
             .then(()=> {
                 console.log("Kayıt işlemi başarıyla yapıldı...");
             });
-    }
-
-    insertNewListItems(){
-        const newItems = ["2 Litre su iç", "İp zıpla", "10 K yürüyüvergari", "Multivitamin al", "Omega3 ye"];
-        newItems.forEach((item) => {
-            const doItemsRef = "users/Ayca/list1/items/doItems";
-            fbRef.child(doItemsRef)
-                .push(item);
-        });
     }
 
     renderList(){
