@@ -1,5 +1,6 @@
 import React from 'react';
 import List from '../do-dont/List.jsx';
+import ListContainer from '../do-dont/ListContainer.jsx';
 import utils from '../../Utils/utils.js';
 
 class ListsPage extends React.Component {
@@ -11,15 +12,25 @@ class ListsPage extends React.Component {
     }
 
     render(){
+    const {MainDivStyle} = Styles;
     return(
-        <div style={{textAlign:"center"}}>
+        <div style={MainDivStyle}>
             <h1>{this.props.route.pageTitle}</h1>
-            <div>{utils.getDateObj().dateStrP}</div>
-            <List></List>
+            <ListContainer></ListContainer>
         </div>
 
     );
   }
+}
+
+const Styles = {
+    MainDivStyle : {
+        background : "aliceblue",
+        margin : "0 auto",
+        padding : "10px",
+        width : "fit-content",
+        fontSize : "18px"
+    }
 }
 
 export default ListsPage;

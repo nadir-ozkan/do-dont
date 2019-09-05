@@ -200,14 +200,23 @@ class List extends React.Component {
     }
 
     render(){
+        const {PercentStyle} = Styles;
         this.percentage = this.calculatePercentage();
         return(
             <div>
                 {this.renderList()}
-                <div style={{margin : "10px auto", fontSize : "24px"}}> % {this.percentage} </div>
+                <div style={PercentStyle}> % {this.percentage} </div>
             </div>
         );
   }
+}
+
+const Styles = {
+    PercentStyle : {
+        textAlign : "center",
+        margin : "10px auto", 
+        fontSize : "24px"
+    }
 }
 
 export default List;
