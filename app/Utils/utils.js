@@ -5,21 +5,32 @@ const addLeadingZero = function(sayi) {
     return sayi.length==1 ? "0" + sayi : sayi;
 }
 
+const mergeObjects = (obj1, obj2) => {
+    const newObj = {};
+    Object.keys(obj1).forEach((key) => {
+        newObj[key] = obj1[key];
+    });
+    Object.keys(obj2).forEach((key) => {
+        newObj[key] = obj2[key];
+    });
+    return newObj;
+}
+
 const getDateObj = function(){
     const simdi = new Date();
     const gun = addLeadingZero(simdi.getDate());
     const ay = addLeadingZero(simdi.getMonth() + 1);
-    const yil = simdi.getFullYear().toString();        
+    const yil = simdi.getFullYear().toString();
 
     return {
         dateStr : gun + "_" + ay + "_" + yil,
         dateStrP : gun + "." + ay + "." + yil,
         gun,
-        ay, 
+        ay,
         yil,
-        jsTime : (simdi).getTime() 
+        jsTime : (simdi).getTime()
     }
-    
+
 }
 
 const objToArray = function (obj) {
@@ -32,8 +43,14 @@ const objToArray = function (obj) {
     return arr;
 }
 
+const isToday = function (dayStr) {
+  return getDateObj().dateStrP == dayStr;
+}
+
 module.exports = {
     getDateObj,
     addLeadingZero,
-    objToArray
+    objToArray,
+    mergeObjects,
+    isToday
 }
