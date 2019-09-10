@@ -10,12 +10,12 @@ class ListContainer extends React.Component{
         super(props);
         this.state = {
             items : [],
-            dateStr : props.dateStr ? props.dateStr : utils.getDateObj().dateStrP
+            dateStr : props.dateStr ? props.dateStr : utils.getDateObj().dateStrP,
+            newEntry : false
         }
 
         this.currentIndex = 0;
-        this.itemsList = [];
-        this.itemsListCount = 0;
+        this.entries = undefined;
 
         this.mockData = [
             {
@@ -49,7 +49,7 @@ class ListContainer extends React.Component{
                 saveDateStr : "01.09.2019"
             },
         ]
-    
+
     }
 
     componentWillMount() {
@@ -59,63 +59,59 @@ class ListContainer extends React.Component{
     componentDidMount(){
 
         // const refStr = "users/Ayca/list1/items/entries";
-        const refStr = "users/Ayca/list1";
- 
+        const refStr = "users/Nadir/list1";
+
         this.getData(refStr)
             .then((result) => {
                 if (result) {
 
                     console.log(result);
 
-                    let entriesArray = utils.objToArray(result.items.entries);
-                    entriesArray.sort(function(a,b) {
-                        return b.saveDate - a.saveDate;
-                    });
-        
-                    console.log(entriesArray);     
+                    this.doItems = result.items.doItems;
 
-                    this.itemsList = entriesArray;
-                    this.itemsListCount = entriesArray.length;
+                    if (result.items.entries) {
 
-                    localStorage.setItem("entries", JSON.stringify(entriesArray));
-                   
-                }
-
-                localStorage.setItem("doItems", JSON.stringify(result.items.doItems));
-            
-                const dateObj = utils.getDateObj();
-                const entries = JSON.parse(localStorage.getItem("entries"));
-        
-                if (entries.length == 0) {
-                    const doItems = JSON.parse(localStorage.getItem("doItems"));
-                    if (doItems) {
-                        const doItemsArr = Object.keys(doItems).map((key) => {
-                            return {
-                                fbKey : key,
-                                text : doItems[key],
-                                checked : false
-                            }
+                        let entriesArray = utils.objToArray(result.items.entries);
+                        entriesArray.sort(function(a,b) {
+                            return b.saveDate - a.saveDate;
                         });
-                        this.setState({items : doItemsArr});
+
+                        this.entries = entriesArray;
+                        console.log(this.entries);
                     }
+
                 }
-                
-                if (entries) {
-                    if (entries[0].saveDateStr !== dateObj.dateStrP) {
-                        const doItems = JSON.parse(localStorage.getItem("doItems"));
-                        if (doItems) {
-                            const doItemsArr = Object.keys(doItems).map((key) => {
+
+                const dateObj = utils.getDateObj();
+
+                if (this.entries) {
+                    if (this.entries[0].saveDateStr !== dateObj.dateStrP) {
+                        if (this.doItems) {
+                            const doItemsArr = Object.keys(this.doItems).map((key) => {
                                 return {
                                     fbKey : key,
-                                    text : doItems[key],
+                                    text : this.doItems[key],
                                     checked : false
                                 }
                             });
-                            this.setState({items : doItemsArr});
+                            this.setState({items : doItemsArr, newEntry : true});
                         }
                     } else {
-                        this.setState({items : entries[0].does});
-                    }   
+                        this.setState({items : this.entries[0].does});
+                    }
+                }
+                else // henüz hiç entry girilmemişse
+                {
+                    if (this.doItems) {
+                        const doItemsArr = Object.keys(this.doItems).map((key) => {
+                            return {
+                                fbKey : key,
+                                text : this.doItems[key],
+                                checked : false
+                            }
+                        });
+                        this.setState({items : doItemsArr, newEntry : true});
+                    }
                 }
 
             });
@@ -138,49 +134,46 @@ class ListContainer extends React.Component{
 
     insertNewListItems(){
         const newItems = [
-            "Bir bardak su iç", 
-            "Surya Namaskar", 
-            "5K yürüyüş", 
-            "Bir bardak su iç", 
-            "Pilates yap",
-            "Yüz bakımı",
-            "1. Yemek",
-            "Bir bardak su iç",
-            "Haplarını al",
-            "Bir bardak su iç",
-            "2. Yemek",
-            "Bir bardak su iç",
-            "Meditasyon yap",
-            "5K yürüyüş"
+            "Kediyi besle",
+            "İp hopla",
+            "İşe git"
         ];
         newItems.forEach((item) => {
-            const doItemsRef = "users/Ayca/list1/items/doItems";
+            const doItemsRef = "users/Nadir/list1/items/doItems";
             fbRef.child(doItemsRef)
                 .push(item);
         });
     }
 
     setItemsAndDate() {
-        const newItems = this.itemsList[this.currentIndex];
+        const newItems = this.entries[this.currentIndex];
 
         if (newItems && newItems.does){
             this.setState({
-                items : newItems.does, 
-                dateStr: newItems.saveDateStr 
+                items : newItems.does,
+                dateStr: newItems.saveDateStr
             });
-        }      
+        }
     }
 
     handleNextClick(e) {
+        if (!this.entries) return;
         if (this.currentIndex==0) return;
         this.currentIndex--;
         this.setItemsAndDate();
     }
 
     handlePrevClick(e) {
-        if (this.currentIndex == this.itemsListCount-1) return;
+        if (!this.entries) return;
+        if (this.currentIndex == this.entries.length-1) return;
         this.currentIndex++;
         this.setItemsAndDate();
+    }
+
+    onSaveList(newEntry) {
+        this.entries[0] = newEntry;
+        console.log(this.entries[0]);
+        console.log("Listenin yeni hali kaydedildi...");
     }
 
     render(){
@@ -188,15 +181,19 @@ class ListContainer extends React.Component{
         return (
             <div>
                 <div style={DateStyle}>{this.state.dateStr}</div>
-                <List items={this.state.items}></List>
+                <List
+                    items={this.state.items}
+                    newEntry={this.state.newEntry}
+                    onSaveList = {this.onSaveList.bind(this)}
+                ></List>
                 <div style={ButtonsDivStyle}>
                     <button id="prevButton" onClick={this.handlePrevClick.bind(this)}>Prev</button>
                     {/* <button id="todayButton">Today</button> */}
-                    <button id="nextButton" onClick={this.handleNextClick.bind(this)}>Next</button>            
+                    <button id="nextButton" onClick={this.handleNextClick.bind(this)}>Next</button>
                 </div>
             </div>
         )
-        
+
     }
 }
 

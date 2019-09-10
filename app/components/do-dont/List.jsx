@@ -11,9 +11,15 @@ class List extends React.Component {
         this.state = { items : [] }
         this.keyNo = 0;
     }
-    
+
     componentWillReceiveProps(nextProps) {
-        this.setState({items : nextProps.items});
+        // Gelen listeyi sayfaya bastıktan sonra eğer liste yeni kayıt ise veritabanına da yaz.
+        this.setState({items : nextProps.items}, () => {
+            if (nextProps.newEntry) {
+                this.saveList();
+            }
+        });
+
     }
 
     onCheckedChange(fbKey, checked) {
@@ -45,23 +51,27 @@ class List extends React.Component {
     }
 
     saveList(){
-        const refStr = "users/Ayca/list1/items/entries/" + utils.getDateObj().dateStr;
-        // const refStr = "users/Ayca/list1/items/entries/05_09_2019";
+        const refStr = "users/Nadir/list1/items/entries/" + utils.getDateObj().dateStr;
+        // const refStr = "users/Nadir/list1/items/entries/05_09_2019";
+
         const dateObj = utils.getDateObj();
 
+        const objToBeSaved = {
+          does : this.state.items,
+          doesPercent : this.percentage,
+          donts : this.state.items, // buraya donts listesi gelecek
+          dontsPercent : this.percentage, // buraya donts yüzdesi gelecek
+          saveDate : dateObj.jsTime,
+          saveDateStr : dateObj.dateStrP
+        }
+
         fbRef.child(refStr)
-            .set(
-                {
-                    does : this.state.items,
-                    doesPercent : this.percentage,
-                    donts : this.state.items, // buraya donts listesi gelecek
-                    dontsPercent : this.percentage, // buraya donts yüzdesi gelecek                
-                    saveDate : dateObj.jsTime,
-                    saveDateStr : dateObj.dateStrP
-                }
-            )
+            .set(objToBeSaved)
             .then(()=> {
                 console.log("Kayıt işlemi başarıyla yapıldı...");
+                if(this.props.onSaveList) {
+                    this.props.onSaveList(objToBeSaved);
+                }
             });
     }
 
@@ -101,7 +111,7 @@ class List extends React.Component {
 const Styles = {
     PercentStyle : {
         textAlign : "center",
-        margin : "10px auto", 
+        margin : "10px auto",
         fontSize : "24px"
     }
 }
