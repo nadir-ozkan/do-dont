@@ -99,14 +99,14 @@ class List extends React.Component {
     render(){
         let {PercentStyle, NoClick, PercentBarStyle} = Styles;
         this.percentage = this.calculatePercentage();
-        PercentBarStyle.width = this.percentage + "%";
+        const percentBarStyle = utils.mergeObjects(PercentBarStyle, {width : this.percentage + "%"});
         const listDivStyle = utils.isToday(this.props.dateStr) ? null : NoClick;
         return(
             <div style={listDivStyle}>
                 {this.renderList()}
                 <div style={PercentStyle}>
                   % {this.percentage}
-                  <div style={PercentBarStyle}> </div>
+                  <div style={percentBarStyle}> </div>
                 </div>
             </div>
         );
@@ -118,7 +118,7 @@ const Styles = {
         position : "absolute",
         fontSize : "24px",
         width : "0%",
-        background : "crimson",
+        background : "gold",
         zIndex : -1,
         top :"0",
         left : "0",
