@@ -15,7 +15,7 @@ class List extends React.Component {
     componentWillReceiveProps(nextProps) {
         // Gelen listeyi sayfaya bastıktan sonra eğer liste yeni kayıt ise veritabanına da yaz.
         this.setState({items : nextProps.items}, () => {
-            if (nextProps.newEntry) {
+            if (nextProps.isNewEntry) {
                 this.saveList();
             }
         });
@@ -68,7 +68,7 @@ class List extends React.Component {
         fbRef.child(refStr)
             .set(objToBeSaved)
             .then(()=> {
-                console.log("Kayıt işlemi başarıyla yapıldı...");
+                // ListContainer'daki entry dizisini güncelle...
                 if(this.props.onSaveList) {
                     this.props.onSaveList(objToBeSaved);
                 }
@@ -97,22 +97,44 @@ class List extends React.Component {
     }
 
     render(){
-        const {PercentStyle} = Styles;
+        let {PercentStyle, NoClick, PercentBarStyle} = Styles;
         this.percentage = this.calculatePercentage();
+        PercentBarStyle.width = this.percentage + "%";
+        const listDivStyle = utils.isToday(this.props.dateStr) ? null : NoClick;
         return(
-            <div>
+            <div style={listDivStyle}>
                 {this.renderList()}
-                <div style={PercentStyle}> % {this.percentage} </div>
+                <div style={PercentStyle}>
+                  % {this.percentage}
+                  <div style={PercentBarStyle}> </div>
+                </div>
             </div>
         );
   }
 }
 
 const Styles = {
-    PercentStyle : {
-        textAlign : "center",
-        margin : "10px auto",
-        fontSize : "24px"
+    PercentBarStyle : {
+        position : "absolute",
+        fontSize : "24px",
+        width : "0%",
+        background : "crimson",
+        zIndex : -1,
+        top :"0",
+        left : "0",
+        height :"27px"
+    },
+    NoClick : {
+      pointerEvents: "none",
+      opacity: "0.65"
+    },
+    PercentStyle :{
+      position : "relative",
+      textAlign : "center",
+      zIndex : 1,
+      height : "27px",
+      padding : "5px",
+      margin : "5px 0"
     }
 }
 

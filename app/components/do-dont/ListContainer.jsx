@@ -11,7 +11,7 @@ class ListContainer extends React.Component{
         this.state = {
             items : [],
             dateStr : props.dateStr ? props.dateStr : utils.getDateObj().dateStrP,
-            newEntry : false
+            isNewEntry : false
         }
 
         this.currentIndex = 0;
@@ -94,7 +94,7 @@ class ListContainer extends React.Component{
                                     checked : false
                                 }
                             });
-                            this.setState({items : doItemsArr, newEntry : true});
+                            this.setState({items : doItemsArr, isNewEntry : true});
                         }
                     } else {
                         this.setState({items : this.entries[0].does});
@@ -110,7 +110,7 @@ class ListContainer extends React.Component{
                                 checked : false
                             }
                         });
-                        this.setState({items : doItemsArr, newEntry : true});
+                        this.setState({items : doItemsArr, isNewEntry : true});
                     }
                 }
 
@@ -172,19 +172,19 @@ class ListContainer extends React.Component{
 
     onSaveList(newEntry) {
         this.entries[0] = newEntry;
-        console.log(this.entries[0]);
-        console.log("Listenin yeni hali kaydedildi...");
     }
 
     render(){
         const {DateStyle, ButtonsDivStyle} = Styles;
+
         return (
             <div>
                 <div style={DateStyle}>{this.state.dateStr}</div>
                 <List
                     items={this.state.items}
-                    newEntry={this.state.newEntry}
+                    isNewEntry={this.state.isNewEntry}
                     onSaveList = {this.onSaveList.bind(this)}
+                    dateStr = {this.state.dateStr}
                 ></List>
                 <div style={ButtonsDivStyle}>
                     <button id="prevButton" onClick={this.handlePrevClick.bind(this)}>Prev</button>
