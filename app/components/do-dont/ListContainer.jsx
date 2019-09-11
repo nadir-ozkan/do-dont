@@ -24,7 +24,7 @@ class ListContainer extends React.Component{
 
     componentDidMount(){
 
-        const refStr = "users/Nadir/list1";
+        const refStr = "users/Ayca/list1";
         // const refStr = "users/Nadir/list1";
 
         this.getData(refStr)

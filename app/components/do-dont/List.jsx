@@ -3,6 +3,7 @@ import firebase, {fbRef, githubProvider} from '../../firebase/index.js';
 import utils from '../../Utils/utils.js';
 
 import ListItem from './ListItem.jsx';
+import PercentDisplay from './PercentDisplay.jsx';
 
 class List extends React.Component {
 
@@ -51,7 +52,7 @@ class List extends React.Component {
     }
 
     saveList(){
-        const refStr = "users/Nadir/list1/items/entries/" + utils.getDateObj().dateStr;
+        const refStr = "users/Ayca/list1/items/entries/" + utils.getDateObj().dateStr;
         // const refStr = "users/Nadir/list1/items/entries/05_09_2019";
 
         const dateObj = utils.getDateObj();
@@ -104,10 +105,7 @@ class List extends React.Component {
         return(
             <div style={listDivStyle}>
                 {this.renderList()}
-                <div style={PercentStyle}>
-                  % {this.percentage}
-                  <div style={percentBarStyle}> </div>
-                </div>
+                <PercentDisplay percent={this.percentage}></PercentDisplay>
             </div>
         );
   }
