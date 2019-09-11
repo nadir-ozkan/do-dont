@@ -70,7 +70,7 @@ class List extends React.Component {
             .then(()=> {
                 // ListContainer'daki entry dizisini güncelle...
                 if(this.props.onSaveList) {
-                    this.props.onSaveList(objToBeSaved);
+                    this.props.onSaveList(objToBeSaved, this.props.isNewEntry);
                 }
             });
     }

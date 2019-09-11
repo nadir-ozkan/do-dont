@@ -16,40 +16,6 @@ class ListContainer extends React.Component{
 
         this.currentIndex = 0;
         this.entries = undefined;
-
-        this.mockData = [
-            {
-                does : [
-                    {checked: false, fbKey: "-a", text: "Item 1"},
-                    {checked: true, fbKey: "-ab", text: "Item 2"},
-                    {checked: false, fbKey: "-abf", text: "Item 3"},
-                    {checked: true, fbKey: "-adeer", text: "Item 4"},
-                    {checked: false, fbKey: "-aff", text: "Item 5"}
-                ],
-                saveDateStr : "05.09.2019"
-            },
-            {
-                does : [
-                    {checked: false, fbKey: "-sa", text: "Item 1"},
-                    {checked: false, fbKey: "-ssab", text: "Item 2"},
-                    {checked: false, fbKey: "-sddabf", text: "Item 3"},
-                    {checked: false, fbKey: "-22adeer", text: "Item 4"},
-                    {checked: false, fbKey: "-1aff", text: "Item 5"}
-                ],
-                saveDateStr : "03.09.2019"
-            },
-            {
-                does : [
-                    {checked: true, fbKey: "3-sa", text: "Item 1"},
-                    {checked: true, fbKey: "3-ssab", text: "Item 2"},
-                    {checked: true, fbKey: "3-sddabf", text: "Item 3"},
-                    {checked: true, fbKey: "3-22adeer", text: "Item 4"},
-                    {checked: true, fbKey: "3-1aff", text: "Item 5"}
-                ],
-                saveDateStr : "01.09.2019"
-            },
-        ]
-
     }
 
     componentWillMount() {
@@ -58,7 +24,7 @@ class ListContainer extends React.Component{
 
     componentDidMount(){
 
-        const refStr = "users/Ayca/list1";
+        const refStr = "users/Nadir/list1";
         // const refStr = "users/Nadir/list1";
 
         this.getData(refStr)
@@ -170,8 +136,15 @@ class ListContainer extends React.Component{
         this.setItemsAndDate();
     }
 
-    onSaveList(newEntry) {
-        this.entries[0] = newEntry;
+    onSaveList(entry, isNewEntry) {
+        if (isNewEntry) {
+          this.entries.unshift(entry);
+          this.setState({isNewEntry : false});
+        } else {
+          this.entries[0] = entry;
+        }
+
+        console.log(this.entries);
     }
 
     render(){
