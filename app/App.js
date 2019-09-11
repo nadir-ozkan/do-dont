@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import {render} from 'react-dom';
 import {Route, Router, IndexRoute, hashHistory} from 'react-router';
 import Main from './components/Main.jsx';
-import WheatherPage from './components/pages/WheatherPage.jsx';
 import AboutPage from './components/pages/AboutPage.jsx';
 import ListsPage from './components/pages/ListsPage.jsx';
-
+import UserProvider from './components/do-dont/UserProvider.jsx';
 
 class App extends Component {
 
