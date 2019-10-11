@@ -16,6 +16,7 @@ class ListContainer extends React.Component{
 
         this.currentIndex = 0;
         this.entries = undefined;
+        this.user = props.user;
     }
 
     componentWillMount() {
@@ -24,9 +25,8 @@ class ListContainer extends React.Component{
 
     componentDidMount(){
 
-        const refStr = "users/Ayca/list1";
-        // const refStr = "users/Nadir/list1";
-
+        const refStr = `users/${this.user.userName}/list1`;
+ 
         this.getData(refStr)
             .then((result) => {
                 if (result) {
@@ -100,12 +100,22 @@ class ListContainer extends React.Component{
 
     insertNewListItems(){
         const newItems = [
-            "Kediyi besle",
-            "İp hopla",
-            "İşe git"
+            "Kahvaltı",
+            "Immune Şurup",
+            "Diş Fırçalama",
+            "Ara Öğün",
+            "Açık Hava",
+            "El Beceri Oyunu",
+            "Öğlen Yemeği",
+            "Çinko",
+            "Öğlen Uykusu",
+            "Açık Hava",
+            "Beş Kitap Okuma",
+            "Meyve Ara Öğün",
+            "Bireysel Görevler"
         ];
         newItems.forEach((item) => {
-            const doItemsRef = "users/Nadir/list1/items/doItems";
+            const doItemsRef = "users/Yasemin/list1/items/doItems";
             fbRef.child(doItemsRef)
                 .push(item);
         });
@@ -158,6 +168,7 @@ class ListContainer extends React.Component{
                     isNewEntry={this.state.isNewEntry}
                     onSaveList = {this.onSaveList.bind(this)}
                     dateStr = {this.state.dateStr}
+                    user = {this.props.user}
                 ></List>
                 <div style={ButtonsDivStyle}>
                     <button id="prevButton" onClick={this.handlePrevClick.bind(this)}>Prev</button>

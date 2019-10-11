@@ -14,11 +14,20 @@ exports.getOwnerName = functions.https.onRequest(async (req, res) => {
   });
 
 exports.checkUser = functions.https.onRequest(async (req, res) => {
-    const {userName, password} = req.query;
+    
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    
+    const {userName, userPass} = req.query;
     const refStr = `users/${userName}/password/`;
 
     const snapshot = await admin.database().ref(refStr).once("value");
     const passwordInDb = snapshot.val();
 
-    res.send(passwordInDb == password);
-  });
+    const respObj = {
+        userName,
+        isPasswordValid : (passwordInDb == userPass)
+    }
+
+    res.send(respObj);
+  
+});

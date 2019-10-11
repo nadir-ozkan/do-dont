@@ -4,18 +4,20 @@ import utils from '../../Utils/utils.js';
 
 class ListsPage extends React.Component {
     
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
         }
+        this.user = null;
     }
 
     render(){
-    const {MainDivStyle, PageTitleStyle} = Styles;
+        const {MainDivStyle, PageTitleStyle} = Styles;
+        this.user = this.props.route.user;
     return(
         <div style={MainDivStyle}>
             <h1 style={PageTitleStyle}>{this.props.route.pageTitle}</h1>
-            <ListContainer></ListContainer>
+            <ListContainer user={this.user}></ListContainer>
         </div>
 
     );

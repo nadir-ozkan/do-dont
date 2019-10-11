@@ -52,7 +52,8 @@ class List extends React.Component {
     }
 
     saveList(){
-        const refStr = "users/Ayca/list1/items/entries/" + utils.getDateObj().dateStr;
+        const {userName} = this.props.user;
+        const refStr = `users/${userName}/list1/items/entries/` + utils.getDateObj().dateStr;
         // const refStr = "users/Nadir/list1/items/entries/05_09_2019";
 
         const dateObj = utils.getDateObj();
@@ -98,7 +99,7 @@ class List extends React.Component {
     }
 
     render(){
-        let {PercentStyle, NoClick, PercentBarStyle} = Styles;
+        let {NoClick, PercentBarStyle} = Styles;
         this.percentage = this.calculatePercentage();
         const percentBarStyle = utils.mergeObjects(PercentBarStyle, {width : this.percentage + "%"});
         const listDivStyle = utils.isToday(this.props.dateStr) ? null : NoClick;

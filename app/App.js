@@ -4,20 +4,38 @@ import {Route, Router, IndexRoute, hashHistory} from 'react-router';
 import Main from './components/Main.jsx';
 import AboutPage from './components/pages/AboutPage.jsx';
 import ListsPage from './components/pages/ListsPage.jsx';
+import LoginPage from './components/pages/LoginPage.jsx';
 import UserProvider from './components/do-dont/UserProvider.jsx';
 
 class App extends Component {
 
-  render(){
-    return (
-      <Router history = {hashHistory}>
-        <Route path="/" component={Main}>
-          <Route path="about" component = {AboutPage}/>
-          <IndexRoute component={ListsPage} pageTitle = "Do Don't"></IndexRoute>
-        </Route>
-      </Router>
-    );
-  }
+    constructor(){
+        super();
+        this.user = null;
+        this.state = {
+            hasUser : false
+        }
+    }
+
+    HandleGetUser(newUser) {
+        this.user = newUser;
+        this.setState({
+            hasUser : true
+        });
+    }
+
+    render(){
+        return ( 
+            this.state.hasUser ? 
+                <Router history = {hashHistory}>
+                    <Route path="/" component={Main}>
+                        <Route path="about" component = {AboutPage}/>
+                        <IndexRoute component={ListsPage} pageTitle = "Do Don't" user = {this.user} ></IndexRoute>
+                    </Route>
+                </Router>
+            : <LoginPage onGetUser={this.HandleGetUser.bind(this)}></LoginPage>
+        );
+    }
 }
 
 render(<App />, document.getElementById('root'));
