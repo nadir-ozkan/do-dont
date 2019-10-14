@@ -54,6 +54,12 @@ class LoginPage extends React.Component {
        
     }
 
+    handleKeyUp(e){
+        if (e.keyCode==13){
+            this.handleLoginClick(e);
+        }
+    }
+
     render() {
 
         const {MainDivStyle, InputStyle} = Styles;
@@ -62,10 +68,16 @@ class LoginPage extends React.Component {
             <div style={MainDivStyle}>
                 <h5>Do Don't Programına Hoş Geldiniz</h5>
                 <div>
-                    <input style={InputStyle} type="text" placeholder="Kullanıcı adı" id="txtUserName"></input>
+                    <input style={InputStyle} type="text" 
+                        placeholder="Kullanıcı adı" id="txtUserName"
+                        onKeyUp = {this.handleKeyUp.bind(this)}
+                    ></input>
                 </div>
                 <div>
-                    <input style={InputStyle} type="password" placeholder="Şifre" id="txtUserPass"></input>
+                    <input style={InputStyle} type="password" 
+                        placeholder="Şifre" id="txtUserPass"
+                        onKeyUp = {this.handleKeyUp.bind(this)}
+                    ></input>
                 </div>                
                 <div>
                     <button style={InputStyle} onClick={this.handleLoginClick.bind(this)}>Login</button>
