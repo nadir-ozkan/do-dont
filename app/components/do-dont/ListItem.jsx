@@ -9,12 +9,12 @@ class ListItem extends React.Component {
     }
 
     handleClick(e){
-        console.log(e.target.checked);
+        const newCheckState = !this.state.checked;
         this.setState({
-            checked : e.target.checked
+            checked : newCheckState
         });
         if (this.props.onCheckedChange){
-            this.props.onCheckedChange(this.props.fbKey, e.target.checked);
+            this.props.onCheckedChange(this.props.fbKey, newCheckState);
         }
     }
 
@@ -23,8 +23,9 @@ class ListItem extends React.Component {
         const ItemStyle = {
             marginBottom : "5px",
             marginTop : "5px",
-            height : "1.25em",
-            cursor : "pointer"
+            height : "1.4em",
+            cursor : "pointer",
+            lineHeight : "1.4em"
         }
 
         if (this.state.checked) {
@@ -32,11 +33,10 @@ class ListItem extends React.Component {
         }
 
         return(
-            <div style={ItemStyle}>
+            <div style={ItemStyle} onClick={this.handleClick.bind(this)}>
                 <input type="checkbox"
                     value = {this.props.text}
                     defaultChecked={this.state.checked}
-                    onClick={this.handleClick.bind(this)}
                 />
                 <span>{this.props.text}</span>
             </div>

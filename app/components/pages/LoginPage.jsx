@@ -12,6 +12,14 @@ class LoginPage extends React.Component {
         };
     }
 
+    componentDidMount(){
+        if (this.props.debugMode){
+            if (this.props.onGetUser) {
+                this.props.onGetUser({userName : "Nadir"});
+            }
+        }
+    }
+
     handleLoginClick(e){
         e.preventDefault();
 

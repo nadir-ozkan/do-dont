@@ -5,7 +5,6 @@ import Main from './components/Main.jsx';
 import AboutPage from './components/pages/AboutPage.jsx';
 import ListsPage from './components/pages/ListsPage.jsx';
 import LoginPage from './components/pages/LoginPage.jsx';
-import UserProvider from './components/do-dont/UserProvider.jsx';
 
 class App extends Component {
 
@@ -13,7 +12,8 @@ class App extends Component {
         super();
         this.user = null;
         this.state = {
-            hasUser : false
+            hasUser : false,
+            debugMode : false
         }
     }
 
@@ -33,7 +33,7 @@ class App extends Component {
                         <IndexRoute component={ListsPage} pageTitle = "Do Don't" user = {this.user} ></IndexRoute>
                     </Route>
                 </Router>
-            : <LoginPage onGetUser={this.HandleGetUser.bind(this)}></LoginPage>
+            : <LoginPage onGetUser={this.HandleGetUser.bind(this)} debugMode={this.state.debugMode}></LoginPage>
         );
     }
 }
