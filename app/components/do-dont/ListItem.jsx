@@ -23,7 +23,8 @@ class ListItem extends React.Component {
         const ItemStyle = {
             marginBottom : "5px",
             marginTop : "5px",
-            height : "1.25em"
+            height : "1.25em",
+            cursor : "pointer"
         }
 
         if (this.state.checked) {
