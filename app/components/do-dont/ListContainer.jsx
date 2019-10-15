@@ -26,7 +26,7 @@ class ListContainer extends React.Component{
     componentDidMount(){
 
         const refStr = `users/${this.user.userName}/list1`;
- 
+
         this.getData(refStr)
             .then((result) => {
                 if (result) {
@@ -82,6 +82,66 @@ class ListContainer extends React.Component{
 
             });
 
+            this.askPermissionForMessaging();
+
+    }
+
+    saveFCMToken(token) {
+        const refStr = `users/${this.user.userName}/fcmToken`;
+
+        fbRef.child(refStr)
+            .set(token)
+            .then(()=> {
+                console.log("FCM anahtarı kaydedildi.");
+            });
+    }
+
+    getFCMToken(){
+      return new Promise(function(resolve, reject) {
+        const refStr = `users/${this.user.userName}/fcmToken`;
+        this.getData(refStr)
+          .then((data) => {
+            resolve(data);
+          })
+          .catch((err) => {
+            reject(err);
+          })
+      }.bind(this));
+    }
+
+    askPermissionForMessaging(){
+
+        // FCM hizmetinin çalışabilmesi için kök dizinde firebase-messaging-sw.js adlı dosyanın bulunması gerekiyor.
+        // Bu dosya kök dizinde bulunmaz ise token üretilmeye çalışıldığında hata alınıyor.
+
+        let fcmToken = null;
+
+        const messaging = firebase.messaging();
+        messaging.requestPermission()
+            .then(()=> {
+                // Kullanıcı bir kere izin verdiğinde, kod her seferinde buraya düşecek...
+                console.log("Push notification iznimiz mevcut...");
+                return messaging.getToken();
+            })
+            .then((token) => {
+                // Bu anahtar oluşturulduktan sonra arkada bir veri tabanına kaydedilmesinde fayda var.
+                // Çünkü bildirimler bu anahtar kullanılarak yönlendirilecek.
+                console.log("Token aquired.", token);
+                fcmToken = token;
+                return this.getFCMToken();
+            })
+            .then((currentToken) => {
+              if (fcmToken != currentToken) {
+                this.saveFCMToken(fcmToken);
+              } else {
+                console.log("No need to save FCM token!");
+              }
+            })
+            .catch((err) => {
+                alert(err);
+            })
+            .finally(() =>{
+            });
     }
 
     getData(refStr) {
