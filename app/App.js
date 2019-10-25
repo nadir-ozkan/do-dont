@@ -25,8 +25,8 @@ class App extends Component {
     }
 
     render(){
-        return ( 
-            this.state.hasUser ? 
+        return (
+            this.state.hasUser ?
                 <Router history = {hashHistory}>
                     <Route path="/" component={Main}>
                         <Route path="about" component = {AboutPage}/>

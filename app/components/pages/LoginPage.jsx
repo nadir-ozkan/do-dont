@@ -51,7 +51,7 @@ class LoginPage extends React.Component {
             .finally(() => {
 
             });
-       
+
     }
 
     handleKeyUp(e){
@@ -68,17 +68,17 @@ class LoginPage extends React.Component {
             <div style={MainDivStyle}>
                 <h5>Do Don't Programına Hoş Geldiniz</h5>
                 <div>
-                    <input style={InputStyle} type="text" 
+                    <input style={InputStyle} type="text"
                         placeholder="Kullanıcı adı" id="txtUserName"
                         onKeyUp = {this.handleKeyUp.bind(this)}
                     ></input>
                 </div>
                 <div>
-                    <input style={InputStyle} type="password" 
+                    <input style={InputStyle} type="password"
                         placeholder="Şifre" id="txtUserPass"
                         onKeyUp = {this.handleKeyUp.bind(this)}
                     ></input>
-                </div>                
+                </div>
                 <div>
                     <button style={InputStyle} onClick={this.handleLoginClick.bind(this)}>Login</button>
                 </div>

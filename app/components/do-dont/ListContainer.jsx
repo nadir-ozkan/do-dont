@@ -3,6 +3,7 @@ import firebase, {fbRef, githubProvider} from '../../firebase/index.js';
 import utils from '../../Utils/utils.js';
 
 import List from "./List.jsx";
+import axios from 'axios';
 
 class ListContainer extends React.Component{
 
@@ -135,13 +136,55 @@ class ListContainer extends React.Component{
                 this.saveFCMToken(fcmToken);
               } else {
                 console.log("No need to save FCM token!");
+
+                // this.sendNotification();
+
+                messaging.onMessage((payload) => {
+                  console.log('Message received. ', payload);
+                  alert("Bildirim geldi \n\n" + JSON.stringify(payload));
+                });
+
+                messaging.onTokenRefresh(() => {
+                  messaging.getToken().then((refreshedToken) => {
+                    console.log('Token refreshed.');
+                    // Indicate that the new Instance ID token has not yet been sent to the
+                    // app server.
+                    this.saveFCMToken(refreshedToken);
+                    // ...
+                  }).catch((err) => {
+                    console.log('Unable to retrieve refreshed token ', err);
+                    alert("Unable to retrieve refreshed token" + " " + err);
+                  });
+                });
+
               }
             })
-            .catch((err) => {
+            .catch((err) => { // Push notificationa izin verilmez ise buradaki kod çalışacak.
                 alert(err);
             })
             .finally(() =>{
             });
+    }
+
+    sendNotification(to, title, body) {
+      return new Promise(function(resolve, reject) {
+
+          const url = 'https://fcm.googleapis.com/fcm/send';
+
+          axios.get(url, { params : { to, title, body} } )
+              .then((resp)=>{
+                  console.log(resp);
+                  resolve("Notification sent successfuly!");
+              })
+              .catch((hata)=>{
+                  console.log(hata);
+                  reject(hata);
+              })
+              .finally(() => {
+
+              });
+
+      });
     }
 
     getData(refStr) {
