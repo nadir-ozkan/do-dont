@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import {render} from 'react-dom';
 import {Route, Router, IndexRoute, hashHistory} from 'react-router';
+
 import Main from './components/Main.jsx';
+
 import AboutPage from './components/pages/AboutPage.jsx';
 import ListsPage from './components/pages/ListsPage.jsx';
 import LoginPage from './components/pages/LoginPage.jsx';
+import TabsPage from './components/pages/TabsPage.jsx';
 
 class App extends Component {
 
@@ -30,6 +33,7 @@ class App extends Component {
                 <Router history = {hashHistory}>
                     <Route path="/" component={Main}>
                         <Route path="about" component = {AboutPage}/>
+                        <Route path="tabs" user={this.user} component = {TabsPage}/>
                         <IndexRoute component={ListsPage} pageTitle = "Do Don't" user = {this.user} ></IndexRoute>
                     </Route>
                 </Router>
