@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import utils from "../Utils/utils.js";
+import utils from "../../Utils/utils.js";
 
 class Tab extends React.Component{
   constructor(props) {
@@ -46,7 +46,7 @@ class Tabs extends React.Component {
 
     return (
       <div>
-        <ul>
+        <ul style={{padding : "0", margin : "0"}}>
           {this.props.tabs.map((tab, idx) => {
             const isActiveTab = tab.label == this.state.activeTab;
             return  <Tab key={idx} isActiveTab ={isActiveTab}
@@ -55,7 +55,7 @@ class Tabs extends React.Component {
                     </Tab>
           })}
         </ul>
-        <div>
+        <div style={{marginTop:"2px"}}>
           {this.renderTabContent()}
         </div>
       </div>
@@ -67,9 +67,7 @@ class Tabs extends React.Component {
 const Styles = {
   TabItemStyle : {
     display: "inline-block",
-    marginBottom: "-1px",
-    marginRight : "5px",
-    width : "100px",
+    width : "50%",
     background : "gold",
     cursor : "pointer",
     height : "50px",
