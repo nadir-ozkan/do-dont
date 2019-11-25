@@ -22,7 +22,7 @@ class ListsPage extends React.Component {
         {label:"Don'ts", content :  <h3>Buraya donts gelecek </h3>},
       ]
 
-      const {MainDivStyle, PageTitleStyle} = Styles;
+      const {MainDivStyle} = Styles;
 
       return(
         <div style={MainDivStyle}>
