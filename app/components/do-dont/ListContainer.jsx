@@ -18,8 +18,10 @@ class ListContainer extends React.Component{
         }
 
         this.currentIndex = 0;
-        this.entries = undefined;
+        this.entries = props.entries;
         this.user = props.user;
+        this.doItems = props.doItems;
+        this.dontItems = props.dontItems;
     }
 
     componentWillMount() {

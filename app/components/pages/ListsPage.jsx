@@ -18,7 +18,13 @@ class ListsPage extends React.Component {
       this.user = this.props.route.user;
 
       const tabs = [
-        {label:"Do'es", content: <ListContainer user={this.user}></ListContainer>},
+        {
+            label:"Do'es",
+            content: <ListContainer
+                        user={this.user}
+                        doItems :{[]}
+                        dontItems : {[]}
+                    ></ListContainer>},
         {label:"Don'ts", content :  <h3>Buraya donts gelecek </h3>},
       ]
 
