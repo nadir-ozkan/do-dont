@@ -18,10 +18,10 @@ class ListContainer extends React.Component{
         }
 
         this.currentIndex = 0;
+
+        this.listItems = props.listItems;
         this.entries = props.entries;
         this.user = props.user;
-        this.doItems = props.doItems;
-        this.dontItems = props.dontItems;
     }
 
     componentWillMount() {
@@ -35,44 +35,19 @@ class ListContainer extends React.Component{
         getData(refStr)
             .then((result) => {
 
-                if (result) {
-
-                    console.log(result);
-
-                    this.doItems = result.items.doItems;
-                    this.dontItems = result.items.dontItems;
-
-                    if (result.items.entries) {
-
-                        let entriesArray = utils.objToArray(result.items.entries);
-                        entriesArray.sort(function(a,b) {
-                            return b.saveDate - a.saveDate;
-                        });
-
-                        this.entries = entriesArray.map((entry) => {
-                            return {
-                                items : entry.does,
-                                saveDateStr : entry.saveDateStr
-                            }
-                        });
-                        console.log(this.entries);
-                    }
-
-                }
-
                 const dateObj = utils.getDateObj();
 
                 if (this.entries) {
                     if (this.entries[0].saveDateStr !== dateObj.dateStrP) {
-                        if (this.doItems) {
-                            const doItemsArr = Object.keys(this.doItems).map((key) => {
+                        if (this.listItems) {
+                            const listItemsArr = Object.keys(this.listItems).map((key) => {
                                 return {
                                     fbKey : key,
-                                    text : this.doItems[key],
+                                    text : this.listItems[key],
                                     checked : false
                                 }
                             });
-                            this.setState({items : doItemsArr, isNewEntry : true});
+                            this.setState({items : listItemsArr, isNewEntry : true});
                         }
                     } else {
                         this.setState({items : this.entries[0].items});
@@ -80,15 +55,15 @@ class ListContainer extends React.Component{
                 }
                 else // henüz hiç entry girilmemişse
                 {
-                    if (this.doItems) {
-                        const doItemsArr = Object.keys(this.doItems).map((key) => {
+                    if (this.listItems) {
+                        const listItemsArr = Object.keys(this.listItems).map((key) => {
                             return {
                                 fbKey : key,
-                                text : this.doItems[key],
+                                text : this.listItems[key],
                                 checked : false
                             }
                         });
-                        this.setState({items : doItemsArr, isNewEntry : true});
+                        this.setState({items : listItemsArr, isNewEntry : true});
                     }
                 }
 

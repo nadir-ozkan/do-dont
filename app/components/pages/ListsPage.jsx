@@ -1,41 +1,117 @@
 import React from 'react';
 
+import firebase, {fbRef, getData} from '../../firebase/index.js';
+import utils from '../../Utils/utils.js';
+
 import ListContainer from '../do-dont/ListContainer.jsx';
 import Tabs from '../do-dont/Tabs.jsx';
-import utils from '../../Utils/utils.js';
 
 class ListsPage extends React.Component {
 
     constructor(props){
         super(props);
+
         this.state = {
+            listDataLoaded : false
         }
-        this.user = null;
+
+        this.user = props.route.user;
+
+        this.doItems = [];
+        this.dontItems = [];
+        this.doEntries = [];
+        this.dontEntries = [];
     }
 
-    render(){
+    getListData() {
+        const that = this;
+        return new Promise(function(resolve, reject) {
+            const refStr = `users/${that.user.userName}/list1`;
 
-      this.user = this.props.route.user;
+            getData(refStr)
+                .then((result) => {
+                    if (result) {
 
-      const tabs = [
-        {
-            label:"Do'es",
-            content: <ListContainer
-                        user={this.user}
-                        doItems :{[]}
-                        dontItems : {[]}
-                    ></ListContainer>},
-        {label:"Don'ts", content :  <h3>Buraya donts gelecek </h3>},
-      ]
+                        console.log(result);
 
-      const {MainDivStyle} = Styles;
+                        that.doItems = result.items.doItems;
+                        that.dontItems = result.items.dontItems;
 
-      return(
-        <div style={MainDivStyle}>
-            <Tabs tabs={tabs} activeTab="Do'es"/>
-        </div>
-      );
-  }
+                        if (result.items.entries) {
+
+                            let entriesArray = utils.objToArray(result.items.entries);
+                            entriesArray.sort(function(a,b) {
+                                return b.saveDate - a.saveDate;
+                            });
+
+                            that.doEntries = entriesArray.map((entry) => {
+                                return {
+                                    items : entry.does,
+                                    saveDateStr : entry.saveDateStr
+                                }
+                            });
+                            that.dontEntries = entriesArray.map((entry) => {
+                                return {
+                                    items : entry.donts,
+                                    saveDateStr : entry.saveDateStr
+                                }
+                            });
+
+                            console.log(that.doEntries);
+                            console.log(that.dontEntries);
+
+                            resolve();
+                        }
+
+                    }
+                });
+        });
+    }
+
+    componentDidMount(){
+        this.getListData()
+            .then(() => {
+                this.setState({listDataLoaded : true});
+            });
+    }
+
+    render() {
+
+        const {MainDivStyle} = Styles;
+        const tabs = [
+          {
+              label:"Do'es",
+              content: <ListContainer
+                          user={this.user}
+                          listItems = {this.doItems}
+                          entries = {this.doEntries}
+                      ></ListContainer>
+          },
+          {
+              label:"Don'ts",
+              content :  <ListContainer
+                          user={this.user}
+                          listItems = {this.dontItems}
+                          entries = {this.dontEntries}
+                      ></ListContainer>
+          },
+        ]
+
+        const renderTabs = () => {
+            if (this.state.listDataLoaded) {
+                return <Tabs tabs={tabs} activeTab="Do'es"/>
+            } else {
+                return <h3>Veriler alınırken lütfen bekleyiniz</h3>
+            }
+        }
+
+        return(
+          <div style={MainDivStyle}>
+              {renderTabs()}
+          </div>
+        );
+
+    }
 }
 
 const Styles = {
