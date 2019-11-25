@@ -27,12 +27,15 @@ class List extends React.Component {
         let newItems = this.state.items.map((item) => {
            if (item.fbKey == fbKey) {
                item.checked = checked;
-               return item
+               return item;
            } else {
                return item;
            }
         });
         this.setState({items : newItems}, () => {
+            if (this.props.onItemChange) {
+                this.props.onItemChange(fbKey, checked, this.percentage);
+            }
             this.saveList();
         });
     }

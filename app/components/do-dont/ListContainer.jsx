@@ -29,47 +29,39 @@ class ListContainer extends React.Component{
     }
 
     componentDidMount(){
+        const dateObj = utils.getDateObj();
 
-        const refStr = `users/${this.user.userName}/list1`;
-
-        getData(refStr)
-            .then((result) => {
-
-                const dateObj = utils.getDateObj();
-
-                if (this.entries) {
-                    if (this.entries[0].saveDateStr !== dateObj.dateStrP) {
-                        if (this.listItems) {
-                            const listItemsArr = Object.keys(this.listItems).map((key) => {
-                                return {
-                                    fbKey : key,
-                                    text : this.listItems[key],
-                                    checked : false
-                                }
-                            });
-                            this.setState({items : listItemsArr, isNewEntry : true});
+        if (this.entries) {
+            if (this.entries[0].saveDateStr !== dateObj.dateStrP) {
+                if (this.listItems) {
+                    const listItemsArr = Object.keys(this.listItems).map((key) => {
+                        return {
+                            fbKey : key,
+                            text : this.listItems[key],
+                            checked : false
                         }
-                    } else {
-                        this.setState({items : this.entries[0].items});
-                    }
+                    });
+                    this.setState({items : listItemsArr, isNewEntry : true});
                 }
-                else // henüz hiç entry girilmemişse
-                {
-                    if (this.listItems) {
-                        const listItemsArr = Object.keys(this.listItems).map((key) => {
-                            return {
-                                fbKey : key,
-                                text : this.listItems[key],
-                                checked : false
-                            }
-                        });
-                        this.setState({items : listItemsArr, isNewEntry : true});
+            } else {
+                this.setState({items : this.entries[0].items});
+            }
+        }
+        else // henüz hiç entry girilmemişse
+        {
+            if (this.listItems) {
+                const listItemsArr = Object.keys(this.listItems).map((key) => {
+                    return {
+                        fbKey : key,
+                        text : this.listItems[key],
+                        checked : false
                     }
-                }
+                });
+                this.setState({items : listItemsArr, isNewEntry : true});
+            }
+        }
 
-            });
-
-            notify.askPermissionForMessaging(this.user.userName);
+        notify.askPermissionForMessaging(this.user.userName);
 
     }
 
@@ -123,6 +115,10 @@ class ListContainer extends React.Component{
         console.log(this.entries);
     }
 
+    saveItemState(fbKey, checked){
+        alert(fbKey + " " + checked);
+    }
+
     render(){
         const {DateStyle, ButtonsDivStyle} = Styles;
 
@@ -133,6 +129,7 @@ class ListContainer extends React.Component{
                     items={this.state.items}
                     isNewEntry={this.state.isNewEntry}
                     onSaveList = {this.onSaveList.bind(this)}
+                    onItemChange = {this.saveItemState.bind(this)}
                     dateStr = {this.state.dateStr}
                     user = {this.props.user}
                 ></List>

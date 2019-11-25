@@ -23,6 +23,10 @@ class ListsPage extends React.Component {
         this.dontEntries = [];
     }
 
+    saveNewEntry(){
+
+    }
+
     getListData() {
         const that = this;
         return new Promise(function(resolve, reject) {
@@ -44,12 +48,18 @@ class ListsPage extends React.Component {
                                 return b.saveDate - a.saveDate;
                             });
 
+                            const dateObj = utils.getDateObj();
+
+                            // Duruma göre saveNewEntry
+                            // ve verileri tekrar çağır    
+
                             that.doEntries = entriesArray.map((entry) => {
                                 return {
                                     items : entry.does,
                                     saveDateStr : entry.saveDateStr
                                 }
                             });
+
                             that.dontEntries = entriesArray.map((entry) => {
                                 return {
                                     items : entry.donts,
@@ -82,9 +92,12 @@ class ListsPage extends React.Component {
           {
               label:"Do'es",
               content: <ListContainer
-                          user={this.user}
-                          listItems = {this.doItems}
-                          entries = {this.doEntries}
+                              user={this.user}
+                              listItems = {this.doItems}
+                              entries = {this.doEntries}
+                              onSaveItem = {() => {
+
+                              }}
                       ></ListContainer>
           },
           {
@@ -93,6 +106,9 @@ class ListsPage extends React.Component {
                           user={this.user}
                           listItems = {this.dontItems}
                           entries = {this.dontEntries}
+                          onSaveItem = {() => {
+
+                          }}
                       ></ListContainer>
           },
         ]
