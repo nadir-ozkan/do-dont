@@ -32,11 +32,13 @@ class ListContainer extends React.Component{
 
         getData(refStr)
             .then((result) => {
+
                 if (result) {
 
                     console.log(result);
 
                     this.doItems = result.items.doItems;
+                    this.dontItems = result.items.dontItems;
 
                     if (result.items.entries) {
 
@@ -45,7 +47,12 @@ class ListContainer extends React.Component{
                             return b.saveDate - a.saveDate;
                         });
 
-                        this.entries = entriesArray;
+                        this.entries = entriesArray.map((entry) => {
+                            return {
+                                items : entry.does,
+                                saveDateStr : entry.saveDateStr
+                            }
+                        });
                         console.log(this.entries);
                     }
 
@@ -66,7 +73,7 @@ class ListContainer extends React.Component{
                             this.setState({items : doItemsArr, isNewEntry : true});
                         }
                     } else {
-                        this.setState({items : this.entries[0].does});
+                        this.setState({items : this.entries[0].items});
                     }
                 }
                 else // henüz hiç entry girilmemişse
@@ -91,34 +98,26 @@ class ListContainer extends React.Component{
 
     insertNewListItems(){
         const newItems = [
-            "Kahvaltı",
-            "Immune Şurup",
-            "Diş Fırçalama",
-            "Ara Öğün",
-            "Açık Hava",
-            "El Beceri Oyunu",
-            "Öğlen Yemeği",
-            "Çinko",
-            "Öğlen Uykusu",
-            "Açık Hava",
-            "Beş Kitap Okuma",
-            "Meyve Ara Öğün",
-            "Bireysel Görevler"
+            "Kafein tüketme",
+            "Şeker tüketme",
+            "Süt ve süt ürünlerinden uzak dur",
+            "Un tüketme"
         ];
+
+        const dontItemsRef = `users/${this.user.userName}/list1/items/dontItems`;
         newItems.forEach((item) => {
-            const doItemsRef = "users/Yasemin/list1/items/doItems";
-            fbRef.child(doItemsRef)
+            fbRef.child(dontItemsRef)
                 .push(item);
         });
     }
 
     setItemsAndDate() {
-        const newItems = this.entries[this.currentIndex];
+        const newEntries = this.entries[this.currentIndex];
 
-        if (newItems && newItems.does){
+        if (newEntries && newEntries.items){
             this.setState({
-                items : newItems.does,
-                dateStr: newItems.saveDateStr
+                items : newEntries.items,
+                dateStr: newEntries.saveDateStr
             });
         }
     }
