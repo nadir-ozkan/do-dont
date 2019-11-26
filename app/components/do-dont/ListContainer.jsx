@@ -24,7 +24,7 @@ class ListContainer extends React.Component{
     }
 
     componentWillMount() {
-        //this.insertNewListItems();
+        // this.insertNewListItems();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -40,13 +40,15 @@ class ListContainer extends React.Component{
 
     insertNewListItems(){
         const newItems = [
-            "Kafein tüketme",
-            "Şeker tüketme",
-            "Süt ve süt ürünlerinden uzak dur",
-            "Un tüketme"
+            "Kendini üzme",
+            "Gluten tüketme",
+            "Yapma 3",
+            "Yapma 4"
         ];
 
-        const dontItemsRef = `users/${this.user.userName}/list1/items/dontItems`;
+        // const dontItemsRef = `users/${this.user.userName}/list1/items/dontItems`;
+        const dontItemsRef = `users/Ayca/list1/items/dontItems`;
+
         newItems.forEach((item) => {
             fbRef.child(dontItemsRef)
                 .push(item);
