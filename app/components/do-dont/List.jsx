@@ -1,5 +1,4 @@
 import React from 'react';
-import firebase, {fbRef, githubProvider} from '../../firebase/index.js';
 import utils from '../../Utils/utils.js';
 
 import ListItem from './ListItem.jsx';
@@ -9,18 +8,14 @@ class List extends React.Component {
 
     constructor(props){
         super(props);
-        this.state = { items : [] }
+        this.state = { items : props.items }
         this.keyNo = 0;
     }
 
     componentWillReceiveProps(nextProps) {
-        // Gelen listeyi sayfaya bastıktan sonra eğer liste yeni kayıt ise veritabanına da yaz.
-        this.setState({items : nextProps.items}, () => {
-            if (nextProps.isNewEntry) {
-                this.saveList();
-            }
-        });
-
+        if (this.state.items != nextProps.items) {
+            this.setState({items : nextProps.items});
+        }
     }
 
     onCheckedChange(fbKey, checked) {
@@ -33,10 +28,9 @@ class List extends React.Component {
            }
         });
         this.setState({items : newItems}, () => {
-            if (this.props.onItemChange) {
-                this.props.onItemChange(fbKey, checked, this.percentage);
+            if (this.props.onSaveItems) {
+                this.props.onSaveItems(newItems, this.percentage);
             }
-            this.saveList();
         });
     }
 
@@ -52,32 +46,6 @@ class List extends React.Component {
         const result = parseInt(checkedCount / itemsCount * 100, 10);
 
         return isNaN(result) ? 0 : result;
-    }
-
-    saveList(){
-        const {userName} = this.props.user;
-        const refStr = `users/${userName}/list1/items/entries/` + utils.getDateObj().dateStr;
-        // const refStr = "users/Nadir/list1/items/entries/05_09_2019";
-
-        const dateObj = utils.getDateObj();
-
-        const objToBeSaved = {
-          does : this.state.items,
-          doesPercent : this.percentage,
-          donts : this.state.items, // buraya donts listesi gelecek
-          dontsPercent : this.percentage, // buraya donts yüzdesi gelecek
-          saveDate : dateObj.jsTime,
-          saveDateStr : dateObj.dateStrP
-        }
-
-        fbRef.child(refStr)
-            .set(objToBeSaved)
-            .then(()=> {
-                // ListContainer'daki entry dizisini güncelle...
-                if(this.props.onSaveList) {
-                    this.props.onSaveList(objToBeSaved, this.props.isNewEntry);
-                }
-            });
     }
 
     renderList(){

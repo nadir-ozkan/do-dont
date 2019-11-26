@@ -16,7 +16,7 @@ class App extends Component {
         this.user = null;
         this.state = {
             hasUser : false,
-            debugMode : true
+            debugMode : false
         }
     }
 

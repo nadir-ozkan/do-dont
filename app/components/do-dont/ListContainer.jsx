@@ -1,5 +1,5 @@
 import React from 'react';
-import firebase, {fbRef, getData} from '../../firebase/index.js';
+import {fbRef} from '../../firebase/index.js';
 
 import utils from '../../Utils/utils.js';
 import notify from '../../Utils/notify.js';
@@ -12,9 +12,8 @@ class ListContainer extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            items : [],
-            dateStr : props.dateStr ? props.dateStr : utils.getDateObj().dateStrP,
-            isNewEntry : false
+            items : props.entries[0].items,
+            dateStr : props.dateStr ? props.dateStr : utils.getDateObj().dateStrP
         }
 
         this.currentIndex = 0;
@@ -28,41 +27,15 @@ class ListContainer extends React.Component{
         //this.insertNewListItems();
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (this.entries != nextProps.entries) {
+            this.entries = nextProps.entries;
+            this.setState({items : nextProps.entries[0].items})
+        }
+    }
+
     componentDidMount(){
-        const dateObj = utils.getDateObj();
-
-        if (this.entries) {
-            if (this.entries[0].saveDateStr !== dateObj.dateStrP) {
-                if (this.listItems) {
-                    const listItemsArr = Object.keys(this.listItems).map((key) => {
-                        return {
-                            fbKey : key,
-                            text : this.listItems[key],
-                            checked : false
-                        }
-                    });
-                    this.setState({items : listItemsArr, isNewEntry : true});
-                }
-            } else {
-                this.setState({items : this.entries[0].items});
-            }
-        }
-        else // henüz hiç entry girilmemişse
-        {
-            if (this.listItems) {
-                const listItemsArr = Object.keys(this.listItems).map((key) => {
-                    return {
-                        fbKey : key,
-                        text : this.listItems[key],
-                        checked : false
-                    }
-                });
-                this.setState({items : listItemsArr, isNewEntry : true});
-            }
-        }
-
         notify.askPermissionForMessaging(this.user.userName);
-
     }
 
     insertNewListItems(){
@@ -105,18 +78,34 @@ class ListContainer extends React.Component{
         this.setItemsAndDate();
     }
 
-    onSaveList(entry, isNewEntry) {
-        if (isNewEntry) {
-          this.entries.unshift(entry);
-          this.setState({isNewEntry : false});
-        } else {
-          this.entries[0] = entry;
-        }
-        console.log(this.entries);
-    }
+    onSaveItems(items, percentage){
 
-    saveItemState(fbKey, checked){
-        alert(fbKey + " " + checked);
+        // entries[0]'ı güncelle. ??
+
+        console.log(items, percentage);
+        const {userName} = this.user;
+        const dateObj = utils.getDateObj();
+
+        const refStr = `users/${userName}/list1/items/entries/` + dateObj.dateStr;
+        // const refStr = "users/Nadir/list1/items/entries/05_09_2019";
+
+        const updates = {};
+
+        if (this.props.containerType == "does") {
+            updates[refStr + "/does"] = items;
+            updates[refStr + "/doesPercent"] = percentage;
+        } else {
+            updates[refStr + "/donts"] = items;
+            updates[refStr + "/dontsPercent"] = percentage;
+        }
+
+        updates[refStr + "/saveDate"] = dateObj.jsTime;
+        updates[refStr + "/saveDateStr"] = dateObj.dateStrP;
+
+        fbRef.update(updates)
+            .then(() => {
+                // güncelleme sonrası bir callback çalıştırmak istersen...
+            });
     }
 
     render(){
@@ -127,9 +116,7 @@ class ListContainer extends React.Component{
                 <div style={DateStyle}>{this.state.dateStr}</div>
                 <List
                     items={this.state.items}
-                    isNewEntry={this.state.isNewEntry}
-                    onSaveList = {this.onSaveList.bind(this)}
-                    onItemChange = {this.saveItemState.bind(this)}
+                    onSaveItems = {this.onSaveItems.bind(this)}
                     dateStr = {this.state.dateStr}
                     user = {this.props.user}
                 ></List>

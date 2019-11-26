@@ -23,8 +23,50 @@ class ListsPage extends React.Component {
         this.dontEntries = [];
     }
 
-    saveNewEntry(){
+    saveNewEntry(doEntries, dontEntries, dateObj){
+        const {userName} = this.user;
+        const refStr = `users/${userName}/list1/items/entries/` + dateObj.dateStr;
+        // const refStr = "users/Nadir/list1/items/entries/05_09_2019";
 
+        const objToBeSaved = {
+          does : doEntries,
+          doesPercent : 0,
+          donts : dontEntries,
+          dontsPercent : 0,
+          saveDate : dateObj.jsTime,
+          saveDateStr : dateObj.dateStrP
+        }
+
+        fbRef.child(refStr)
+            .set(objToBeSaved)
+            .then(()=> {
+                // yeni kayıt sonrası callback çalıştırmak istersen...
+            });
+    }
+
+    addNewEntry(doItems, dontItems, dateObj){
+
+        const newDoEntries = Object.keys(doItems).map((key) => {
+            return {
+                fbKey : key,
+                text : doItems[key],
+                checked : false
+            }
+        });
+
+        this.doEntries.unshift({ items : newDoEntries, saveDateStr : dateObj.dateStrP});
+
+        const newDontEntries = Object.keys(dontItems).map((key) => {
+            return {
+                fbKey : key,
+                text : dontItems[key],
+                checked : false
+            }
+        });
+
+        this.dontEntries.unshift({ items : newDontEntries, saveDateStr : dateObj.dateStrP});
+
+        this.saveNewEntry(this.doEntries[0].items, this.dontEntries[0].items, dateObj);
     }
 
     getListData() {
@@ -41,17 +83,14 @@ class ListsPage extends React.Component {
                         that.doItems = result.items.doItems;
                         that.dontItems = result.items.dontItems;
 
+                        const dateObj = utils.getDateObj();
+
                         if (result.items.entries) {
 
                             let entriesArray = utils.objToArray(result.items.entries);
                             entriesArray.sort(function(a,b) {
                                 return b.saveDate - a.saveDate;
                             });
-
-                            const dateObj = utils.getDateObj();
-
-                            // Duruma göre saveNewEntry
-                            // ve verileri tekrar çağır    
 
                             that.doEntries = entriesArray.map((entry) => {
                                 return {
@@ -67,9 +106,14 @@ class ListsPage extends React.Component {
                                 }
                             });
 
-                            console.log(that.doEntries);
-                            console.log(that.dontEntries);
+                            if (that.doEntries[0].saveDateStr !== dateObj.dateStrP) {
+                                that.addNewEntry(that.doItems, that.dontItems, dateObj);
+                            }
 
+                            resolve();
+
+                        } else { // hiç giriş yok ise
+                            that.addNewEntry(that.doItems, that.dontItems, dateObj);
                             resolve();
                         }
 
@@ -95,9 +139,7 @@ class ListsPage extends React.Component {
                               user={this.user}
                               listItems = {this.doItems}
                               entries = {this.doEntries}
-                              onSaveItem = {() => {
-
-                              }}
+                              containerType = {"does"}
                       ></ListContainer>
           },
           {
@@ -106,9 +148,7 @@ class ListsPage extends React.Component {
                           user={this.user}
                           listItems = {this.dontItems}
                           entries = {this.dontEntries}
-                          onSaveItem = {() => {
-
-                          }}
+                          containerType = {"donts"}
                       ></ListContainer>
           },
         ]
