@@ -1,14 +1,16 @@
 import React from 'react';
 import utils from '../../Utils/utils.js';
 
-import ListItem from './ListItem.jsx';
-import PercentDisplay from './PercentDisplay.jsx';
+import CheckItem from './CheckItem.jsx';
 
 class CheckItemList extends React.Component {
 
     constructor(props){
         super(props);
-        this.state = { items : props.items }
+        this.state = {
+            items : props.items ? props.items : [],
+            insertMode : props.insertMode ? props.insertMode : false
+        }
         this.keyNo = 0;
     }
 
@@ -16,50 +18,31 @@ class CheckItemList extends React.Component {
         if (this.state.items != nextProps.items) {
             this.setState({items : nextProps.items});
         }
-    }
-
-    onCheckedChange(fbKey, checked) {
-        let newItems = this.state.items.map((item) => {
-           if (item.fbKey == fbKey) {
-               item.checked = checked;
-               return item;
-           } else {
-               return item;
-           }
-        });
-        this.setState({items : newItems}, () => {
-            if (this.props.onSaveItems) {
-                this.props.onSaveItems(newItems, this.percentage);
-            }
-        });
-    }
-
-    calculatePercentage(){
-        const itemsCount = this.state.items.length;
-        let checkedCount = 0;
-        this.state.items.forEach((item) => {
-            if (item.checked) {
-                checkedCount++
-            }
-        });
-
-        const result = parseInt(checkedCount / itemsCount * 100, 10);
-
-        return isNaN(result) ? 0 : result;
+        if (nextProps.insertMode) {
+            let newItemsArr = this.state.items;
+            newItemsArr.push({insertMode:true});
+            this.setState( {items : newItemsArr, insertMode : nextProps.insertMode});
+        } else {
+            this.setState({insertMode : nextProps.insertMode});
+        }
     }
 
     renderList(){
 
-        const {items} = this.state;
+        let {items} = this.state;
+
+        // Daha önce insert modda eklenmiş olabilecek itemları uçur
+        if (!this.state.insertMode) {
+            items = items.map(item => item.fbKey); // sadece fbKey olan itemları al
+        }
 
         if (items && items.length > 0) {
             return this.state.items.map((item)=>{
                 return (
                     <div key={"key_" + (++this.keyNo)}>
-                        <ListItem
+                        <CheckItem
                             {...item}
-                            onCheckedChange = {this.onCheckedChange.bind(this)}
-                        ></ListItem>
+                        />
                     </div>
                 );
             });
@@ -70,42 +53,20 @@ class CheckItemList extends React.Component {
     }
 
     render(){
-        let {NoClick, PercentBarStyle} = Styles;
-        this.percentage = this.calculatePercentage();
-        const percentBarStyle = utils.mergeObjects(PercentBarStyle, {width : this.percentage + "%"});
-        const listDivStyle = utils.isToday(this.props.dateStr) ? null : NoClick;
+        let {NoClick} = Styles;
         return(
-            <div style={listDivStyle}>
+            <div>
                 {this.renderList()}
-                <PercentDisplay percent={this.percentage}></PercentDisplay>
             </div>
         );
   }
 }
 
 const Styles = {
-    PercentBarStyle : {
-        position : "absolute",
-        fontSize : "24px",
-        width : "0%",
-        background : "gold",
-        zIndex : -1,
-        top :"0",
-        left : "0",
-        height :"27px"
-    },
     NoClick : {
       pointerEvents: "none",
       opacity: "0.65"
     },
-    PercentStyle :{
-      position : "relative",
-      textAlign : "center",
-      zIndex : 1,
-      height : "27px",
-      padding : "5px",
-      margin : "5px 0"
-    }
 }
 
 export default CheckItemList;

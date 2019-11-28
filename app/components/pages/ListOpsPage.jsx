@@ -4,6 +4,7 @@ import firebase, {fbRef, getData} from '../../firebase/index.js';
 import utils from '../../Utils/utils.js';
 
 import CheckItem from '../do-dont/CheckItem.jsx';
+import CheckItemList from '../do-dont/CheckItemList.jsx';
 
 class ListOpsPage extends React.Component {
 
@@ -19,6 +20,28 @@ class ListOpsPage extends React.Component {
 
         this.user = props.route.user;
 
+    }
+
+    getListData(itemType){
+        const that = this;
+        return new Promise(function(resolve, reject) {
+            const refStr = `users/${that.user.userName}/list1/items/${itemType}`;
+            getData(refStr)
+                .then((items) => {
+                    if (items) {
+                        let arr =[];
+                        Object.keys(items).forEach((key) => {
+                            arr.push({
+                                itemText : items[key],
+                                fbKey : key
+                            });
+                            resolve(arr);
+                        });
+                    } else {
+                        resolve([]);
+                    }
+                });
+        });
     }
 
     saveNewEntry(doEntries, dontEntries, dateObj){
@@ -42,32 +65,17 @@ class ListOpsPage extends React.Component {
             });
     }
 
-    addNewEntry(doItems, dontItems, dateObj){
-
-        const newDoEntries = Object.keys(doItems).map((key) => {
-            return {
-                fbKey : key,
-                text : doItems[key],
-                checked : false
-            }
-        });
-
-        this.doEntries.unshift({ items : newDoEntries, saveDateStr : dateObj.dateStrP});
-
-        const newDontEntries = Object.keys(dontItems).map((key) => {
-            return {
-                fbKey : key,
-                text : dontItems[key],
-                checked : false
-            }
-        });
-
-        this.dontEntries.unshift({ items : newDontEntries, saveDateStr : dateObj.dateStrP});
-
-        this.saveNewEntry(this.doEntries[0].items, this.dontEntries[0].items, dateObj);
-    }
-
     componentDidMount(){
+        this.getListData("doItems")
+            .then((doItemsArray) => {
+                console.log(doItemsArray);
+                this.setState({doItems : doItemsArray});
+                this.getListData("dontItems")
+                    .then((dontItemsArray) => {
+                        console.log(dontItemsArray);
+                        this.setState({dontItems : dontItemsArray});
+                    });
+            });
     }
 
     render() {
@@ -82,6 +90,8 @@ class ListOpsPage extends React.Component {
                 <button onClick= {() => {
                     this.setState({insertMode : !this.state.insertMode});
                 }}>Change Mode</button>
+                <CheckItemList items={this.state.doItems} insertMode={this.state.insertMode}/>
+                <CheckItemList items={this.state.dontItems} insertMode={this.state.insertMode}/>
             </div>
         );
     }

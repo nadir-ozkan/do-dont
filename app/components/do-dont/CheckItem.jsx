@@ -4,7 +4,7 @@ class CheckItem extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            insertMode : false,
+            insertMode : props.insertMode,
             itemText : props.itemText
         }
     }
@@ -23,6 +23,27 @@ class CheckItem extends React.Component {
 
     handleTextChange(e) {
         this.setState({itemText : e.target.value});
+    }
+
+    HandleDeleteClick(e){
+        alert("Sil : " + this.props.fbKey);
+        if (this.props.OnDeleteCheckItem){
+            this.props.OnDeleteCheckItem(this.props.fbKey);
+        }
+    }
+
+    HandleSaveClick(e){
+        alert("Kaydet : " + this.state.itemText);
+        if (this.props.OnSaveCheckItem){
+            this.props.OnSaveCheckItem(this.state.itemText);
+        }
+    }
+
+    HandleCancelClick(e){
+        alert("Cancel");
+        if (this.props.OnCancelNewEntry){
+            this.props.OnCancelNewEntry();
+        }
     }
 
     componentWillReceiveProps(nextProps){
@@ -51,7 +72,7 @@ class CheckItem extends React.Component {
                         type="text"
                         value={this.state.itemText}
                         onChange={this.handleTextChange.bind(this)}
-                        autofocus="true"
+                        autoFocus="true"
                     />
                 );
             } else {
@@ -65,14 +86,14 @@ class CheckItem extends React.Component {
             if (this.state.insertMode) {
                 return (
                     <div style={{display:"flex"}}>
-                        <button style={ButtonStyle}>İptal</button>
-                        <button style={ButtonStyle}>Kaydet</button>
+                        <button style={ButtonStyle} onClick={this.HandleCancelClick.bind(this)}>İptal</button>
+                        <button style={ButtonStyle} onClick={this.HandleSaveClick.bind(this)}>Kaydet</button>
                     </div>
                 );
             } else {
                 return (
                     <div style={{display:"flex"}}>
-                        <button style={ButtonStyle}>Sil</button>
+                        <button style={ButtonStyle} onClick={this.HandleDeleteClick.bind(this)}>Sil</button>
                     </div>
                 );
             }
