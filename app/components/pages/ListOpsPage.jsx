@@ -35,8 +35,8 @@ class ListOpsPage extends React.Component {
                                 itemText : items[key],
                                 fbKey : key
                             });
-                            resolve(arr);
                         });
+                        resolve(arr);
                     } else {
                         resolve([]);
                     }

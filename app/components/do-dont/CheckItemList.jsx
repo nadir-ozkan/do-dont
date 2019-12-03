@@ -29,15 +29,15 @@ class CheckItemList extends React.Component {
 
     renderList(){
 
-        let {items} = this.state;
-
         // Daha önce insert modda eklenmiş olabilecek itemları uçur
         if (!this.state.insertMode) {
-            items = items.map(item => item.fbKey); // sadece fbKey olan itemları al
+            this.state.items = this.state.items.filter(item => item.fbKey);
         }
 
+        const items = this.state.items;
+
         if (items && items.length > 0) {
-            return this.state.items.map((item)=>{
+            return items.map((item)=>{
                 return (
                     <div key={"key_" + (++this.keyNo)}>
                         <CheckItem
