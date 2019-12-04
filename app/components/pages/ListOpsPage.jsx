@@ -68,14 +68,20 @@ class ListOpsPage extends React.Component {
     componentDidMount(){
         this.getListData("doItems")
             .then((doItemsArray) => {
-                console.log(doItemsArray);
                 this.setState({doItems : doItemsArray});
                 this.getListData("dontItems")
                     .then((dontItemsArray) => {
-                        console.log(dontItemsArray);
                         this.setState({dontItems : dontItemsArray});
                     });
             });
+    }
+
+    SaveNewItem(itemType, itemText){
+        alert("SaveNewItem " + itemType + " => " + itemText);
+    }
+
+    DeleteItem(itemType, fbKey) {
+        alert("DeleteItem " + itemType + " => " + fbKey);
     }
 
     render() {
@@ -90,11 +96,21 @@ class ListOpsPage extends React.Component {
                 <button onClick= {() => {
                     this.setState({insertMode : !this.state.insertMode});
                 }}>Change Mode</button>
-                <CheckItemList items={this.state.doItems} insertMode={this.state.insertMode}/>
-                <CheckItemList items={this.state.dontItems} insertMode={this.state.insertMode}/>
+                <CheckItemList
+                    items={this.state.doItems}
+                    OnSaveNewItem = {this.SaveNewItem.bind(this, "doItems")}
+                    OnDeleteItem = {this.DeleteItem.bind(this, "doItems")}
+                />
+                <CheckItemList
+                    items={this.state.dontItems}
+                    OnSaveNewItem = {this.SaveNewItem.bind(this, "dontItems")}
+                    OnDeleteItem = {this.DeleteItem.bind(this, "dontItems")}
+                />
             </div>
         );
     }
+
+
 }
 
 const Styles = {

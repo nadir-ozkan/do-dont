@@ -18,12 +18,21 @@ class CheckItemList extends React.Component {
         if (this.state.items != nextProps.items) {
             this.setState({items : nextProps.items});
         }
-        if (nextProps.insertMode) {
-            let newItemsArr = this.state.items;
-            newItemsArr.push({insertMode:true});
-            this.setState( {items : newItemsArr, insertMode : nextProps.insertMode});
-        } else {
-            this.setState({insertMode : nextProps.insertMode});
+    }
+
+    OnCancelNewEntry(){
+        this.setState({insertMode : false});
+    }
+
+    OnSaveNewItem(itemText){
+        if (this.props.OnSaveNewItem){
+            this.props.OnSaveNewItem(itemText);
+        }
+    }
+
+    OnDeleteItem(fbKey){
+        if (this.props.OnDeleteItem){
+            this.props.OnDeleteItem(fbKey);
         }
     }
 
@@ -32,6 +41,12 @@ class CheckItemList extends React.Component {
         // Daha önce insert modda eklenmiş olabilecek itemları uçur
         if (!this.state.insertMode) {
             this.state.items = this.state.items.filter(item => item.fbKey);
+        } else {
+            this.state.items.push({
+                insertMode : true,
+                OnCancelNewEntry : this.OnCancelNewEntry.bind(this),
+                OnSaveNewItem : this.OnSaveNewItem.bind(this)
+            });
         }
 
         const items = this.state.items;
@@ -42,6 +57,7 @@ class CheckItemList extends React.Component {
                     <div key={"key_" + (++this.keyNo)}>
                         <CheckItem
                             {...item}
+                            OnDeleteItem = {this.OnDeleteItem.bind(this)}
                         />
                     </div>
                 );
@@ -52,11 +68,27 @@ class CheckItemList extends React.Component {
 
     }
 
+    handleNewEntryClick(e){
+        e.preventDefault();
+        this.setState({insertMode : !this.state.insertMode});
+    }
+
+    renderButton(){
+        if(this.state.insertMode) {
+            return null;
+        }
+
+        return (
+            <button onClick={this.handleNewEntryClick.bind(this)}>Yeni öğe ekle</button>
+        )
+    }
+
     render(){
         let {NoClick} = Styles;
         return(
             <div>
                 {this.renderList()}
+                {this.renderButton()}
             </div>
         );
   }

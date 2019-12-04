@@ -26,21 +26,23 @@ class CheckItem extends React.Component {
     }
 
     HandleDeleteClick(e){
-        alert("Sil : " + this.props.fbKey);
-        if (this.props.OnDeleteCheckItem){
-            this.props.OnDeleteCheckItem(this.props.fbKey);
+        if (this.props.OnDeleteItem){
+            this.props.OnDeleteItem(this.props.fbKey);
         }
     }
 
     HandleSaveClick(e){
-        alert("Kaydet : " + this.state.itemText);
-        if (this.props.OnSaveCheckItem){
-            this.props.OnSaveCheckItem(this.state.itemText);
+        const itemText = this.state.itemText;
+        if (!itemText || itemText.trim() == "") {
+            alert("Öğe için bir metin girip tekrar deneyiniz.");
+            return;
+        }
+        if (this.props.OnSaveNewItem){
+            this.props.OnSaveNewItem(itemText.trim());
         }
     }
 
     HandleCancelClick(e){
-        alert("Cancel");
         if (this.props.OnCancelNewEntry){
             this.props.OnCancelNewEntry();
         }
