@@ -26,12 +26,13 @@ class CheckItem extends React.Component {
     }
 
     HandleDeleteClick(e){
-        if (this.props.OnDeleteItem){
+        const cevap = confirm("Bu öğeye ait geçmişe yönelik tüm istatistikler silinecektir. Silmek istediğinizden emin misiniz?");
+        if (cevap && this.props.OnDeleteItem){
             this.props.OnDeleteItem(this.props.fbKey);
         }
     }
 
-    HandleSaveClick(e){
+    HandleSaveClick(){
         const itemText = this.state.itemText;
         if (!itemText || itemText.trim() == "") {
             alert("Öğe için bir metin girip tekrar deneyiniz.");
@@ -45,6 +46,12 @@ class CheckItem extends React.Component {
     HandleCancelClick(e){
         if (this.props.OnCancelNewEntry){
             this.props.OnCancelNewEntry();
+        }
+    }
+
+    handleKeyUp(e) {
+        if (e.keyCode==13) {
+            this.HandleSaveClick();
         }
     }
 
@@ -74,6 +81,7 @@ class CheckItem extends React.Component {
                         type="text"
                         value={this.state.itemText}
                         onChange={this.handleTextChange.bind(this)}
+                        onKeyUp={this.handleKeyUp.bind(this)}
                         autoFocus="true"
                     />
                 );
