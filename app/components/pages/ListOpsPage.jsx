@@ -77,11 +77,33 @@ class ListOpsPage extends React.Component {
     }
 
     SaveNewItem(itemType, itemText){
-        alert("SaveNewItem " + itemType + " => " + itemText);
+        const {userName} = this.user;
+        const refStr = `users/${userName}/list1/items/${itemType}`;
+        const newDoItemRef = fbRef.child(refStr).push();
+        newDoItemRef.set(itemText)
+            .then(() => {
+                this.getListData(itemType)
+                    .then((itemsArray) => {
+                        const obj = {};
+                        obj[itemType] = itemsArray;
+                        this.setState(obj);
+                    });
+            });
     }
 
     DeleteItem(itemType, fbKey) {
-        alert("DeleteItem " + itemType + " => " + fbKey);
+        const {userName} = this.user;
+        const refStr = `users/${userName}/list1/items/${itemType}/${fbKey}`;
+        fbRef.child(refStr)
+            .set(null)  // İlgili refi sil...
+            .then(() => {
+                this.getListData(itemType)
+                    .then((itemsArray) => {
+                        const obj = {};
+                        obj[itemType] = itemsArray;
+                        this.setState(obj);
+                    });
+            });
     }
 
     render() {
@@ -89,20 +111,16 @@ class ListOpsPage extends React.Component {
         return(
             <div style={MainDivStyle}>
                 <h3>List-ops are here!</h3>
-                <CheckItem
-                    insertMode= {this.state.insertMode}
-                    itemText = {"İp hopla"}
-                ></CheckItem>
-                <button onClick= {() => {
-                    this.setState({insertMode : !this.state.insertMode});
-                }}>Change Mode</button>
+
                 <CheckItemList
                     items={this.state.doItems}
+                    ListLabel = {"Do Items"}
                     OnSaveNewItem = {this.SaveNewItem.bind(this, "doItems")}
                     OnDeleteItem = {this.DeleteItem.bind(this, "doItems")}
                 />
                 <CheckItemList
                     items={this.state.dontItems}
+                    ListLabel = {"Don't Items"}
                     OnSaveNewItem = {this.SaveNewItem.bind(this, "dontItems")}
                     OnDeleteItem = {this.DeleteItem.bind(this, "dontItems")}
                 />

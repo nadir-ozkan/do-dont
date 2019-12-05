@@ -9,7 +9,8 @@ class CheckItemList extends React.Component {
         super(props);
         this.state = {
             items : props.items ? props.items : [],
-            insertMode : props.insertMode ? props.insertMode : false
+            insertMode : props.insertMode ? props.insertMode : false,
+            noClick : false
         }
         this.keyNo = 0;
     }
@@ -25,15 +26,22 @@ class CheckItemList extends React.Component {
     }
 
     OnSaveNewItem(itemText){
-        if (this.props.OnSaveNewItem){
-            this.props.OnSaveNewItem(itemText);
-        }
+        this.setState({noClick : true}, () => {
+            if (this.props.OnSaveNewItem){
+                this.props.OnSaveNewItem(itemText);
+            }
+            this.setState({insertMode : false, noClick : false});
+        });
+
     }
 
     OnDeleteItem(fbKey){
-        if (this.props.OnDeleteItem){
-            this.props.OnDeleteItem(fbKey);
-        }
+        this.setState({noClick : true}, () => {
+            if (this.props.OnDeleteItem){
+                this.props.OnDeleteItem(fbKey);
+            }
+            this.setState({insertMode : false, noClick : false});
+        });
     }
 
     renderList(){
@@ -83,12 +91,25 @@ class CheckItemList extends React.Component {
         )
     }
 
+    renderLabel(){
+        const {LabelStyle} = Styles;
+        if (this.props.ListLabel) {
+            return <div style={LabelStyle}>{this.props.ListLabel}</div>
+        } else {
+            return null;
+        }
+    }
+
     render(){
-        let {NoClick} = Styles;
+        const {NoClick} = Styles;
+        const divStyle = this.state.noClick ? NoClick : null;
         return(
-            <div>
-                {this.renderList()}
-                {this.renderButton()}
+            <div style = {{margin : "10px"}}>
+                <div style={divStyle}>
+                    {this.renderLabel()}
+                    {this.renderList()}
+                    {this.renderButton()}
+                </div>
             </div>
         );
   }
@@ -99,6 +120,13 @@ const Styles = {
       pointerEvents: "none",
       opacity: "0.65"
     },
+    LabelStyle : {
+        background : "crimson",
+        textAlign : "center",
+        fontSize : "18px",
+        height : "2em",
+        lineHeight : "2em"
+    }
 }
 
 export default CheckItemList;
