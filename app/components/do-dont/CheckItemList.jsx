@@ -8,16 +8,20 @@ class CheckItemList extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            items : props.items ? props.items : [],
-            insertMode : props.insertMode ? props.insertMode : false,
-            noClick : false
+            items : props.items || [],
+            insertMode : props.insertMode || false,
+            noClick : false,
+            emptyList : props.emptyList || false
         }
         this.keyNo = 0;
     }
 
     componentWillReceiveProps(nextProps) {
         if (this.state.items != nextProps.items) {
-            this.setState({items : nextProps.items});
+            this.setState({
+                items : nextProps.items,
+                emptyList : nextProps.items.length == 0
+            });
         }
     }
 
@@ -45,6 +49,11 @@ class CheckItemList extends React.Component {
     }
 
     renderList(){
+        const {MessageLabelStyle} = Styles;
+
+        if (this.state.emptyList && !this.state.insertMode) {
+            return <div style={MessageLabelStyle}>Listeniz boş! Hemen eklemeye başlayın!</div>
+        }
 
         // Daha önce insert modda eklenmiş olabilecek itemları uçur
         if (!this.state.insertMode) {
@@ -71,7 +80,7 @@ class CheckItemList extends React.Component {
                 );
             });
         } else {
-            return "Liste yüklenirken lütfen bekleyiniz!";
+            return  <div style={MessageLabelStyle}>Liste yüklenirken lütfen bekleyiniz...</div>
         }
 
     }
@@ -82,12 +91,14 @@ class CheckItemList extends React.Component {
     }
 
     renderButton(){
-        if(this.state.insertMode) {
+        if (this.state.insertMode) {
             return null;
         }
-
+        const {AddButtonStyle} = Styles;
         return (
-            <button onClick={this.handleNewEntryClick.bind(this)}>Yeni öğe ekle</button>
+            <div style={AddButtonStyle}>
+                <button onClick={this.handleNewEntryClick.bind(this)}>Yeni öğe ekle</button>
+            </div>
         )
     }
 
@@ -101,10 +112,10 @@ class CheckItemList extends React.Component {
     }
 
     render(){
-        const {NoClick} = Styles;
+        const {NoClick, MainDivStyle} = Styles;
         const divStyle = this.state.noClick ? NoClick : null;
         return(
-            <div style = {{margin : "10px"}}>
+            <div style = {MainDivStyle}>
                 <div style={divStyle}>
                     {this.renderLabel()}
                     {this.renderList()}
@@ -126,6 +137,21 @@ const Styles = {
         fontSize : "18px",
         height : "2em",
         lineHeight : "2em"
+    },
+    AddButtonStyle  : {
+        textAlign : "center",
+        height : "2em",
+        margin : "10px 0"
+    },
+    MessageLabelStyle : {
+        textAlign : "center",
+        height : "1.3em",
+        lineHeight : "1.3em",
+        margin : "5px 0"
+    },
+    MainDivStyle : {
+        border : "1px solid crimson",
+        margin : "10px"
     }
 }
 

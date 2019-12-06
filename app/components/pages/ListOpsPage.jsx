@@ -110,8 +110,6 @@ class ListOpsPage extends React.Component {
         const {MainDivStyle} = Styles;
         return(
             <div style={MainDivStyle}>
-                <h3>List-ops are here!</h3>
-
                 <CheckItemList
                     items={this.state.doItems}
                     ListLabel = {"Do Items"}
