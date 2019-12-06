@@ -11,7 +11,8 @@ class LoginPage extends React.Component {
         super(props);
         this.state = {
             errorMessage : null,
-            showSpinner : false
+            showSpinner : false,
+            registerMode : false
         };
     }
 
@@ -32,6 +33,27 @@ class LoginPage extends React.Component {
         }
     }
 
+    showErrorMessage(errorMessage) {
+        this.setState({
+            errorMessage : errorMessage,
+            noClick : false,
+            showSpinner : false
+        });
+    }
+
+    userExist(userName) {
+        return new Promise(function(resolve, reject) {
+
+        });
+    }
+
+    doRegister(userName, userPass){
+        if (!userName || !userPass) {
+            this.showErrorMessage("Kullanıcı adı ya da şifre eksik!");
+            return;
+        }
+    }
+
     handleLoginClick(e){
         e.preventDefault();
 
@@ -46,6 +68,11 @@ class LoginPage extends React.Component {
 
         const userName = txtUserName.value;
         const userPass = txtUserPass.value;
+
+        if (this.state.registerMode){
+            this.doRegister(userName, userPass);
+            return;
+        }
 
         const url = "https://us-central1-do-dont.cloudfunctions.net/checkUser"
 
@@ -84,7 +111,7 @@ class LoginPage extends React.Component {
     }
 
     handleRegisterClick(e){
-        e.preventDefault();
+        this.setState({registerMode : true});
     }
 
     handleKeyUp(e){
@@ -97,11 +124,21 @@ class LoginPage extends React.Component {
         return this.state.showSpinner ? <div><img src="spinner.svg" height="32px"/></div> : null;
     }
 
+    renderRegisterButton(){
+        const {InputStyle} = Styles;
+        return !this.state.registerMode ?
+            <div>
+                <button style={InputStyle} onClick={this.handleRegisterClick.bind(this)}>Hesap Oluştur</button>
+            </div> : null;
+    }
+
     render() {
 
         const {MainDivStyle, InputStyle, HeaderStyle, ErrorStyle, NoClick} = Styles;
 
         const mainDivStyle = this.state.noClick ? utils.mergeObjects(MainDivStyle, NoClick) : MainDivStyle;
+
+        const loginButtonLabel = this.state.registerMode ? "Kaydol" : "Giriş Yap";
 
         return (
             <div style={mainDivStyle}>
@@ -120,11 +157,9 @@ class LoginPage extends React.Component {
                     ></input>
                 </div>
                 <div>
-                    <button style={InputStyle} onClick={this.handleLoginClick.bind(this)}>Giriş Yap</button>
+                    <button style={InputStyle} onClick={this.handleLoginClick.bind(this)}>{loginButtonLabel}</button>
                 </div>
-                <div>
-                    <button style={InputStyle} onClick={this.handleRegisterClick.bind(this)}>Hesap Oluştur</button>
-                </div>
+                {this.renderRegisterButton()}
                 <div style={ErrorStyle}>
                     <div>{this.state.errorMessage}</div>
                     {this.renderSpinner()}
