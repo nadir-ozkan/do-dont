@@ -54,6 +54,10 @@ class LoginPage extends React.Component {
 
     }
 
+    handleRegisterClick(e){
+        e.preventDefault();
+    }
+
     handleKeyUp(e){
         if (e.keyCode==13){
             this.handleLoginClick(e);
@@ -80,7 +84,10 @@ class LoginPage extends React.Component {
                     ></input>
                 </div>
                 <div>
-                    <button style={InputStyle} onClick={this.handleLoginClick.bind(this)}>Login</button>
+                    <button style={InputStyle} onClick={this.handleLoginClick.bind(this)}>Giriş Yap</button>
+                </div>
+                <div>
+                    <button style={InputStyle} onClick={this.handleRegisterClick.bind(this)}>Hesap Oluştur</button>
                 </div>
                 <div>
                     {this.state.errorMessage}
@@ -94,13 +101,14 @@ const Styles = {
     MainDivStyle : {
         textAlign : "center",
         background : "gold",
-        height : "220px",
-        width : "200px",
+        width : "50%",
         margin : "0 auto",
         paddingTop : "10px"
     },
     InputStyle : {
-        margin : "5px 0"
+        margin : "5px auto",
+        width : "85%",
+
     }
 }
 
