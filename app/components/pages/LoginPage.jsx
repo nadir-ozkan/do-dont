@@ -3,16 +3,22 @@
 import React from 'react';
 import axios from 'axios';
 
+import utils from '../../Utils/utils.js';
+
 class LoginPage extends React.Component {
 
     constructor(props){
         super(props);
         this.state = {
-            errorMessage : null
+            errorMessage : null,
+            showSpinner : false
         };
     }
 
     componentDidMount(){
+        if (this.userNameInput) {
+            this.userNameInput.focus();
+        }
         if (this.props.debugMode){
             if (this.props.onGetUser) {
                 this.props.onGetUser({userName : "Nadir"});
@@ -20,8 +26,20 @@ class LoginPage extends React.Component {
         }
     }
 
+    componentDidUpdate(prevProps, prevState){
+        if (this.userNameInput) {
+            this.userNameInput.focus();
+        }
+    }
+
     handleLoginClick(e){
         e.preventDefault();
+
+        this.setState({
+            errorMessage : null,
+            showSpinner : true,
+            noClick : true
+        });
 
         const txtUserName = document.getElementById("txtUserName");
         const txtUserPass = document.getElementById("txtUserPass");
@@ -40,16 +58,27 @@ class LoginPage extends React.Component {
                         this.props.onGetUser({userName});
                     }
                 } else {
-                    this.setState({errorMessage : "Yanlış kullanıcı adı ya da şifre!"});
+                    this.setState({
+                        errorMessage : "Yanlış kullanıcı adı ya da şifre!",
+                        noClick : false,
+                        showSpinner : false
+                    });
                 }
             })
             .catch((hata)=>{
                 console.log(hata);
                 alert(hata);
-                this.setState({errorMessage : "Bir hata oluştu."})
+                this.setState({
+                    errorMessage : "Bir hata oluştu.",
+                    noClick : false,
+                    showSpinner : false
+                });
             })
             .finally(() => {
-
+                this.setState({
+                    noClick : false,
+                    showSpinner : false
+                });
             });
 
     }
@@ -64,15 +93,22 @@ class LoginPage extends React.Component {
         }
     }
 
+    renderSpinner(){
+        return this.state.showSpinner ? <div><img src="spinner.svg" height="32px"/></div> : null;
+    }
+
     render() {
 
-        const {MainDivStyle, InputStyle} = Styles;
+        const {MainDivStyle, InputStyle, HeaderStyle, ErrorStyle, NoClick} = Styles;
+
+        const mainDivStyle = this.state.noClick ? utils.mergeObjects(MainDivStyle, NoClick) : MainDivStyle;
 
         return (
-            <div style={MainDivStyle}>
-                <h5>Do Don't Programına Hoş Geldiniz</h5>
+            <div style={mainDivStyle}>
+                <div style={HeaderStyle}>Do Don't</div>
                 <div>
                     <input style={InputStyle} type="text"
+                        ref={ (input) => { this.userNameInput = input; }}
                         placeholder="Kullanıcı adı" id="txtUserName"
                         onKeyUp = {this.handleKeyUp.bind(this)}
                     ></input>
@@ -89,8 +125,9 @@ class LoginPage extends React.Component {
                 <div>
                     <button style={InputStyle} onClick={this.handleRegisterClick.bind(this)}>Hesap Oluştur</button>
                 </div>
-                <div>
-                    {this.state.errorMessage}
+                <div style={ErrorStyle}>
+                    <div>{this.state.errorMessage}</div>
+                    {this.renderSpinner()}
                 </div>
             </div>
         );
@@ -108,8 +145,24 @@ const Styles = {
     InputStyle : {
         margin : "5px auto",
         width : "85%",
-
-    }
+    },
+    HeaderStyle : {
+        height : "2em",
+        background : "crimson",
+        lineHeight : "2em",
+        width : "85%",
+        margin: "0 auto",
+        fontWeight : "700"
+    },
+    ErrorStyle : {
+        height : "2em",
+        color : "crimson",
+        lineHeight : "2em",
+    },
+    NoClick : {
+      pointerEvents: "none",
+      opacity: "0.65"
+    },
 }
 
 
