@@ -4,6 +4,7 @@ import React from 'react';
 import axios from 'axios';
 
 import utils from '../../Utils/utils.js';
+import {fbRef, getData} from '../../firebase/index.js';
 
 class LoginPage extends React.Component {
 
@@ -43,7 +44,11 @@ class LoginPage extends React.Component {
 
     userExist(userName) {
         return new Promise(function(resolve, reject) {
-
+            const refStr = `users/${userName}`;
+            getData(refStr)
+                .then((result) => {
+                    resolve(result!=null);
+                });
         });
     }
 
@@ -52,10 +57,36 @@ class LoginPage extends React.Component {
             this.showErrorMessage("Kullanıcı adı ya da şifre eksik!");
             return;
         }
+
+        this.userExist(userName)
+            .then((exists) => {
+                if (exists) {
+                    this.showErrorMessage("Bu kullanıcı mevcut, lütfen başka bir kullanıcı adı seçiniz.");
+                    return;
+                } else {
+                    const refStr = `users/${userName}`;
+                    fbRef.child(refStr)
+                        .set({password : userPass})
+                        .then(()=> {
+                            this.setState({
+                                errorMessage : null,
+                                showSpinner : false,
+                                registerMode : false,
+                                noClick : false
+                            }, () => {
+                                alert("Yeni kullanıcı başarıyla oluşturuldu. Listeleri oluşturmaya hemen başlayabilirsiniz!");
+                                this.handleLoginClick();
+                            });
+
+
+                        });
+                }
+            });
+
+
     }
 
-    handleLoginClick(e){
-        e.preventDefault();
+    handleLoginClick(){
 
         this.setState({
             errorMessage : null,
@@ -78,7 +109,6 @@ class LoginPage extends React.Component {
 
         axios.get(url, { params : { userName, userPass} } )
             .then((resp)=>{
-                console.log(resp);
                 const {isPasswordValid} = resp.data;
                 if (isPasswordValid) {
                     if (this.props.onGetUser) {
@@ -111,7 +141,11 @@ class LoginPage extends React.Component {
     }
 
     handleRegisterClick(e){
-        this.setState({registerMode : true});
+        this.setState({
+            registerMode : true,
+            errorMessage : null,
+            showSpinner : false,
+        });
     }
 
     handleKeyUp(e){
@@ -128,7 +162,7 @@ class LoginPage extends React.Component {
         const {InputStyle} = Styles;
         return !this.state.registerMode ?
             <div>
-                <button style={InputStyle} onClick={this.handleRegisterClick.bind(this)}>Hesap Oluştur</button>
+                <button style={InputStyle} onClick={this.handleRegisterClick.bind(this)}>Yeni Hesap Oluştur</button>
             </div> : null;
     }
 
@@ -175,7 +209,8 @@ const Styles = {
         background : "gold",
         width : "50%",
         margin : "0 auto",
-        paddingTop : "10px"
+        paddingTop : "10px",
+        paddingBottom : "10px",
     },
     InputStyle : {
         margin : "5px auto",
@@ -190,9 +225,10 @@ const Styles = {
         fontWeight : "700"
     },
     ErrorStyle : {
-        height : "2em",
         color : "crimson",
-        lineHeight : "2em",
+        lineHeight : "1.2em",
+        width : "85%",
+        margin: "0 auto",
     },
     NoClick : {
       pointerEvents: "none",

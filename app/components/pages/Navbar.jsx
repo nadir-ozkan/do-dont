@@ -35,18 +35,6 @@ class Navbar extends React.Component{
             </li>
           </ul>
         </div>
-        <div className="top-bar-right">
-          <form onSubmit={this.onSearch.bind(this)}>
-            <ul className="menu">
-              <li>
-                <input type="search" ref="navSearch" placeholder="Şehir"></input>
-              </li>
-              <li>
-                <input type="submit" className="button" value="Hava Durumu"></input>
-              </li>
-            </ul>
-          </form>
-        </div>
       </div>
     );
   }

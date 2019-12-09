@@ -16,7 +16,7 @@ class App extends Component {
         this.user = null;
         this.state = {
             hasUser : false,
-            debugMode : false
+            debugMode : true
         }
     }
 
@@ -32,7 +32,6 @@ class App extends Component {
             this.state.hasUser ?
                 <Router history = {hashHistory}>
                     <Route path="/" component={Main}>
-                        <Route path="about" component = {AboutPage}/>
                         <Route path="list-ops" user={this.user} component = {ListOpsPage}/>
                         <IndexRoute component={ListsPage} pageTitle = "Do Don't" user = {this.user} ></IndexRoute>
                     </Route>

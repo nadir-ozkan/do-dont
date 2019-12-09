@@ -1,6 +1,6 @@
 import React from 'react';
 
-import firebase, {fbRef, getData} from '../../firebase/index.js';
+import {fbRef, getData} from '../../firebase/index.js';
 import utils from '../../Utils/utils.js';
 
 import CheckItem from '../do-dont/CheckItem.jsx';

@@ -110,13 +110,15 @@ class ListsPage extends React.Component {
                                 that.addNewEntry(that.doItems, that.dontItems, dateObj);
                             }
 
-                            resolve();
+                            resolve(true);
 
                         } else { // hiç giriş yok ise
                             that.addNewEntry(that.doItems, that.dontItems, dateObj);
-                            resolve();
+                            resolve(true);
                         }
 
+                    } else {
+                        resolve(false);
                     }
                 });
         });
@@ -124,8 +126,12 @@ class ListsPage extends React.Component {
 
     componentDidMount(){
         this.getListData()
-            .then(() => {
-                this.setState({listDataLoaded : true});
+            .then((hasData) => {
+                if (hasData) {
+                    this.setState({listDataLoaded : true});
+                } else {
+                    this.props.router.push('/list-ops');
+                }
             });
     }
 
