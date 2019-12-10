@@ -5,6 +5,7 @@ import utils from '../../Utils/utils.js';
 
 import CheckItem from '../do-dont/CheckItem.jsx';
 import CheckItemList from '../do-dont/CheckItemList.jsx';
+import Navbar from './Navbar.jsx';
 
 class ListOpsPage extends React.Component {
 
@@ -19,6 +20,7 @@ class ListOpsPage extends React.Component {
         }
 
         this.user = props.route.user;
+        this.OnLogOut = props.route.OnLogOut;
 
     }
 
@@ -109,20 +111,27 @@ class ListOpsPage extends React.Component {
     render() {
         const {MainDivStyle} = Styles;
         return(
-            <div style={MainDivStyle}>
-                <CheckItemList
-                    items={this.state.doItems}
-                    ListLabel = {"Do Items"}
-                    OnSaveNewItem = {this.SaveNewItem.bind(this, "doItems")}
-                    OnDeleteItem = {this.DeleteItem.bind(this, "doItems")}
+            <div>
+                <Navbar ActivePage={"ListOps"}
+                    router={this.props.router}
+                    OnLogOut={this.OnLogOut}
                 />
-                <CheckItemList
-                    items={this.state.dontItems}
-                    ListLabel = {"Don't Items"}
-                    OnSaveNewItem = {this.SaveNewItem.bind(this, "dontItems")}
-                    OnDeleteItem = {this.DeleteItem.bind(this, "dontItems")}
-                />
+                <div style={MainDivStyle}>
+                    <CheckItemList
+                        items={this.state.doItems}
+                        ListLabel = {"Do Items"}
+                        OnSaveNewItem = {this.SaveNewItem.bind(this, "doItems")}
+                        OnDeleteItem = {this.DeleteItem.bind(this, "doItems")}
+                    />
+                    <CheckItemList
+                        items={this.state.dontItems}
+                        ListLabel = {"Don't Items"}
+                        OnSaveNewItem = {this.SaveNewItem.bind(this, "dontItems")}
+                        OnDeleteItem = {this.DeleteItem.bind(this, "dontItems")}
+                    />
+                </div>
             </div>
+
         );
     }
 

@@ -158,11 +158,11 @@ class LoginPage extends React.Component {
         return this.state.showSpinner ? <div><img src="spinner.svg" height="32px"/></div> : null;
     }
 
-    renderRegisterButton(){
-        const {InputStyle} = Styles;
+    renderRegisterLabel(){
+        const {LabelStyle} = Styles;
         return !this.state.registerMode ?
             <div>
-                <button style={InputStyle} onClick={this.handleRegisterClick.bind(this)}>Yeni Hesap Oluştur</button>
+                <span style={LabelStyle} onClick={this.handleRegisterClick.bind(this)}>Yeni Hesap Oluştur</span>
             </div> : null;
     }
 
@@ -193,7 +193,7 @@ class LoginPage extends React.Component {
                 <div>
                     <button style={InputStyle} onClick={this.handleLoginClick.bind(this)}>{loginButtonLabel}</button>
                 </div>
-                {this.renderRegisterButton()}
+                {this.renderRegisterLabel()}
                 <div style={ErrorStyle}>
                     <div>{this.state.errorMessage}</div>
                     {this.renderSpinner()}
@@ -234,6 +234,13 @@ const Styles = {
       pointerEvents: "none",
       opacity: "0.65"
     },
+    LabelStyle : {
+        color : "grey",
+        cursor : "pointer",
+        marginTop : "10px",
+        marginBottom : "10px",
+        display : "inline-block"
+    }
 }
 
 

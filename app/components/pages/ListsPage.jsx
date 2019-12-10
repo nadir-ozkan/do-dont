@@ -5,6 +5,7 @@ import utils from '../../Utils/utils.js';
 
 import ListContainer from '../do-dont/ListContainer.jsx';
 import Tabs from '../do-dont/Tabs.jsx';
+import Navbar from './Navbar.jsx';
 
 class ListsPage extends React.Component {
 
@@ -16,6 +17,7 @@ class ListsPage extends React.Component {
         }
 
         this.user = props.route.user;
+        this.OnLogOut = props.route.OnLogOut;
 
         this.doItems = [];
         this.dontItems = [];
@@ -168,9 +170,15 @@ class ListsPage extends React.Component {
         }
 
         return(
-          <div style={MainDivStyle}>
-              {renderTabs()}
-          </div>
+            <div>
+                <Navbar ActivePage={"MainPage"}
+                    router={this.props.router}
+                    OnLogOut={this.OnLogOut}
+                />
+                <div style={MainDivStyle}>
+                    {renderTabs()}
+                </div>
+            </div>
         );
 
     }
@@ -181,7 +189,6 @@ const Styles = {
         background : "aliceblue",
         margin : "0 auto",
         padding : "10px",
-        width : "fit-content",
         fontSize : "18px",
         minWidth : "300px"
     },
