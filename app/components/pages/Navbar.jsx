@@ -27,9 +27,12 @@ class Navbar extends React.Component{
                     this.props.router.push('/list-ops');
                     break;
                 case "Çıkış":
-                    this.props.router.push('/');
-                    if (this.props.OnLogOut) {
-                        this.props.OnLogOut();
+                    const cevap = confirm("Çıkış yapmak istediğinizden emein misiniz?");
+                    if (cevap) {
+                        this.props.router.push('/');
+                        if (this.props.OnLogOut) {
+                            this.props.OnLogOut();
+                        }
                     }
                     break;
                 default:
