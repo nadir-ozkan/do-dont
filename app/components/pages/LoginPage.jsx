@@ -32,11 +32,11 @@ class LoginPage extends React.Component {
                 this.props.onGetUser({userName : "Nadir"});
             }
         }
-        window.addEventListener("resize", this.resizeHandler);
+        // window.addEventListener("resize", this.resizeHandler);
     }
 
     componentWillUnmount(){
-        window.removeEventListener("resize", this.resizeHandler);
+        // window.removeEventListener("resize", this.resizeHandler);
     }
 
     componentDidUpdate(prevProps, prevState){
