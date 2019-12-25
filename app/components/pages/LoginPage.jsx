@@ -15,6 +15,12 @@ class LoginPage extends React.Component {
             showSpinner : false,
             registerMode : false
         };
+
+        this.resizeHandler = this.reRender.bind(this);
+    }
+
+    reRender(){
+        this.setState({reRender : true});
     }
 
     componentDidMount(){
@@ -26,6 +32,11 @@ class LoginPage extends React.Component {
                 this.props.onGetUser({userName : "Nadir"});
             }
         }
+        window.addEventListener("resize", this.resizeHandler);
+    }
+
+    componentWillUnmount(){
+        window.removeEventListener("resize", this.resizeHandler);
     }
 
     componentDidUpdate(prevProps, prevState){
@@ -158,50 +169,6 @@ class LoginPage extends React.Component {
         return this.state.showSpinner ? <div><img src="spinner.svg" height={hUnit(2.5)}/></div> : null;
     }
 
-    Styles(){
-        return {
-                    MainDivStyle : {
-                        textAlign : "center",
-                        background : "gold",
-                        width : "100%",
-                        margin : "0 auto",
-                        paddingTop : "10px",
-                        paddingBottom : "10px",
-                        display : "flex",
-                        flexDirection : "column",
-                        height : hUnit(60)
-                    },
-                    InputStyle : {
-                        margin : "5px auto",
-                        width : "85%",
-                        fontSize : hUnit(4)
-                    },
-                    LogoStyle : {
-                        margin: "0 auto",
-                        fontSize : hUnit(5),
-                        color : "rgb(29,119,115)"
-                    },
-                    ErrorStyle : {
-                        color : "crimson",
-                        width : "85%",
-                        margin: "0 auto",
-                        fontSize : hUnit(2.5)
-                    },
-                    NoClick : {
-                      pointerEvents: "none",
-                      opacity: "0.65"
-                    },
-                    LabelStyle : {
-                        color : "grey",
-                        cursor : "pointer",
-                        marginTop : "10px",
-                        marginBottom : "10px",
-                        display : "inline-block",
-                        fontSize : hUnit(2.5)
-                    }
-                }
-    }
-
     renderRegisterLabel(){
         const {LabelStyle} = this.Styles();
         return !this.state.registerMode ?
@@ -259,6 +226,51 @@ class LoginPage extends React.Component {
             </div>
         );
     }
+
+    Styles(){
+        return {
+            MainDivStyle : {
+                textAlign : "center",
+                background : "gold",
+                width : "100%",
+                margin : "0 auto",
+                paddingTop : "10px",
+                paddingBottom : "10px",
+                display : "flex",
+                flexDirection : "column",
+                height : hUnit(60)
+            },
+            InputStyle : {
+                margin : "5px auto",
+                width : "85%",
+                fontSize : hUnit(4)
+            },
+            LogoStyle : {
+                margin: "0 auto",
+                fontSize : hUnit(5),
+                color : "rgb(29,119,115)"
+            },
+            ErrorStyle : {
+                color : "crimson",
+                width : "85%",
+                margin: "0 auto",
+                fontSize : hUnit(2.5)
+            },
+            NoClick : {
+              pointerEvents: "none",
+              opacity: "0.65"
+            },
+            LabelStyle : {
+                color : "grey",
+                cursor : "pointer",
+                marginTop : "10px",
+                marginBottom : "10px",
+                display : "inline-block",
+                fontSize : hUnit(2.5)
+            }
+        }
+    }
+
 }
 
 const hUnit = (percent) => {
