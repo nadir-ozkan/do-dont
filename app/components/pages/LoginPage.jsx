@@ -155,11 +155,55 @@ class LoginPage extends React.Component {
     }
 
     renderSpinner(){
-        return this.state.showSpinner ? <div><img src="spinner.svg" height="32px"/></div> : null;
+        return this.state.showSpinner ? <div><img src="spinner.svg" height={hUnit(2.5)}/></div> : null;
+    }
+
+    Styles(){
+        return {
+                    MainDivStyle : {
+                        textAlign : "center",
+                        background : "gold",
+                        width : "100%",
+                        margin : "0 auto",
+                        paddingTop : "10px",
+                        paddingBottom : "10px",
+                        display : "flex",
+                        flexDirection : "column",
+                        height : hUnit(60)
+                    },
+                    InputStyle : {
+                        margin : "5px auto",
+                        width : "85%",
+                        fontSize : hUnit(4)
+                    },
+                    LogoStyle : {
+                        margin: "0 auto",
+                        fontSize : hUnit(5),
+                        color : "rgb(29,119,115)"
+                    },
+                    ErrorStyle : {
+                        color : "crimson",
+                        width : "85%",
+                        margin: "0 auto",
+                        fontSize : hUnit(2.5)
+                    },
+                    NoClick : {
+                      pointerEvents: "none",
+                      opacity: "0.65"
+                    },
+                    LabelStyle : {
+                        color : "grey",
+                        cursor : "pointer",
+                        marginTop : "10px",
+                        marginBottom : "10px",
+                        display : "inline-block",
+                        fontSize : hUnit(2.5)
+                    }
+                }
     }
 
     renderRegisterLabel(){
-        const {LabelStyle} = Styles;
+        const {LabelStyle} = this.Styles();
         return !this.state.registerMode ?
             <div>
                 <span style={LabelStyle} onClick={this.handleRegisterClick.bind(this)}>Yeni Hesap Oluştur</span>
@@ -168,7 +212,7 @@ class LoginPage extends React.Component {
 
     render() {
 
-        const {MainDivStyle, InputStyle, HeaderStyle, ErrorStyle, NoClick} = Styles;
+        const {MainDivStyle, InputStyle, LogoStyle, ErrorStyle, NoClick} = this.Styles();
 
         const mainDivStyle = this.state.noClick ? utils.mergeObjects(MainDivStyle, NoClick) : MainDivStyle;
 
@@ -176,72 +220,51 @@ class LoginPage extends React.Component {
 
         return (
             <div style={mainDivStyle}>
-                <div style={HeaderStyle}>Do Don't</div>
-                <div>
-                    <input style={InputStyle} type="text"
-                        ref={ (input) => { this.userNameInput = input; }}
-                        placeholder="Kullanıcı adı" id="txtUserName"
-                        onKeyUp = {this.handleKeyUp.bind(this)}
-                    ></input>
+
+                <div id="logo-div" style={{flex: 1, display : "flex", flexDirection : "column", justifyContent : "center"}}>
+                    <span style={LogoStyle}>Do-Dont</span>
                 </div>
-                <div>
-                    <input style={InputStyle} type="password"
-                        placeholder="Şifre" id="txtUserPass"
-                        onKeyUp = {this.handleKeyUp.bind(this)}
-                    ></input>
+
+                <div id="input-fields-div" style = {{flex:1, background: "crimson", display: "flex", flexDirection : "column", justifyContent : "center"}}>
+
+                    <div>
+                        <input style={InputStyle} type="text"
+                            ref={ (input) => { this.userNameInput = input; }}
+                            placeholder="Kullanıcı adı" id="txtUserName"
+                            onKeyUp = {this.handleKeyUp.bind(this)}
+                        ></input>
+                    </div>
+                    <div>
+                        <input style={InputStyle} type="password"
+                            placeholder="Şifre" id="txtUserPass"
+                            onKeyUp = {this.handleKeyUp.bind(this)}
+                        ></input>
+                    </div>
+
                 </div>
-                <div>
-                    <button style={InputStyle} onClick={this.handleLoginClick.bind(this)}>{loginButtonLabel}</button>
+
+                <div id="actions-div" style= {{flex: 1, display : "flex", flexDirection : "column", justifyContent : "center"}}>
+
+                    <div>
+                        <button style={InputStyle} onClick={this.handleLoginClick.bind(this)}>{loginButtonLabel}</button>
+                    </div>
+                    {this.renderRegisterLabel()}
+                    <div style={ErrorStyle}>
+                        <div>{this.state.errorMessage}</div>
+                        {this.renderSpinner()}
+                    </div>
+
                 </div>
-                {this.renderRegisterLabel()}
-                <div style={ErrorStyle}>
-                    <div>{this.state.errorMessage}</div>
-                    {this.renderSpinner()}
-                </div>
+
             </div>
         );
     }
 }
 
-const Styles = {
-    MainDivStyle : {
-        textAlign : "center",
-        background : "gold",
-        width : "50%",
-        margin : "0 auto",
-        paddingTop : "10px",
-        paddingBottom : "10px",
-    },
-    InputStyle : {
-        margin : "5px auto",
-        width : "85%",
-    },
-    HeaderStyle : {
-        height : "2em",
-        background : "crimson",
-        lineHeight : "2em",
-        width : "85%",
-        margin: "0 auto",
-        fontWeight : "700"
-    },
-    ErrorStyle : {
-        color : "crimson",
-        lineHeight : "1.2em",
-        width : "85%",
-        margin: "0 auto",
-    },
-    NoClick : {
-      pointerEvents: "none",
-      opacity: "0.65"
-    },
-    LabelStyle : {
-        color : "grey",
-        cursor : "pointer",
-        marginTop : "10px",
-        marginBottom : "10px",
-        display : "inline-block"
-    }
+const hUnit = (percent) => {
+    const retValue = (window.innerHeight / 100 * percent) + "px";
+    // console.log("wh : " + window.innerHeight , "% " + percent, retValue);
+    return retValue;
 }
-
 
 export default LoginPage;
