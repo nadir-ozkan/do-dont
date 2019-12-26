@@ -60,7 +60,7 @@ class Tabs extends React.Component {
             <div style={{marginTop:"2px"}}>
               {tabContent}
             </div>
-            
+
           </div>
         );
     }
@@ -72,8 +72,9 @@ const Styles = {
     width : "50%",
     background : "gold",
     cursor : "pointer",
-    height : "50px",
-    lineHeight : "50px",
+    height : utils.hUnit(7),
+    lineHeight : utils.hUnit(7),
+    fontSize : utils.hUnit(5),
     textAlign : "center"
   },
   ActiveTabStyle : {
