@@ -63,8 +63,9 @@ class Navbar extends React.Component{
 const Styles = {
     MainDivStyle : {
         display : "flex",
-        height : "2em",
-        lineHeight : "2em",
+        height : utils.hUnit(6),
+        lineHeight : utils.hUnit(6),
+        fontSize : utils.hUnit(2.7),
         background : "gold",
         padding : "0 10px"
     },
