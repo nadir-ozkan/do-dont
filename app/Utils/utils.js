@@ -47,10 +47,15 @@ const isToday = function (dayStr) {
   return getDateObj().dateStrP == dayStr;
 }
 
+const hUnit = function (percent) {
+    return (window.innerHeight / 100 * percent) + "px";
+}
+
 module.exports = {
     getDateObj,
     addLeadingZero,
     objToArray,
     mergeObjects,
-    isToday
+    isToday,
+    hUnit
 }

@@ -166,7 +166,7 @@ class LoginPage extends React.Component {
     }
 
     renderSpinner(){
-        return this.state.showSpinner ? <div><img src="spinner.svg" height={hUnit(2.5)}/></div> : null;
+        return this.state.showSpinner ? <div><img src="spinner.svg" height={utils.hUnit(2.5)}/></div> : null;
     }
 
     renderRegisterLabel(){
@@ -238,23 +238,23 @@ class LoginPage extends React.Component {
                 paddingBottom : "10px",
                 display : "flex",
                 flexDirection : "column",
-                height : hUnit(60)
+                height : utils.hUnit(60)
             },
             InputStyle : {
                 margin : "5px auto",
                 width : "85%",
-                fontSize : hUnit(4)
+                fontSize : utils.hUnit(4)
             },
             LogoStyle : {
                 margin: "0 auto",
-                fontSize : hUnit(5),
+                fontSize : utils.hUnit(5),
                 color : "rgb(29,119,115)"
             },
             ErrorStyle : {
                 color : "crimson",
                 width : "85%",
                 margin: "0 auto",
-                fontSize : hUnit(2.5)
+                fontSize : utils.hUnit(2.5)
             },
             NoClick : {
               pointerEvents: "none",
@@ -266,17 +266,11 @@ class LoginPage extends React.Component {
                 marginTop : "10px",
                 marginBottom : "10px",
                 display : "inline-block",
-                fontSize : hUnit(2.5)
+                fontSize : utils.hUnit(2.5)
             }
         }
     }
 
-}
-
-const hUnit = (percent) => {
-    const retValue = (window.innerHeight / 100 * percent) + "px";
-    // console.log("wh : " + window.innerHeight , "% " + percent, retValue);
-    return retValue;
 }
 
 export default LoginPage;
