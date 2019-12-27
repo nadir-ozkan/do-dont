@@ -111,7 +111,7 @@ class ListContainer extends React.Component{
     }
 
     render(){
-        const {DateStyle, ButtonsDivStyle} = Styles;
+        const {DateStyle, ButtonsDivStyle, ButtonStyle} = Styles;
 
         return (
             <div>
@@ -123,9 +123,15 @@ class ListContainer extends React.Component{
                     user = {this.props.user}
                 ></List>
                 <div style={ButtonsDivStyle}>
-                    <button id="prevButton" onClick={this.handlePrevClick.bind(this)}>Prev</button>
+                    <button id="prevButton"
+                        onClick={this.handlePrevClick.bind(this)}
+                        style = {ButtonStyle}
+                    >Prev</button>
                     {/* <button id="todayButton">Today</button> */}
-                    <button id="nextButton" onClick={this.handleNextClick.bind(this)}>Next</button>
+                    <button id="nextButton"
+                        onClick={this.handleNextClick.bind(this)}
+                        style = {ButtonStyle}
+                    >Next</button>
                 </div>
             </div>
         )
@@ -139,10 +145,16 @@ const Styles = {
         textAlign : "center",
         background : "cornflowerblue",
         padding : "5px",
+        fontSize : utils.hUnit(3)
     },
     ButtonsDivStyle : {
         display : "flex",
         justifyContent :"space-between"
+    },
+    ButtonStyle: {
+        fontSize : utils.hUnit(4),
+        marginTop : utils.hUnit(0.5),
+        marginBottom : utils.hUnit(0.5)
     }
 }
 

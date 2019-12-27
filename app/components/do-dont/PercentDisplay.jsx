@@ -33,13 +33,12 @@ class PercentDisplay extends React.Component {
 const Styles = {
     PercentBarStyle : {
         position : "absolute",
-        fontSize : "24px",
         width : "0%",
         background : "gold",
         zIndex : -1,
         top :"0",
         left : "0",
-        height :"27px"
+        height : utils.hUnit(4)
     },
     NoClick : {
       pointerEvents: "none",
@@ -49,9 +48,10 @@ const Styles = {
       position : "relative",
       textAlign : "center",
       zIndex : 1,
-      height : "27px",
+      height : utils.hUnit(4),
       padding : "5px",
-      margin : "5px 0"
+      margin : "5px 0",
+      fontSize : utils.hUnit(3)
     }
 }
 

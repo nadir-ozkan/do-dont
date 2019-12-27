@@ -165,7 +165,7 @@ class ListsPage extends React.Component {
             if (this.state.listDataLoaded) {
                 return <Tabs tabs={tabs} activeTab="Do'es"/>
             } else {
-                return <h3>Veriler alınırken lütfen bekleyiniz</h3>
+                return <h3 style={{fontSize : utils.hUnit(2)}}>Veriler alınırken lütfen bekleyiniz</h3>
             }
         }
 

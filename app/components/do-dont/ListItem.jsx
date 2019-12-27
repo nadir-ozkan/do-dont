@@ -1,5 +1,8 @@
 import React from 'react';
 
+import utils from '../../Utils/utils.js';
+
+
 class ListItem extends React.Component {
     constructor(props){
         super(props);
@@ -19,13 +22,22 @@ class ListItem extends React.Component {
     }
 
     render(){
-    
+
         const ItemStyle = {
             marginBottom : "5px",
             marginTop : "5px",
-            height : "1.4em",
+            height : utils.hUnit(5),
             cursor : "pointer",
-            lineHeight : "1.4em"
+            fontSize : utils.hUnit(3.7),
+            display : "flex",
+            alignItems : "center"
+        }
+
+        const CheckboxStyle = {
+            height : utils.hUnit(3.7),
+            width : utils.hUnit(3.7),
+            marginLeft : utils.hUnit(0.5),
+            marginRight : utils.hUnit(0.5)
         }
 
         if (this.state.checked) {
@@ -37,6 +49,7 @@ class ListItem extends React.Component {
                 <input type="checkbox"
                     value = {this.props.text}
                     defaultChecked={this.state.checked}
+                    style = {CheckboxStyle}
                 />
                 <span>{this.props.text}</span>
             </div>
