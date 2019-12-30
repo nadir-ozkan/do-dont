@@ -170,7 +170,7 @@ class LoginPage extends React.Component {
     }
 
     renderRegisterLabel(){
-        const {LabelStyle} = this.Styles();
+        const {LabelStyle} = Styles;
         return !this.state.registerMode ?
             <div>
                 <span style={LabelStyle} onClick={this.handleRegisterClick.bind(this)}>Yeni Hesap Oluştur</span>
@@ -179,7 +179,7 @@ class LoginPage extends React.Component {
 
     render() {
 
-        const {MainDivStyle, InputStyle, LogoStyle, ErrorStyle, NoClick} = this.Styles();
+        const {MainDivStyle, InputStyle, LogoStyle, ErrorStyle, NoClick} = Styles;
 
         const mainDivStyle = this.state.noClick ? utils.mergeObjects(MainDivStyle, NoClick) : MainDivStyle;
 
@@ -227,50 +227,48 @@ class LoginPage extends React.Component {
         );
     }
 
-    Styles(){
-        return {
-            MainDivStyle : {
-                textAlign : "center",
-                background : "gold",
-                width : "100%",
-                margin : "0 auto",
-                paddingTop : "10px",
-                paddingBottom : "10px",
-                display : "flex",
-                flexDirection : "column",
-                height : utils.hUnit(60)
-            },
-            InputStyle : {
-                margin : "5px auto",
-                width : "85%",
-                fontSize : utils.hUnit(4)
-            },
-            LogoStyle : {
-                margin: "0 auto",
-                fontSize : utils.hUnit(5),
-                color : "rgb(29,119,115)"
-            },
-            ErrorStyle : {
-                color : "crimson",
-                width : "85%",
-                margin: "0 auto",
-                fontSize : utils.hUnit(2.5)
-            },
-            NoClick : {
-              pointerEvents: "none",
-              opacity: "0.65"
-            },
-            LabelStyle : {
-                color : "grey",
-                cursor : "pointer",
-                marginTop : "10px",
-                marginBottom : "10px",
-                display : "inline-block",
-                fontSize : utils.hUnit(2.5)
-            }
-        }
-    }
+}
 
+const Styles = {
+    MainDivStyle : {
+        textAlign : "center",
+        background : "gold",
+        width : "100%",
+        margin : "0 auto",
+        paddingTop : "10px",
+        paddingBottom : "10px",
+        display : "flex",
+        flexDirection : "column",
+        height : utils.hUnit(60)
+    },
+    InputStyle : {
+        margin : "5px auto",
+        width : "85%",
+        fontSize : utils.hUnit(4)
+    },
+    LogoStyle : {
+        margin: "0 auto",
+        fontSize : utils.hUnit(5),
+        color : "rgb(29,119,115)"
+    },
+    ErrorStyle : {
+        color : "crimson",
+        width : "85%",
+        margin: "0 auto",
+        fontSize : utils.hUnit(2.5)
+    },
+    NoClick : {
+      pointerEvents: "none",
+      opacity: "0.65"
+    },
+    LabelStyle : {
+        color : "grey",
+        cursor : "pointer",
+        marginTop : "10px",
+        marginBottom : "10px",
+        display : "inline-block",
+        fontSize : utils.hUnit(2.5)
+    }
 }
 
 export default LoginPage;

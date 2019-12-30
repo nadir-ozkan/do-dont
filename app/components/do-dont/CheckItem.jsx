@@ -1,5 +1,7 @@
 import React from 'react';
 
+import utils from '../../Utils/utils.js';
+
 class CheckItem extends React.Component {
     constructor(props){
         super(props);
@@ -64,7 +66,7 @@ class CheckItem extends React.Component {
     render(){
 
         const {ItemDivStyle, InputDivStyle, ButtonsDivStyle,
-            ButtonStyle, TextStyle, LabelStyle} = Styles;
+            ButtonStyle, TextStyle, LabelStyle, ButtonContainerStyle} = Styles;
 
         const InputStyle = this.state.insertMode ? TextStyle : LabelStyle;
 
@@ -95,14 +97,14 @@ class CheckItem extends React.Component {
         const renderButtons = () => {
             if (this.state.insertMode) {
                 return (
-                    <div style={{display:"flex"}}>
+                    <div style={ButtonContainerStyle}>
                         <button style={ButtonStyle} onClick={this.HandleCancelClick.bind(this)}>İptal</button>
                         <button style={ButtonStyle} onClick={this.HandleSaveClick.bind(this)}>Kaydet</button>
                     </div>
                 );
             } else {
                 return (
-                    <div style={{display:"flex"}}>
+                    <div style={ButtonContainerStyle}>
                         <button style={ButtonStyle} onClick={this.HandleDeleteClick.bind(this)}>Sil</button>
                     </div>
                 );
@@ -123,7 +125,7 @@ const Styles = {
         display : "flex",
         background : "gold",
         margin : "0 auto",
-        padding : "10px"
+        padding : utils.hUnit(0.5),
     },
     InputDivStyle : {
         flex : 4,
@@ -136,18 +138,25 @@ const Styles = {
     },
     TextStyle : {
         width : "100%",
-        fontSize : "14px",
+        fontSize : utils.hUnit(3),
     },
     LabelStyle : {
         width : "100%",
-        fontSize : "14px",
+        fontSize : utils.hUnit(3),
         display : "inline-block",
-        marginLeft : "3px",
-        marginTop : "3px"
+        marginLeft : utils.hUnit(0.25),
+        marginTop : utils.hUnit(0.25)
     },
     ButtonStyle : {
         flex : "1",
-        cursor : "pointer"
+        cursor : "pointer",
+        fontSize : utils.hUnit(2),
+        padding : utils.hUnit(0.4) + " 0"
+    },
+    ButtonContainerStyle : {
+        display : "flex",
+        height : "100%",
+        alignItems : "center"
     }
 
 }
