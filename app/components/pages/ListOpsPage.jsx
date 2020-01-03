@@ -46,27 +46,6 @@ class ListOpsPage extends React.Component {
         });
     }
 
-    saveNewEntry(doEntries, dontEntries, dateObj){
-        const {userName} = this.user;
-        const refStr = `users/${userName}/list1/items/entries/` + dateObj.dateStr;
-        // const refStr = "users/Nadir/list1/items/entries/05_09_2019";
-
-        const objToBeSaved = {
-          does : doEntries,
-          doesPercent : 0,
-          donts : dontEntries,
-          dontsPercent : 0,
-          saveDate : dateObj.jsTime,
-          saveDateStr : dateObj.dateStrP
-        }
-
-        fbRef.child(refStr)
-            .set(objToBeSaved)
-            .then(()=> {
-                // yeni kayıt sonrası callback çalıştırmak istersen...
-            });
-    }
-
     componentDidMount(){
         this.getListData("doItems")
             .then((doItemsArray) => {
@@ -78,17 +57,23 @@ class ListOpsPage extends React.Component {
             });
     }
 
+    UpdateUi(itemType, itemsArray) {
+        const obj = {};
+        obj[itemType] = itemsArray;
+        this.setState(obj);
+    }
+
     SaveNewItem(itemType, itemText){
         const {userName} = this.user;
         const refStr = `users/${userName}/list1/items/${itemType}`;
         const newDoItemRef = fbRef.child(refStr).push();
+
         newDoItemRef.set(itemText)
             .then(() => {
                 this.getListData(itemType)
                     .then((itemsArray) => {
-                        const obj = {};
-                        obj[itemType] = itemsArray;
-                        this.setState(obj);
+                        localStorage.setItem("ListUpdated", true);
+                        this.UpdateUi(itemType, itemsArray);
                     });
             });
     }
@@ -101,9 +86,8 @@ class ListOpsPage extends React.Component {
             .then(() => {
                 this.getListData(itemType)
                     .then((itemsArray) => {
-                        const obj = {};
-                        obj[itemType] = itemsArray;
-                        this.setState(obj);
+                        localStorage.setItem("ListUpdated", true);
+                        this.UpdateUi(itemType, itemsArray);
                     });
             });
     }
@@ -134,7 +118,6 @@ class ListOpsPage extends React.Component {
 
         );
     }
-
 
 }
 

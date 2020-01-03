@@ -25,7 +25,7 @@ class ListsPage extends React.Component {
         this.dontEntries = [];
     }
 
-    saveNewEntry(doEntries, dontEntries, dateObj){
+    SaveNewEntry(doEntries, dontEntries, dateObj){
         const {userName} = this.user;
         const refStr = `users/${userName}/list1/items/entries/` + dateObj.dateStr;
         // const refStr = "users/Nadir/list1/items/entries/05_09_2019";
@@ -46,7 +46,7 @@ class ListsPage extends React.Component {
             });
     }
 
-    addNewEntry(doItems, dontItems, dateObj){
+    AddNewEntry(doItems, dontItems, dateObj){
 
         const newDoEntries = Object.keys(doItems).map((key) => {
             return {
@@ -68,10 +68,47 @@ class ListsPage extends React.Component {
 
         this.dontEntries.unshift({ items : newDontEntries, saveDateStr : dateObj.dateStrP});
 
-        this.saveNewEntry(this.doEntries[0].items, this.dontEntries[0].items, dateObj);
     }
 
-    getListData() {
+    UpdateLastEntry(){
+        // Save current last entries
+        const lastDoEntries = this.doEntries[0].items;
+        const lastDontEntries = this.dontEntries[0].items;
+
+        // Delete last entries
+        this.doEntries.shift();
+        this.dontEntries.shift();
+
+        const dateObj = utils.getDateObj();
+
+        // Enter new empty entries
+        this.AddNewEntry(this.doItems, this.dontItems, dateObj);
+
+        // Yeni do girişleri eskilerle eşle
+        lastDoEntries.forEach((entry) => {
+            const curDoEntries = this.doEntries[0].items;
+            const idx = curDoEntries.findIndex(e => e.fbKey === entry.fbKey);
+            if (idx != -1){
+                this.doEntries[0].items[idx].checked = entry.checked;
+            }
+        });
+
+        // Yeni dont girişleri eskilerle eşle
+        lastDontEntries.forEach((entry) => {
+            const curDontEntries = this.dontEntries[0].items;
+            const idx = curDontEntries.findIndex(e => e.fbKey === entry.fbKey);
+            if (idx != -1){
+                this.dontEntries[0].items[idx].checked = entry.checked;
+            }
+        });
+
+        this.SaveNewEntry(this.doEntries[0].items, this.dontEntries[0].items, dateObj);
+
+        localStorage.ListUpdated = false;
+
+    }
+
+    GetListData() {
         const that = this;
         return new Promise(function(resolve, reject) {
             const refStr = `users/${that.user.userName}/list1`;
@@ -80,7 +117,7 @@ class ListsPage extends React.Component {
                 .then((result) => {
                     if (result) {
 
-                        console.log(result);
+                        // console.log(result);
 
                         that.doItems = result.items.doItems;
                         that.dontItems = result.items.dontItems;
@@ -109,13 +146,22 @@ class ListsPage extends React.Component {
                             });
 
                             if (that.doEntries[0].saveDateStr !== dateObj.dateStrP) {
-                                that.addNewEntry(that.doItems, that.dontItems, dateObj);
+                                that.AddNewEntry(that.doItems, that.dontItems, dateObj);
+                                that.SaveNewEntry(that.doEntries[0].items, that.dontEntries[0].items, dateObj);
+                            }
+
+                            // Kullanıcı do ya da dont listesinde herhangi bir değişiklik yapmış ise
+                            const ListUpdated = localStorage.getItem("ListUpdated");
+
+                            if (ListUpdated=="true"){
+                                that.UpdateLastEntry(); // Son girişleri güncelle...
                             }
 
                             resolve(true);
 
                         } else { // hiç giriş yok ise
-                            that.addNewEntry(that.doItems, that.dontItems, dateObj);
+                            that.AddNewEntry(that.doItems, that.dontItems, dateObj);
+                            that.SaveNewEntry(that.doEntries[0].items, that.dontEntries[0].items, dateObj);
                             resolve(true);
                         }
 
@@ -127,7 +173,7 @@ class ListsPage extends React.Component {
     }
 
     componentDidMount(){
-        this.getListData()
+        this.GetListData()
             .then((hasData) => {
                 if (hasData) {
                     this.setState({listDataLoaded : true});
@@ -165,7 +211,7 @@ class ListsPage extends React.Component {
             if (this.state.listDataLoaded) {
                 return <Tabs tabs={tabs} activeTab="Do'es"/>
             } else {
-                return <h3 style={{fontSize : utils.hUnit(2)}}>Veriler alınırken lütfen bekleyiniz</h3>
+                return <h3 style={{fontSize : utils.hUnit(3)}}>Veriler alınırken lütfen bekleyiniz</h3>
             }
         }
 

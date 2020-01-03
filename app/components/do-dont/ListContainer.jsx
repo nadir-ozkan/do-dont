@@ -35,7 +35,9 @@ class ListContainer extends React.Component{
     }
 
     componentDidMount(){
-        notify.askPermissionForMessaging(this.user.userName);
+        // Şimdilik yeni kullanıcıların gözünü korkutmaya gerek yok.
+        // TODO: Push notification izni için kullandığın apiyi modern browser apisiyle değiştir.
+        // notify.askPermissionForMessaging(this.user.userName);
     }
 
     insertNewListItems(){
