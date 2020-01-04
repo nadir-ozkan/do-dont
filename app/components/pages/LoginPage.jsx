@@ -192,7 +192,7 @@ class LoginPage extends React.Component {
                     <span style={LogoStyle}>Do-Dont</span>
                 </div>
 
-                <div id="input-fields-div" style = {{flex:1, background: "crimson", display: "flex", flexDirection : "column", justifyContent : "center"}}>
+                <div id="input-fields-div" style = {{flex:1, display: "flex", flexDirection : "column", justifyContent : "center"}}>
 
                     <div>
                         <input style={InputStyle} type="text"
@@ -232,7 +232,7 @@ class LoginPage extends React.Component {
 const Styles = {
     MainDivStyle : {
         textAlign : "center",
-        background : "gold",
+        background : "#314247",
         width : "100%",
         margin : "0 auto",
         paddingTop : "10px",
@@ -249,7 +249,8 @@ const Styles = {
     LogoStyle : {
         margin: "0 auto",
         fontSize : utils.hUnit(5),
-        color : "rgb(29,119,115)"
+        color : "#f7f7f7"
+        // color : "rgb(29,119,115)"
     },
     ErrorStyle : {
         color : "crimson",
@@ -262,7 +263,7 @@ const Styles = {
       opacity: "0.65"
     },
     LabelStyle : {
-        color : "grey",
+        color : "#f7f7f7",
         cursor : "pointer",
         marginTop : "10px",
         marginBottom : "10px",

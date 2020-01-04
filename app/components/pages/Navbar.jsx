@@ -65,12 +65,15 @@ const Styles = {
         display : "flex",
         height : utils.hUnit(6),
         lineHeight : utils.hUnit(6),
-        fontSize : utils.hUnit(2.7),
-        background : "gold",
-        padding : "0 10px"
+        fontSize : utils.hUnit(2.4),
+        background : "#314247",
+        padding : "0 10px",
+        color : "#d2d2d2",
+        height : "100%"
     },
     LeftButtonsStyle : {
         flex : "2",
+        padding : utils.hUnit(0.8) + " 0"
     },
     SignOutButtonStyle : {
         flex : "1",
@@ -80,10 +83,13 @@ const Styles = {
     MenuItemStyle : {
         padding : "0 10px",
         display : "inline-block",
-        cursor : "pointer"
+        cursor : "pointer",
+        marginRight : "20px"
     },
     ActiveItemStyle :  {
-        background : "crimson"
+        background : "#d8809d",
+        color : "#f7f7f7",
+        borderRadius: utils.hUnit(2.4),
     }
 }
 

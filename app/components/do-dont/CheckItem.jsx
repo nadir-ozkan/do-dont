@@ -123,26 +123,27 @@ class CheckItem extends React.Component {
 const Styles = {
     ItemDivStyle : {
         display : "flex",
-        background : "gold",
+        // background : "gold",
         margin : "0 auto",
         padding : utils.hUnit(0.5),
+        color : "#f7f7f7"
     },
     InputDivStyle : {
         flex : 4,
-        border : "solid 1px crimson"
+        // border : "solid 1px crimson"
     },
     ButtonsDivStyle : {
         flex : 2,
-        border : "solid 1px cornflowerblue",
+        // border : "solid 1px cornflowerblue",
         borderLeft : 0,
     },
     TextStyle : {
         width : "100%",
-        fontSize : utils.hUnit(3),
+        fontSize : utils.hUnit(2.5),
     },
     LabelStyle : {
         width : "100%",
-        fontSize : utils.hUnit(3),
+        fontSize : utils.hUnit(2.5),
         display : "inline-block",
         marginLeft : utils.hUnit(0.25),
         marginTop : utils.hUnit(0.25)
@@ -151,7 +152,11 @@ const Styles = {
         flex : "1",
         cursor : "pointer",
         fontSize : utils.hUnit(2),
-        padding : utils.hUnit(0.4) + " 0"
+        padding : utils.hUnit(0.4) + " 0",
+        background : "#565b5c",
+        color : "#f7f7f7",
+        border : "0",
+        borderRadius : utils.hUnit(1.4),
     },
     ButtonContainerStyle : {
         display : "flex",

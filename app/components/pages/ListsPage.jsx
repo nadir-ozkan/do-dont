@@ -188,7 +188,7 @@ class ListsPage extends React.Component {
         const {MainDivStyle} = Styles;
         const tabs = [
           {
-              label:"Do'es",
+              label:"DO",
               content: <ListContainer
                               user={this.user}
                               listItems = {this.doItems}
@@ -197,7 +197,7 @@ class ListsPage extends React.Component {
                       ></ListContainer>
           },
           {
-              label:"Don'ts",
+              label:"DONT",
               content :  <ListContainer
                           user={this.user}
                           listItems = {this.dontItems}
@@ -209,7 +209,7 @@ class ListsPage extends React.Component {
 
         const renderTabs = () => {
             if (this.state.listDataLoaded) {
-                return <Tabs tabs={tabs} activeTab="Do'es"/>
+                return <Tabs tabs={tabs} activeTab="DO"/>
             } else {
                 return <h3 style={{fontSize : utils.hUnit(3)}}>Veriler alınırken lütfen bekleyiniz</h3>
             }
@@ -232,7 +232,7 @@ class ListsPage extends React.Component {
 
 const Styles = {
     MainDivStyle : {
-        background : "aliceblue",
+        background : "#314247",
         margin : "0 auto",
         padding : "10px",
         fontSize : "18px",

@@ -26,22 +26,27 @@ class ListItem extends React.Component {
         const ItemStyle = {
             marginBottom : "5px",
             marginTop : "5px",
-            height : utils.hUnit(5),
+            height : utils.hUnit(4.5),
             cursor : "pointer",
-            fontSize : utils.hUnit(3.7),
+            fontSize : utils.hUnit(3.1),
             display : "flex",
-            alignItems : "center"
+            alignItems : "center",
+            color : "#f7f7f7"
         }
 
+        const LabelStyle = {};
+
         const CheckboxStyle = {
-            height : utils.hUnit(3.7),
-            width : utils.hUnit(3.7),
+            height : utils.hUnit(3.1),
+            width : utils.hUnit(3.1),
             marginLeft : utils.hUnit(0.5),
             marginRight : utils.hUnit(0.5)
         }
 
         if (this.state.checked) {
-            ItemStyle.background = "green";
+            // ItemStyle.background = "green";
+            LabelStyle.color = "#848383";
+            LabelStyle.textDecoration = "line-through";
         }
 
         return(
@@ -51,7 +56,7 @@ class ListItem extends React.Component {
                     defaultChecked={this.state.checked}
                     style = {CheckboxStyle}
                 />
-                <span>{this.props.text}</span>
+                <span style={LabelStyle}>{this.props.text}</span>
             </div>
         );
     }

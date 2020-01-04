@@ -34,7 +34,8 @@ const Styles = {
     PercentBarStyle : {
         position : "absolute",
         width : "0%",
-        background : "gold",
+        // background : "linear-gradient(90deg, rgba(248,219,219,1) 35%, rgba(210,80,122,1) 100%)",
+        background : "#d8809d",
         zIndex : -1,
         top :"0",
         left : "0",
@@ -51,7 +52,8 @@ const Styles = {
       height : utils.hUnit(4),
       padding : "5px",
       margin : "5px 0",
-      fontSize : utils.hUnit(3)
+      fontSize : utils.hUnit(3),
+      color : "#f7f7f7"
     }
 }
 

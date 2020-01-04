@@ -96,8 +96,8 @@ class CheckItemList extends React.Component {
         }
         const {AddButtonStyle} = Styles;
         return (
-            <div style={AddButtonStyle}>
-                <button style={{fontSize : utils.hUnit(2)}} onClick={this.handleNewEntryClick.bind(this)}>Yeni öğe ekle</button>
+            <div>
+                <button style={AddButtonStyle} onClick={this.handleNewEntryClick.bind(this)}>Yeni öğe ekle</button>
             </div>
         )
     }
@@ -132,7 +132,7 @@ const Styles = {
       opacity: "0.65"
     },
     LabelStyle : {
-        background : "crimson",
+        background : "#d8809d",
         textAlign : "center",
         fontSize : utils.hUnit(2.5),
         height : "2em",
@@ -143,7 +143,12 @@ const Styles = {
         height : "2em",
         lineHeight : "2em",
         margin : utils.hUnit(0.5) + " 0",
-        fontSize : utils.hUnit(2)
+        fontSize : utils.hUnit(2),
+        background : "#565b5c",
+        color : "#f7f7f7",
+        border : "0",
+        borderRadius : utils.hUnit(1.4),
+        padding : "0 " + utils.hUnit(1)
     },
     MessageLabelStyle : {
         textAlign : "center",
@@ -152,7 +157,7 @@ const Styles = {
         margin : utils.hUnit(0.25) + " 0"
     },
     MainDivStyle : {
-        border : "1px solid crimson",
+        // border : "1px solid #d8809d",
         margin : utils.hUnit(0.5)
     }
 }

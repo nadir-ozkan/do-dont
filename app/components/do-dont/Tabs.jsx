@@ -70,15 +70,19 @@ const Styles = {
   TabItemStyle : {
     display: "inline-block",
     width : "50%",
-    background : "gold",
+    color : "#a7a5a5",
+    // background : "#997782",
     cursor : "pointer",
-    height : utils.hUnit(7),
-    lineHeight : utils.hUnit(7),
+    height : utils.hUnit(6),
+    lineHeight : utils.hUnit(6),
     fontSize : utils.hUnit(5),
-    textAlign : "center"
+    textAlign : "center",
+    fontFamily : "Brush Script MT"
   },
   ActiveTabStyle : {
-    background : "crimson"
+    // background : "#ae8d92"
+    color : "#f7f7f7",
+    textDecoration : "underline"
   }
 }
 

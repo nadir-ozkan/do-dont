@@ -123,7 +123,7 @@ class ListOpsPage extends React.Component {
 
 const Styles = {
     MainDivStyle : {
-        background : "aliceblue",
+        background : "#314247",
         margin : "0 auto",
         padding : "10px"
     }

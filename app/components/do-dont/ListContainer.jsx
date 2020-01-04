@@ -145,18 +145,26 @@ const Styles = {
     DateStyle : {
         margin : "5px auto",
         textAlign : "center",
-        background : "cornflowerblue",
+        // background : "cornflowerblue",
         padding : "5px",
-        fontSize : utils.hUnit(3)
+        fontSize : utils.hUnit(3),
+        borderBottom : "solid 8px #d8809d",
+        color : "#f7f7f7"
     },
     ButtonsDivStyle : {
         display : "flex",
         justifyContent :"space-between"
     },
     ButtonStyle: {
-        fontSize : utils.hUnit(4),
+        fontSize : utils.hUnit(3),
         marginTop : utils.hUnit(0.5),
-        marginBottom : utils.hUnit(0.5)
+        marginBottom : utils.hUnit(0.5),
+        background : "#565b5c",
+        color : "#f7f7f7",
+        border : "0",
+        padding : utils.hUnit(0.8),
+        borderRadius : utils.hUnit(1.4),
+        padding : "0 " + utils.hUnit(1.4)
     }
 }
 
