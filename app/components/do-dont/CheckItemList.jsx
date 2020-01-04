@@ -136,7 +136,8 @@ const Styles = {
         textAlign : "center",
         fontSize : utils.hUnit(2.5),
         height : "2em",
-        lineHeight : "2em"
+        lineHeight : "2em",
+        borderRadius : utils.hUnit(2.4),
     },
     AddButtonStyle  : {
         textAlign : "center",
@@ -147,8 +148,8 @@ const Styles = {
         background : "#565b5c",
         color : "#f7f7f7",
         border : "0",
-        borderRadius : utils.hUnit(1.4),
-        padding : "0 " + utils.hUnit(1)
+        borderRadius : utils.hUnit(4),
+        padding : "0 " + utils.hUnit(2)
     },
     MessageLabelStyle : {
         textAlign : "center",

@@ -39,7 +39,8 @@ const Styles = {
         zIndex : -1,
         top :"0",
         left : "0",
-        height : utils.hUnit(4)
+        height : utils.hUnit(4),
+        borderRadius : utils.hUnit(2)
     },
     NoClick : {
       pointerEvents: "none",
