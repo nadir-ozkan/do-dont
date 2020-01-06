@@ -156,7 +156,9 @@ const Styles = {
         textAlign : "center",
         height : "1.3em",
         lineHeight : "1.3em",
-        margin : utils.hUnit(0.25) + " 0"
+        margin : utils.hUnit(0.25) + " 0",
+        color : "#f7f7f7",
+        fontSize : utils.hUnit(1.2)
     },
     MainDivStyle : {
         margin : utils.hUnit(0.5)

@@ -92,6 +92,24 @@ class ListOpsPage extends React.Component {
             });
     }
 
+    componentWillMount() {
+        this.unregisterLeaveHook = this.props.router.setRouteLeaveHook(this.props.route, this.routerWillLeave.bind(this));
+    }
+
+    routerWillLeave(nextLocation) {
+        const {doItems, dontItems} = this.state;
+        const canLeave = doItems.length>0 && dontItems.length>0;
+        if (!canLeave) {
+            alert("Her iki listede de en az bir öğe olmalıdır.");
+            return false;
+        };
+        return true;
+    }
+
+    componentWillUnmount() {
+        this.unregisterLeaveHook();
+    }
+
     render() {
         const {MainDivStyle} = Styles;
         return(
