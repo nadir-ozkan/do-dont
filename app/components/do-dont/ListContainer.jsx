@@ -113,29 +113,45 @@ class ListContainer extends React.Component{
             });
     }
 
-    render(){
-        const {DateStyle, ButtonsDivStyle, ButtonStyle} = Styles;
+    renderButtons(){
 
+        const nextButtonVisible = this.state.dateStr != utils.getDateObj().dateStrP;
+        const prevButtonVisible = this.entries && this.entries.length && this.entries.length>1;
+
+        if (nextButtonVisible || prevButtonVisible){
+            const {ButtonsDivStyle, ButtonStyle} = Styles;
+            return (
+                <div style={ButtonsDivStyle}>
+                    {prevButtonVisible ? <button id="prevButton"
+                                            onClick={this.handlePrevClick.bind(this)}
+                                            style = {ButtonStyle}
+                                         >Prev</button>
+                                        : null
+                                     }
+
+                    {nextButtonVisible ? <button id="nextButton"
+                                            onClick={this.handleNextClick.bind(this)}
+                                            style = {ButtonStyle}
+                                         >Next</button>
+                                        : null
+                    }
+                </div>
+            );
+        } else {
+            return null;
+        }
+    }
+
+    render(){
         return (
             <div>
-                {/*<div style={DateStyle}>{this.state.dateStr}</div>*/}
                 <List
                     items={this.state.items}
                     onSaveItems = {this.onSaveItems.bind(this)}
                     dateStr = {this.state.dateStr}
                     user = {this.props.user}
                 ></List>
-                <div style={ButtonsDivStyle}>
-                    <button id="prevButton"
-                        onClick={this.handlePrevClick.bind(this)}
-                        style = {ButtonStyle}
-                    >Prev</button>
-                    {/* <button id="todayButton">Today</button> */}
-                    <button id="nextButton"
-                        onClick={this.handleNextClick.bind(this)}
-                        style = {ButtonStyle}
-                    >Next</button>
-                </div>
+                {this.renderButtons()}
             </div>
         )
 
@@ -143,14 +159,6 @@ class ListContainer extends React.Component{
 }
 
 const Styles = {
-    DateStyle : {
-        margin : "5px auto",
-        textAlign : "center",
-        padding : "5px",
-        fontSize : utils.hUnit(3),
-        borderBottom : "solid 8px #d8809d",
-        color : "#f7f7f7"
-    },
     ButtonsDivStyle : {
         display : "flex",
         justifyContent :"space-between"

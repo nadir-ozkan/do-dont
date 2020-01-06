@@ -210,6 +210,7 @@ class ListsPage extends React.Component {
                           listItems = {this.dontItems}
                           entries = {this.dontEntries}
                           containerType = {"donts"}
+                          onDateChange = {this.handleDateChange.bind(this)}
                       ></ListContainer>
           },
         ]
