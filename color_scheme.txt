@@ -1,0 +1,8 @@
+#314247 background rengi
+#cca4a6, #f7f7f7 yazý rengi
+#ae8d92 Does rengi
+
+#f8dbdb gradyan ilk renk
+#d2507a gradyan ikinci renk
+
+#d8809d tarih alt çizgi rengi
