@@ -125,7 +125,7 @@ const Styles = {
     MainDivStyle : {
         background : "#314247",
         margin : "0 auto",
-        padding : "10px"
+        padding : utils.hUnit(1)
     }
 }
 

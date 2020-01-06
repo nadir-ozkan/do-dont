@@ -96,16 +96,16 @@ class CheckItemList extends React.Component {
         }
         const {AddButtonStyle} = Styles;
         return (
-            <div>
+            <div style={{margin : utils.hUnit(0.8) + " 0"}}>
                 <button style={AddButtonStyle} onClick={this.handleNewEntryClick.bind(this)}>Yeni öğe ekle</button>
             </div>
         )
     }
 
-    renderLabel(){
-        const {LabelStyle} = Styles;
+    renderHeader(){
+        const {HeaderStyle} = Styles;
         if (this.props.ListLabel) {
-            return <div style={LabelStyle}>{this.props.ListLabel}</div>
+            return <div style={HeaderStyle}>{this.props.ListLabel}</div>
         } else {
             return null;
         }
@@ -117,7 +117,7 @@ class CheckItemList extends React.Component {
         return(
             <div style = {MainDivStyle}>
                 <div style={divStyle}>
-                    {this.renderLabel()}
+                    {this.renderHeader()}
                     {this.renderList()}
                     {this.renderButton()}
                 </div>
@@ -131,13 +131,14 @@ const Styles = {
       pointerEvents: "none",
       opacity: "0.65"
     },
-    LabelStyle : {
+    HeaderStyle : {
         background : "#d8809d",
         textAlign : "center",
         fontSize : utils.hUnit(2.5),
         height : "2em",
         lineHeight : "2em",
         borderRadius : utils.hUnit(2.4),
+        marginBottom : utils.hUnit(0.8)
     },
     AddButtonStyle  : {
         textAlign : "center",
