@@ -123,18 +123,15 @@ class CheckItem extends React.Component {
 const Styles = {
     ItemDivStyle : {
         display : "flex",
-        // background : "gold",
         margin : "0 auto",
         padding : utils.hUnit(0.5),
         color : "#f7f7f7"
     },
     InputDivStyle : {
         flex : 4,
-        // border : "solid 1px crimson"
     },
     ButtonsDivStyle : {
         flex : 2,
-        // border : "solid 1px cornflowerblue",
         borderLeft : 0,
     },
     TextStyle : {

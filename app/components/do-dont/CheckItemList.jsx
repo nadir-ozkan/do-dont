@@ -158,7 +158,6 @@ const Styles = {
         margin : utils.hUnit(0.25) + " 0"
     },
     MainDivStyle : {
-        // border : "1px solid #d8809d",
         margin : utils.hUnit(0.5)
     }
 }

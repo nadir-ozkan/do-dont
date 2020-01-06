@@ -71,7 +71,6 @@ const Styles = {
     display: "inline-block",
     width : "50%",
     color : "#a7a5a5",
-    // background : "#997782",
     cursor : "pointer",
     height : utils.hUnit(6),
     lineHeight : utils.hUnit(6),
@@ -80,7 +79,6 @@ const Styles = {
     fontFamily : "Brush Script MT"
   },
   ActiveTabStyle : {
-    // background : "#ae8d92"
     color : "#f7f7f7",
     textDecoration : "underline"
   }

@@ -84,8 +84,6 @@ class ListContainer extends React.Component{
 
     onSaveItems(items, percentage){
 
-        // entries[0]'ı güncelle. ??
-
         console.log(items, percentage);
         const {userName} = this.user;
         const dateObj = utils.getDateObj();
@@ -145,7 +143,6 @@ const Styles = {
     DateStyle : {
         margin : "5px auto",
         textAlign : "center",
-        // background : "cornflowerblue",
         padding : "5px",
         fontSize : utils.hUnit(3),
         borderBottom : "solid 8px #d8809d",

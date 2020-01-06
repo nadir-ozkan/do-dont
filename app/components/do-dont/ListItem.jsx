@@ -2,7 +2,6 @@ import React from 'react';
 
 import utils from '../../Utils/utils.js';
 
-
 class ListItem extends React.Component {
     constructor(props){
         super(props);

@@ -250,7 +250,6 @@ const Styles = {
         margin: "0 auto",
         fontSize : utils.hUnit(5),
         color : "#f7f7f7"
-        // color : "rgb(29,119,115)"
     },
     ErrorStyle : {
         color : "crimson",
