@@ -29,7 +29,7 @@ class Navbar extends React.Component{
                 case "Çıkış":
                     const cevap = confirm("Çıkış yapmak istediğinizden emein misiniz?");
                     if (cevap) {
-                        this.props.router.push('/');
+                        this.props.router.push( {pathname: '/', state : {logOut : true} } );
                         if (this.props.OnLogOut) {
                             this.props.OnLogOut();
                         }
