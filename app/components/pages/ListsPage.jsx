@@ -6,6 +6,7 @@ import utils from '../../Utils/utils.js';
 import ListContainer from '../do-dont/ListContainer.jsx';
 import Tabs from '../do-dont/Tabs.jsx';
 import Navbar from './Navbar.jsx';
+import DateDisplay from '../do-dont/DateDisplay.jsx';
 
 class ListsPage extends React.Component {
 
@@ -13,7 +14,8 @@ class ListsPage extends React.Component {
         super(props);
 
         this.state = {
-            listDataLoaded : false
+            listDataLoaded : false,
+            dateStr : utils.getDateObj().dateStrP
         }
 
         this.user = props.route.user;
@@ -183,6 +185,10 @@ class ListsPage extends React.Component {
             });
     }
 
+    handleDateChange(newDateStr){
+        this.setState({dateStr : newDateStr});
+    }
+
     render() {
 
         const {MainDivStyle} = Styles;
@@ -194,6 +200,7 @@ class ListsPage extends React.Component {
                               listItems = {this.doItems}
                               entries = {this.doEntries}
                               containerType = {"does"}
+                              onDateChange = {this.handleDateChange.bind(this)}
                       ></ListContainer>
           },
           {
@@ -211,7 +218,7 @@ class ListsPage extends React.Component {
             if (this.state.listDataLoaded) {
                 return <Tabs tabs={tabs} activeTab="DO"/>
             } else {
-                return <h3 style={{fontSize : utils.hUnit(3)}}>Veriler alınırken lütfen bekleyiniz</h3>
+                return <h3 style={{fontSize : utils.hUnit(3), color : "#f7f7f7"}}>Veriler alınırken lütfen bekleyiniz</h3>
             }
         }
 
@@ -222,6 +229,7 @@ class ListsPage extends React.Component {
                     OnLogOut={this.OnLogOut}
                 />
                 <div style={MainDivStyle}>
+                    <DateDisplay dateStr={this.state.dateStr}/>
                     {renderTabs()}
                 </div>
             </div>

@@ -13,7 +13,7 @@ class ListContainer extends React.Component{
         super(props);
         this.state = {
             items : props.entries[0].items,
-            dateStr : props.dateStr ? props.dateStr : utils.getDateObj().dateStrP
+            dateStr : props.dateStr || utils.getDateObj().dateStrP
         }
 
         this.currentIndex = 0;
@@ -65,6 +65,9 @@ class ListContainer extends React.Component{
                 items : newEntries.items,
                 dateStr: newEntries.saveDateStr
             });
+            if (this.props.onDateChange){
+                this.props.onDateChange(newEntries.saveDateStr);
+            }
         }
     }
 
@@ -115,7 +118,7 @@ class ListContainer extends React.Component{
 
         return (
             <div>
-                <div style={DateStyle}>{this.state.dateStr}</div>
+                {/*<div style={DateStyle}>{this.state.dateStr}</div>*/}
                 <List
                     items={this.state.items}
                     onSaveItems = {this.onSaveItems.bind(this)}
