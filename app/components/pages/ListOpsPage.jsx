@@ -99,7 +99,8 @@ class ListOpsPage extends React.Component {
     routerWillLeave(nextLocation) {
         const {doItems, dontItems} = this.state;
         // Çıkış yapılmak isteniyorsa veya her iki listede en az birer adet öğe var ise...
-        const canLeave = nextLocation.state.logOut || (doItems.length>0 && dontItems.length>0);
+        const canLeave = (nextLocation.state && nextLocation.state.logOut)  
+                        || (doItems.length>0 && dontItems.length>0);
         if (!canLeave) {
             alert("Her iki listede de en az bir öğe olmalıdır.");
             return false;
