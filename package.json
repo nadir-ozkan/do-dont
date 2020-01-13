@@ -18,7 +18,7 @@
     "babel-preset-react": "~6.5.*",
     "css-loader": "^0.23.1",
     "firebase": "^3.0.2",
-    "jquery": "^2.2.1",
+    "jquery": "^2.2.4",
     "script-loader": "^0.6.1",
     "style-loader": "^0.13.0",
     "webpack": "~1.12.*",
