@@ -51,11 +51,16 @@ const hUnit = function (percent) {
     return (window.innerHeight / 100 * percent) + "px";
 }
 
+const getConfig = function() {
+    return require('../../config.js').config;
+}
+
 module.exports = {
     getDateObj,
     addLeadingZero,
     objToArray,
     mergeObjects,
     isToday,
-    hUnit
+    hUnit,
+    config : getConfig()
 }

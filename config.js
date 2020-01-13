@@ -19,9 +19,7 @@ const getConfigFromApi = () => {
         });
 }
 
-(getConfigFromApi)();
-
-const config = {
+const _config = {
     debugMode : false,
     userName : "Nadir",
     userId : 1,
@@ -44,12 +42,12 @@ const config = {
 
 const getConfig = () => {
     if (process.env.NODE_ENV && process.env.NODE_ENV == "production") {
-        return apiConfig;
+        return _config; // TODO: Daha sonra bu config bilgilerini heroku env. değişkenlerinden al...
     } else {
-        return config;
+        return _config;
     }
 }
 
 module.exports = {
-    Config : getConfig()
+    config : getConfig()
 }
