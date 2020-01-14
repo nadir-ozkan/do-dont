@@ -42,8 +42,8 @@ exports.sendNotification = functions.https.onRequest(async (req, res) => {
     // const snapshot = await admin.database().ref('/ownerName').once("value");
     // const ownerName = snapshot.val();
 
-    const key = 'AAAA_WQnD4A:APA91bHuvhz5QCzh1-MqmAZuwEhw1DC5HaJf6fQP4DfCFU_W8JmH5jm1qsZPAvTR4zrXDnCAh4b64jsBCzIrMcmK1sDVtLKVWWvVa4dmdXHd2dIUAT24Q7-Rrrl5ZAs9xLmgoGcygFfi';
-    const to = 'eeaTXCMqppc:APA91bEIGQadyesYGsKWktFUdl_fB2-X5Ib6cb-nU0aZwnkYu0buhKedzjVuT8o-7PoqQC6aaeVPTUw86EgqgserNQL1qq19jISXByHwdJRkSmwEfosKY1P5QL2VSPncHvXLZtla9eI1';
+    const key = process.env.notificationApiKey;
+    const to = req.query.to;
 
     const notification = {
       'title': 'Portugal vs. Denmark',
