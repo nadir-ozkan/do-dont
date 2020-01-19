@@ -7,6 +7,7 @@ import Main from './components/Main.jsx';
 import ListsPage from './components/pages/ListsPage.jsx';
 import LoginPage from './components/pages/LoginPage.jsx';
 import ListOpsPage from './components/pages/ListOpsPage.jsx';
+import BooksPage from './components/pages/BooksPage.jsx';
 
 class App extends Component {
 
@@ -41,6 +42,8 @@ class App extends Component {
                         <Route path="list-ops" user={this.user} component = {ListOpsPage}
                             OnLogOut={this.HandleLogOut.bind(this)}/>
                         <IndexRoute component={ListsPage} pageTitle = "Do Don't" user = {this.user}
+                            OnLogOut={this.HandleLogOut.bind(this)}/>
+                        <Route path="books" user={this.user} component = {BooksPage}
                             OnLogOut={this.HandleLogOut.bind(this)}/>
                     </Route>
                 </Router>
