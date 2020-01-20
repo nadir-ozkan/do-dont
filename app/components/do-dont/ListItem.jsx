@@ -22,25 +22,9 @@ class ListItem extends React.Component {
 
     render(){
 
-        const ItemStyle = {
-            marginBottom : "5px",
-            marginTop : "5px",
-            height : utils.hUnit(4.5),
-            cursor : "pointer",
-            fontSize : utils.hUnit(3.1),
-            display : "flex",
-            alignItems : "center",
-            color : "#f7f7f7"
-        }
+        const {ItemStyle, CheckboxStyle, PercentStyle} = Styles;
 
         const LabelStyle = {};
-
-        const CheckboxStyle = {
-            height : utils.hUnit(3.1),
-            width : utils.hUnit(3.1),
-            marginLeft : utils.hUnit(0.5),
-            marginRight : utils.hUnit(0.5)
-        }
 
         if (this.state.checked) {
             // ItemStyle.background = "green";
@@ -56,8 +40,32 @@ class ListItem extends React.Component {
                     style = {CheckboxStyle}
                 />
                 <span style={LabelStyle}>{this.props.text}</span>
+                <span style={PercentStyle}>{"(%" + this.props.percentage + ")"} </span>
             </div>
         );
+    }
+}
+
+const Styles = {
+    ItemStyle : {
+        marginBottom : "5px",
+        marginTop : "5px",
+        height : utils.hUnit(4.5),
+        cursor : "pointer",
+        fontSize : utils.hUnit(3.1),
+        display : "flex",
+        alignItems : "center",
+        color : "#f7f7f7"
+    },
+    CheckboxStyle : {
+        height : utils.hUnit(3.1),
+        width : utils.hUnit(3.1),
+        marginLeft : utils.hUnit(0.5),
+        marginRight : utils.hUnit(0.5)
+    },
+    PercentStyle : {
+        paddingLeft : utils.hUnit(1),
+        display : "inline-block"
     }
 }
 

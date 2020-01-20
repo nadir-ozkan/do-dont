@@ -194,50 +194,6 @@ class ListsPage extends React.Component {
         this.setState({dateStr : newDateStr});
     }
 
-    CalculatePercentages(entries, dateStr) {
-
-        const flattenedData = [];
-        const jsTime = utils.getJsTime(dateStr);
-
-        // 17.01.2020 => 1579294799000
-        // 18.01.2020 => 1579381199000
-        // 19.01.2020 => 1579467599000
-
-        entries.forEach((entry) => {
-            entry.items.forEach((item) => {
-                flattenedData.push({
-                    dateStr : entry.saveDateStr,
-                    fbKey : item.fbKey,
-                    checked : item.checked,
-                    saveDate : entry.saveDate
-                });
-            });
-
-        });
-
-        const reduced = flattenedData.reduce((result, currentItem ) => {
-
-            const key = currentItem.fbKey;
-
-            if(!result.hasOwnProperty(key)){
-                result[key] = {checkCount :0, totalEntryCount : 0}; // Henüz buna ait hiçbir kayıt yok ise...
-            }
-
-            if (currentItem.saveDate<=jsTime) { // mevcut tarihe kadar olan kayıtları dikkate al.
-                result[key].totalEntryCount++;
-                if (currentItem.checked) {
-                    result[key].checkCount++;
-                }
-            }
-
-            result[key].percentage = Math.round(result[key].checkCount / result[key].totalEntryCount * 100);
-            return result;
-
-        }, {});
-
-        console.log(reduced);
-    }
-
     render() {
 
         const {MainDivStyle} = Styles;
@@ -281,12 +237,6 @@ class ListsPage extends React.Component {
                 <div style={MainDivStyle}>
                     <DateDisplay dateStr={this.state.dateStr}/>
                     {renderTabs()}
-                </div>
-                <div>
-                    <button
-                        style={{fontSize : utils.hUnit(2.5), margin : "30px 10px"}}
-                        onClick ={this.CalculatePercentages.bind(this, this.doEntries, this.state.dateStr)}
-                    >Yüzde Hesapla</button>
                 </div>
             </div>
         );

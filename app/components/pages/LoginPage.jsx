@@ -29,7 +29,7 @@ class LoginPage extends React.Component {
         }
         if (this.props.debugMode){
             if (this.props.onGetUser) {
-                this.props.onGetUser({userName : "Nadir"});
+                this.props.onGetUser({userName : "KayzerSoze"});
             }
         }
         // window.addEventListener("resize", this.resizeHandler);
