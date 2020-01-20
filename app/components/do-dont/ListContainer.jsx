@@ -87,7 +87,6 @@ class ListContainer extends React.Component{
 
     onSaveItems(items, percentage){
 
-        console.log(items, percentage);
         const {userName} = this.user;
         const dateObj = utils.getDateObj();
 

@@ -119,8 +119,6 @@ class ListsPage extends React.Component {
                 .then((result) => {
                     if (result) {
 
-                        // console.log(result);
-
                         that.doItems = result.items.doItems;
                         that.dontItems = result.items.dontItems;
 
@@ -147,6 +145,8 @@ class ListsPage extends React.Component {
                                 }
                             });
 
+                            console.log(that.doEntries);
+
                             if (that.doEntries[0].saveDateStr !== dateObj.dateStrP) {
                                 that.AddNewEntry(that.doItems, that.dontItems, dateObj);
                                 that.SaveNewEntry(that.doEntries[0].items, that.dontEntries[0].items, dateObj);
@@ -158,6 +158,9 @@ class ListsPage extends React.Component {
                             if (ListUpdated=="true"){
                                 that.UpdateLastEntry(); // Son girişleri güncelle...
                             }
+
+                            localStorage.setItem("does", JSON.stringify(that.doEntries));
+                            localStorage.setItem("donts", JSON.stringify(that.dontEntries));
 
                             resolve(true);
 
