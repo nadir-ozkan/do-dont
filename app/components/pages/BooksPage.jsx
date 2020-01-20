@@ -7,85 +7,8 @@ import utils from '../../Utils/utils.js';
 import {fbRef, getData} from '../../firebase/index.js';
 
 import BookList from '../books/BookList.js';
-
-class AddNewBook extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            YazarAdi : "",
-            KitapAdi : "",
-            ISBN : ""
-        }
-    }
-
-    onTextChange(name, e) {
-        this.state[name] = e.target.value;
-        this.forceUpdate();
-    }
-
-    onSave() {
-        if (this.props.onSave){
-            this.props.onSave({
-                bookName : this.state.KitapAdi,
-                authorName : this.state.YazarAdi,
-                isbn : this.state.ISBN
-            });
-        }
-    }
-
-    onClose(){
-        if (this.props.onClose){
-            this.props.onClose();
-        }
-    }
-
-    render(){
-        const {SpanStyle, TextInputStyle, RowStyle, HeaderStyle} = Styles;
-        return(
-            <div
-                style={{zIndex : 4, width : "50%", background : "grey", padding : "20px"}}
-                onClick = {(e) => {
-                    e.stopPropagation();
-                    e.preventDefault();
-                }}
-            >
-                <div style={HeaderStyle}>
-                    <button onClick={this.onClose.bind(this)}>X</button>
-                </div>
-                <div style={RowStyle}>
-                    <span style={SpanStyle} >Yazar Adı : </span>
-                    <input
-                        type="text"
-                        style={TextInputStyle}
-                        onChange={this.onTextChange.bind(this, "YazarAdi")}
-                        value ={this.state.YazarAdi}
-                    />
-                </div>
-                <div style={RowStyle}>
-                    <span style={SpanStyle}>Kitap Adı : </span>
-                    <input
-                        type="text"
-                        style={TextInputStyle}
-                        onChange={this.onTextChange.bind(this, "KitapAdi")}
-                        value ={this.state.KitapAdi}
-                    />
-                </div>
-                <div style={RowStyle}>
-                    <span style={SpanStyle}>ISBN : </span>
-                    <input
-                        type="text"
-                        style={TextInputStyle}
-                        onChange={this.onTextChange.bind(this, "ISBN")}
-                        value ={this.state.ISBN}
-                    />
-                </div>
-                <div style={HeaderStyle}>
-                    <button onClick = {this.onSave.bind(this)}>Kaydet</button>
-                </div>
-            </div>
-        )
-    }
-}
+import NewBook from '../books/NewBook.js';
+import Modal from '../common/Modal.js';
 
 class BooksPage extends React.Component {
 
@@ -128,22 +51,6 @@ class BooksPage extends React.Component {
             });
     }
 
-    renderModal() {
-        const {OverlayStyle} = Styles;
-        if (this.state.showModal){
-            return (
-                <div style = {OverlayStyle} onClick={this.showModal.bind(this, false)}>
-                    <AddNewBook
-                        onClose={this.showModal.bind(this, false)}
-                        onSave ={this.onSaveBook.bind(this)}
-                    />
-                </div>
-            );
-        } else {
-            return null;
-        }
-    }
-
     showModal(state) {
         this.setState({showModal : state});
     }
@@ -178,7 +85,12 @@ class BooksPage extends React.Component {
 
                 </div>
                 <div id="modalDiv">
-                    {this.renderModal()}
+                    <Modal isVisible={this.state.showModal}>
+                        <NewBook
+                            onClose={this.showModal.bind(this, false)}
+                            onSave ={this.onSaveBook.bind(this)}
+                        />
+                    </Modal>
                 </div>
             </div>
         );
@@ -202,41 +114,6 @@ const Styles = {
         flex:1,
         color : "grey"
     },
-    OverlayStyle : {
-        // background : "green",
-        // opacity: "0.65",
-        position: "fixed", /* Sit on top of the page content */
-        width:"100%", /* Full width (cover the whole page) */
-        height:"100%", /* Full height (cover the whole page) */
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: "rgba(0,128,0,0.65)", /* Black background with opacity */
-        zIndex: 1,
-        display : "flex",
-        alignItems  : "center",
-        justifyContent : "center"
-    },
-    SpanStyle : {
-        display : "inline-block",
-        flex: 1,
-        textAlign : "right",
-        marginRight : "5px"
-    },
-    TextInputStyle : {
-        flex : 4,
-    },
-    RowStyle : {
-        display : "flex",
-        marginBottom : "10px"
-    },
-    HeaderStyle : {
-        display : "flex",
-        marginBottom : "20px",
-        justifyContent : "flex-end",
-        paddinRight : "10px"
-    }
 }
 
 export default BooksPage;
