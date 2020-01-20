@@ -30,7 +30,7 @@ class ListsPage extends React.Component {
     SaveNewEntry(doEntries, dontEntries, dateObj){
         const {userName} = this.user;
         const refStr = `users/${userName}/list1/items/entries/` + dateObj.dateStr;
-        // const refStr = "users/Nadir/list1/items/entries/05_09_2019";
+        // const refStr = "users/Nadir/list1/items/entries/19_01_2020";
 
         const objToBeSaved = {
           does : doEntries,
