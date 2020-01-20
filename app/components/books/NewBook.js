@@ -111,8 +111,7 @@ const Styles = {
     HeaderStyle : {
         display : "flex",
         marginBottom : "20px",
-        justifyContent : "flex-end",
-        paddinRight : "10px"
+        justifyContent : "flex-end"
     }
 }
 
