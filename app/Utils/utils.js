@@ -33,6 +33,18 @@ const getDateObj = function(){
 
 }
 
+const getJsTime = function (dateStr) {
+    const arr = dateStr.split(".");
+
+    const year = parseInt(arr[2], 10);
+    const month = parseInt(arr[1], 10)-1;  // Nedense sıfır tabanlı çalışıyor ay
+    const day = parseInt(arr[0], 10);
+
+    const date = new Date(year, month, day, 23, 59, 59);  // O günün sonuna gelen ms değeri...
+
+    return date.getTime();
+}
+
 const objToArray = function (obj) {
     let arr = [];
     if (obj) {
@@ -62,5 +74,6 @@ module.exports = {
     mergeObjects,
     isToday,
     hUnit,
-    config : getConfig()
+    config : getConfig(),
+    getJsTime
 }
