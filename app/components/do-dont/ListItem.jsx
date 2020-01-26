@@ -1,6 +1,8 @@
 import React from 'react';
 
-import utils from '../../Utils/utils.js';
+import utils from '../../Utils/utils';
+import TotalPercent from './TotalPercent.jsx';
+import Chain from './Chain.jsx';
 
 class ListItem extends React.Component {
     constructor(props){
@@ -40,7 +42,8 @@ class ListItem extends React.Component {
                     style = {CheckboxStyle}
                 />
                 <span style={LabelStyle}>{this.props.text}</span>
-                <span style={PercentStyle}>{"(%" + this.props.percentage + ")"} </span>
+                <TotalPercent {...this.props}/>
+                <Chain {...this.props}/>
             </div>
         );
     }
@@ -62,10 +65,6 @@ const Styles = {
         width : utils.hUnit(3.1),
         marginLeft : utils.hUnit(0.5),
         marginRight : utils.hUnit(0.5)
-    },
-    PercentStyle : {
-        paddingLeft : utils.hUnit(1),
-        display : "inline-block"
     }
 }
 

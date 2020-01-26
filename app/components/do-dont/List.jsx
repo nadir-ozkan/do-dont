@@ -51,6 +51,7 @@ class List extends React.Component {
     renderList(){
 
         const {items} = this.state;
+        const {dateStr, user, containerType} = this.props;
 
         if (items && items.length > 0) {
             return this.state.items.map((item)=>{
@@ -58,6 +59,9 @@ class List extends React.Component {
                     <div key={"key_" + (++this.keyNo)}>
                         <ListItem
                             {...item}
+                            userName = {user.userName}
+                            dateStr = {dateStr}
+                            containerType = {containerType}
                             onCheckedChange = {this.onCheckedChange.bind(this)}
                         ></ListItem>
                     </div>
