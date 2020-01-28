@@ -12,6 +12,16 @@ const calculateChain = (userName, itemId, itemType, dateStr) => {
     return api.get("/chain", { params : { userName, itemId, itemType, dateStr} } );
 }
 
+const getEntries = () => {
+    throw new Error("Not implemented yet!");
+    return null;
+}
+
+const getListItems = () => {
+    throw new Error("Not implemented yet!");
+    return null;
+}
+
 module.exports = {
     calculatePercentage,
     calculateChain
