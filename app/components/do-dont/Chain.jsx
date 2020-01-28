@@ -29,12 +29,17 @@ class Chain extends React.Component {
     }
 
     getChainCount(){
-        console.log("getChainCount.checked : ", this.checked);
 
         if (!this.checked){
             this.setState({chainCount : 0});
             return;
         }
+
+        if (this.props.chainCount) {
+            this.setState({chainCount : this.props.chainCount});
+            return;
+        }
+
         const {userName, dateStr} = this.props;
         api.calculateChain(userName, this.props.fbKey, this.props.containerType, dateStr)
             .then((result) => {

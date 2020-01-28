@@ -13,6 +13,12 @@ class TotalPercent extends React.Component {
     }
 
     getPercent(){
+
+        if (this.props.totalPercentage) {
+            this.setState({percent : this.props.totalPercentage});
+            return;
+        }
+
         const {userName, dateStr} = this.props;
         api.calculatePercentage(userName, this.props.fbKey, this.props.containerType, dateStr)
             .then((result) => {
