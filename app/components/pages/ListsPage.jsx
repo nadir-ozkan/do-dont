@@ -8,6 +8,8 @@ import Tabs from '../do-dont/Tabs.jsx';
 import Navbar from './Navbar.jsx';
 import DateDisplay from '../do-dont/DateDisplay.jsx';
 
+import api from '../../api/doDontApi';
+
 class ListsPage extends React.Component {
 
     constructor(props){
@@ -19,6 +21,7 @@ class ListsPage extends React.Component {
         }
 
         this.user = props.route.user;
+        this.userName = props.route.user.userName;
         this.OnLogOut = props.route.OnLogOut;
 
         this.doItems = [];
@@ -28,6 +31,14 @@ class ListsPage extends React.Component {
     }
 
     SaveNewEntry(doEntries, dontEntries, dateObj){
+
+        api.saveNewEntry(this.userName, doEntries, dontEntries, dateObj)
+            .then((obj) => {
+                console.log("saveNewEntry obj : ", obj);
+            });
+
+        return;
+
         const {userName} = this.user;
         const refStr = `users/${userName}/list1/items/entries/` + dateObj.dateStr;
         // const refStr = "users/Nadir/list1/items/entries/19_01_2020";
@@ -112,10 +123,9 @@ class ListsPage extends React.Component {
 
     GetListData() {
         const that = this;
-        return new Promise(function(resolve, reject) {
-            const refStr = `users/${that.user.userName}/list1`;
 
-            getData(refStr)
+        return new Promise(function(resolve, reject) {
+            api.getEntries(that.userName)
                 .then((result) => {
                     if (result) {
 
@@ -146,6 +156,7 @@ class ListsPage extends React.Component {
                                     saveDate : entry.saveDate
                                 }
                             });
+                            // Burada listeyi oluşturan kodları backende çek...
 
                             // console.log(that.doEntries);
 
@@ -176,6 +187,7 @@ class ListsPage extends React.Component {
                         resolve(false);
                     }
                 });
+
         });
     }
 
@@ -242,6 +254,7 @@ class ListsPage extends React.Component {
         );
 
     }
+
 }
 
 const Styles = {

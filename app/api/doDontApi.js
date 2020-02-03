@@ -12,9 +12,23 @@ const calculateChain = (userName, itemId, itemType, dateStr) => {
     return api.get("/chain", { params : { userName, itemId, itemType, dateStr} } );
 }
 
-const getEntries = () => {
-    throw new Error("Not implemented yet!");
-    return null;
+const getEntries = (userName) => {
+    return new Promise(function(resolve, reject) {
+        return api.get("/getEntries", { params : { userName} } )
+            .then((result) => resolve(result.data));
+    });
+}
+
+const saveNewEntry = (userName, doEntries, dontEntries, dateObj) => {
+    return new Promise(function(resolve, reject) {
+        return api.get("/saveNewEntry", { params : {
+                userName,
+                doEntries : JSON.stringify(doEntries),
+                dontEntries : JSON.stringify(dontEntries),
+                dateObj : JSON.stringify(dateObj)
+            }
+        } ).then((result) => resolve(result.data));
+    });
 }
 
 const getListItems = () => {
@@ -22,7 +36,11 @@ const getListItems = () => {
     return null;
 }
 
+
+
 module.exports = {
     calculatePercentage,
-    calculateChain
+    calculateChain,
+    getEntries,
+    saveNewEntry
 }

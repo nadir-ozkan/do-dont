@@ -4,11 +4,12 @@ import React from 'react';
 import axios from 'axios';
 
 import utils from '../../Utils/utils.js';
-import {fbRef, getData} from '../../firebase/index.js';
 
 import BookList from '../books/BookList.js';
 import NewBook from '../books/NewBook.js';
 import Modal from '../common/Modal.js';
+
+import api from '../../api/booksApi';
 
 class BooksPage extends React.Component {
 
@@ -18,37 +19,26 @@ class BooksPage extends React.Component {
             showModal : false,
             books : []
         };
-        this.user = props.route.user;
+        this.userName = props.route.user.userName;
         this.OnLogOut = props.route.OnLogOut;
     }
 
     componentDidMount(){
-        const {userName} = this.user;
-        const refStr = `users/${userName}/books/`;
-        getData(refStr)
+        api.getBooks(this.userName)
             .then((books) => {
                 if (books) {
-                    console.log(books);
                     this.setState({books : utils.objToArray(books)});
                 }
             });
     }
 
     onSaveBook(book) {
-
-        const {userName} = this.user;
-        const refStr = `users/${userName}/books`;
-
-        const newBookRef = fbRef.child(refStr).push();
-        book.id = newBookRef.getKey();
-
-        const that = this;
-
-        newBookRef.set(book)
-            .then(() => {
-                that.state.books.push(book);
-                that.showModal(false);
+        api.saveBook(this.userName, book)
+            .then((book) => {
+                this.state.books.push(book);
+                this.showModal(false);
             });
+
     }
 
     showModal(state) {
@@ -56,13 +46,9 @@ class BooksPage extends React.Component {
     }
 
     onDelete(id){
-        const that = this;
-        const {userName} = this.user;
-        const refStr = `users/${userName}/books/${id}`;
-        fbRef.child(refStr)
-            .set(null)  // İlgili refi sil...
-            .then(() => {
-                that.setState({books : this.state.books.filter((book) => book.id!=id)});
+        api.deleteBook(this.userName, id)
+            .then((id) => {
+                this.setState({books : this.state.books.filter((book) => book.id!=id)});
             });
     }
 
@@ -73,7 +59,7 @@ class BooksPage extends React.Component {
                 <div style = {MainDivStyle}>
 
                     <div style = {{display : "flex", fontSize : utils.hUnit(3)}}>
-                        <span style ={WelcomeSpanStyle}>Hoşgeldiniz, {this.user.userName}</span>
+                        <span style ={WelcomeSpanStyle}>Hoşgeldiniz, {this.userName}</span>
                         <button onClick={this.OnLogOut}>Çıkış Yap</button>
                     </div>
 
