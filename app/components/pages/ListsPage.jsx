@@ -1,14 +1,12 @@
 import React from 'react';
 
-import firebase, {fbRef, getData} from '../../firebase/index.js';
 import utils from '../../Utils/utils.js';
+import api from '../../api/doDontApi';
 
 import ListContainer from '../do-dont/ListContainer.jsx';
 import Tabs from '../do-dont/Tabs.jsx';
 import Navbar from './Navbar.jsx';
 import DateDisplay from '../do-dont/DateDisplay.jsx';
-
-import api from '../../api/doDontApi';
 
 class ListsPage extends React.Component {
 
@@ -31,32 +29,7 @@ class ListsPage extends React.Component {
     }
 
     SaveNewEntry(doEntries, dontEntries, dateObj){
-
-        api.saveNewEntry(this.userName, doEntries, dontEntries, dateObj)
-            .then((obj) => {
-                console.log("saveNewEntry obj : ", obj);
-            });
-
-        return;
-
-        const {userName} = this.user;
-        const refStr = `users/${userName}/list1/items/entries/` + dateObj.dateStr;
-        // const refStr = "users/Nadir/list1/items/entries/19_01_2020";
-
-        const objToBeSaved = {
-          does : doEntries,
-          doesPercent : 0,
-          donts : dontEntries,
-          dontsPercent : 0,
-          saveDate : dateObj.jsTime,
-          saveDateStr : dateObj.dateStrP
-        }
-
-        fbRef.child(refStr)
-            .set(objToBeSaved)
-            .then(()=> {
-                // yeni kayıt sonrası callback çalıştırmak istersen...
-            });
+        api.saveNewEntry(this.userName, doEntries, dontEntries, dateObj);
     }
 
     AddNewEntry(doItems, dontItems, dateObj){

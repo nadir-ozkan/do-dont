@@ -1,10 +1,9 @@
 "use strict";
 
 import React from 'react';
-import axios from 'axios';
 
 import utils from '../../Utils/utils.js';
-import {fbRef, getData} from '../../firebase/index.js';
+import api from '../../api/doDontApi';
 
 class LoginPage extends React.Component {
 
@@ -35,10 +34,6 @@ class LoginPage extends React.Component {
         // window.addEventListener("resize", this.resizeHandler);
     }
 
-    componentWillUnmount(){
-        // window.removeEventListener("resize", this.resizeHandler);
-    }
-
     componentDidUpdate(prevProps, prevState){
         if (this.userNameInput) {
             this.userNameInput.focus();
@@ -53,31 +48,19 @@ class LoginPage extends React.Component {
         });
     }
 
-    userExist(userName) {
-        return new Promise(function(resolve, reject) {
-            const refStr = `users/${userName}`;
-            getData(refStr)
-                .then((result) => {
-                    resolve(result!=null);
-                });
-        });
-    }
-
     doRegister(userName, userPass){
         if (!userName || !userPass) {
             this.showErrorMessage("Kullanıcı adı ya da şifre eksik!");
             return;
         }
 
-        this.userExist(userName)
+        api.userExists(userName)
             .then((exists) => {
                 if (exists) {
                     this.showErrorMessage("Bu kullanıcı mevcut, lütfen başka bir kullanıcı adı seçiniz.");
                     return;
                 } else {
-                    const refStr = `users/${userName}`;
-                    fbRef.child(refStr)
-                        .set({password : userPass})
+                    api.createUser(userName, userPass)
                         .then(()=> {
                             this.setState({
                                 errorMessage : null,
@@ -88,8 +71,6 @@ class LoginPage extends React.Component {
                                 alert("Yeni kullanıcı başarıyla oluşturuldu. Listeleri oluşturmaya hemen başlayabilirsiniz!");
                                 this.handleLoginClick();
                             });
-
-
                         });
                 }
             });
@@ -116,12 +97,9 @@ class LoginPage extends React.Component {
             return;
         }
 
-        const url = "https://us-central1-do-dont.cloudfunctions.net/checkUser"
-
-        axios.get(url, { params : { userName, userPass} } )
-            .then((resp)=>{
-                const {isPasswordValid} = resp.data;
-                if (isPasswordValid) {
+        api.isPasswordValid(userName, userPass)
+            .then((result) => {
+                if (result.isPasswordValid) {
                     if (this.props.onGetUser) {
                         this.props.onGetUser({userName});
                     }

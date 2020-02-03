@@ -31,16 +31,38 @@ const saveNewEntry = (userName, doEntries, dontEntries, dateObj) => {
     });
 }
 
+const userExists = (userName) => {
+    return new Promise(function(resolve, reject) {
+        return api.get("/userExists", { params : { userName} } )
+            .then((result) => resolve(result.data));
+    });
+}
+
+const createUser = (userName, userPass) => {
+    return new Promise(function(resolve, reject) {
+        return api.get("/createUser", { params : { userName, userPass} } )
+            .then((result) => resolve(result.data));
+    });
+}
+
+const isPasswordValid = (userName, userPass) => {
+    return new Promise(function(resolve, reject) {
+        return api.get("/isPasswordValid", { params : { userName, userPass} } )
+            .then((result) => resolve(result.data));
+    });
+}
+
 const getListItems = () => {
     throw new Error("Not implemented yet!");
     return null;
 }
 
-
-
 module.exports = {
     calculatePercentage,
     calculateChain,
     getEntries,
-    saveNewEntry
+    saveNewEntry,
+    userExists,
+    createUser,
+    isPasswordValid
 }
