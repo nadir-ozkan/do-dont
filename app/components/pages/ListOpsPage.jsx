@@ -2,6 +2,7 @@ import React from 'react';
 
 import {fbRef, getData} from '../../firebase/index.js';
 import utils from '../../Utils/utils.js';
+import api from '../../api/doDontApi';
 
 import CheckItem from '../do-dont/CheckItem.jsx';
 import CheckItemList from '../do-dont/CheckItemList.jsx';
@@ -27,8 +28,7 @@ class ListOpsPage extends React.Component {
     getListData(itemType){
         const that = this;
         return new Promise(function(resolve, reject) {
-            const refStr = `users/${that.user.userName}/list1/items/${itemType}`;
-            getData(refStr)
+            api.getListItems(that.user.userName, itemType)
                 .then((items) => {
                     if (items) {
                         let arr =[];
@@ -68,8 +68,9 @@ class ListOpsPage extends React.Component {
         const refStr = `users/${userName}/list1/items/${itemType}`;
         const newDoItemRef = fbRef.child(refStr).push();
 
-        newDoItemRef.set(itemText)
-            .then(() => {
+        api.saveListItem(userName, itemType, itemText)
+            .then((result) => {
+                console.log("Save by api : ", result);
                 this.getListData(itemType)
                     .then((itemsArray) => {
                         localStorage.setItem("ListUpdated", true);

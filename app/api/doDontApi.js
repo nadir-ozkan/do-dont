@@ -52,9 +52,22 @@ const isPasswordValid = (userName, userPass) => {
     });
 }
 
-const getListItems = () => {
-    throw new Error("Not implemented yet!");
-    return null;
+const getListItems = (userName, itemType) => {
+    return new Promise(function(resolve, reject) {
+        return api.get("/getListItems", { params : { userName, itemType} } )
+            .then((result) => resolve(result.data));
+    });
+}
+
+const saveListItem = (userName, itemType, itemText) => {
+    return new Promise(function(resolve, reject) {
+        return api.get("/saveListItem", { params : {userName, itemType, itemText} } )
+            .then((result) => resolve(result.data));
+    });
+}
+
+const deleteListItem = () => {
+
 }
 
 module.exports = {
@@ -64,5 +77,8 @@ module.exports = {
     saveNewEntry,
     userExists,
     createUser,
-    isPasswordValid
+    isPasswordValid,
+    getListItems,
+    saveListItem,
+    deleteListItem
 }
