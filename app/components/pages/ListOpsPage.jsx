@@ -1,6 +1,5 @@
 import React from 'react';
 
-import {fbRef, getData} from '../../firebase/index.js';
 import utils from '../../Utils/utils.js';
 import api from '../../api/doDontApi';
 
@@ -66,7 +65,6 @@ class ListOpsPage extends React.Component {
     SaveNewItem(itemType, itemText){
         const {userName} = this.user;
         const refStr = `users/${userName}/list1/items/${itemType}`;
-        const newDoItemRef = fbRef.child(refStr).push();
 
         api.saveListItem(userName, itemType, itemText)
             .then((result) => {
@@ -81,9 +79,7 @@ class ListOpsPage extends React.Component {
 
     DeleteItem(itemType, fbKey) {
         const {userName} = this.user;
-        const refStr = `users/${userName}/list1/items/${itemType}/${fbKey}`;
-        fbRef.child(refStr)
-            .set(null)  // İlgili refi sil...
+        api.deleteListItem(userName, itemType, fbKey)
             .then(() => {
                 this.getListData(itemType)
                     .then((itemsArray) => {

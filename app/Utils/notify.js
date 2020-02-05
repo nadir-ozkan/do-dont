@@ -1,31 +1,6 @@
 "use strict";
 
-import axios from 'axios';
-
-import firebase, {fbRef, getData} from '../firebase/index.js';
-
-const saveFCMToken = function(userName, token) {
-    const refStr = `users/${userName}/fcmToken`;
-
-    fbRef.child(refStr)
-        .set(token)
-        .then(()=> {
-            console.log("FCM anahtarı kaydedildi.");
-        });
-}
-
-const getFCMToken = function (userName) {
-  return new Promise(function(resolve, reject) {
-    const refStr = `users/${userName}/fcmToken`;
-    getData(refStr)
-      .then((data) => {
-        resolve(data);
-      })
-      .catch((err) => {
-        reject(err);
-      })
-  }.bind(this));
-}
+import api from '../api/doDontApi';
 
 const askPermissionForMessaging = function(userName){
 
@@ -46,15 +21,13 @@ const askPermissionForMessaging = function(userName){
             // Çünkü bildirimler bu anahtar kullanılarak yönlendirilecek.
             console.log("Token aquired.", token);
             fcmToken = token;
-            return getFCMToken(userName);
+            return api.getFCMToken(userName);
         })
         .then((currentToken) => {
             if (fcmToken != currentToken) {
-                saveFCMToken(userName, fcmToken);
+                api.saveFCMToken(userName, fcmToken);
             } else {
                 console.log("No need to save FCM token!");
-
-            // this.sendNotification();
 
             messaging.onMessage((payload) => {
               console.log('Message received. ', payload);
@@ -66,7 +39,7 @@ const askPermissionForMessaging = function(userName){
                 console.log('Token refreshed.');
                 // Indicate that the new Instance ID token has not yet been sent to the
                 // app server.
-                saveFCMToken(userName, refreshedToken);
+                api.saveFCMToken(userName, refreshedToken);
                 // ...
               }).catch((err) => {
                 console.log('Unable to retrieve refreshed token ', err);
@@ -81,27 +54,6 @@ const askPermissionForMessaging = function(userName){
         })
         .finally(() =>{
         });
-}
-
-const sendNotification = function(to, title, body) {
-    return new Promise(function(resolve, reject) {
-
-      const url = 'https://fcm.googleapis.com/fcm/send';
-
-      axios.get(url, { params : { to, title, body} } )
-          .then((resp)=>{
-              console.log(resp);
-              resolve("Notification sent successfuly!");
-          })
-          .catch((hata)=>{
-              console.log(hata);
-              reject(hata);
-          })
-          .finally(() => {
-
-          });
-
-      });
 }
 
 module.exports = {

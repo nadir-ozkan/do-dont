@@ -1,11 +1,10 @@
 import React from 'react';
-import {fbRef} from '../../firebase/index.js';
 
 import utils from '../../Utils/utils.js';
 import notify from '../../Utils/notify.js';
+import api from '../../api/doDontApi';
 
 import List from "./List.jsx";
-import axios from 'axios';
 
 class ListContainer extends React.Component{
 
@@ -72,25 +71,9 @@ class ListContainer extends React.Component{
 
         const {userName} = this.user;
         const dateObj = utils.getDateObj();
-
-        const refStr = `users/${userName}/list1/items/entries/` + dateObj.dateStr;
-        // const refStr = `users/${userName}/list1/items/entries/17_01_2020`;
-
-        const updates = {};
-
-        if (this.props.containerType == "does") {
-            updates[refStr + "/does"] = items;
-            updates[refStr + "/doesPercent"] = percentage;
-        } else {
-            updates[refStr + "/donts"] = items;
-            updates[refStr + "/dontsPercent"] = percentage;
-        }
-
-        updates[refStr + "/saveDate"] = dateObj.jsTime;
-        updates[refStr + "/saveDateStr"] = dateObj.dateStrP;
-
         const that = this;
-        fbRef.update(updates)
+
+        api.updateEntries(userName, items, percentage, this.props.containerType, dateObj)
             .then(() => {
                 that.entries[0].items = items;
                 that.forceUpdate(); // Kayıt yapıldıktan sonraki toplam yüzdelerin yeniden hesaplanması için.

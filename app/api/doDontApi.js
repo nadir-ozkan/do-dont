@@ -66,8 +66,45 @@ const saveListItem = (userName, itemType, itemText) => {
     });
 }
 
-const deleteListItem = () => {
+const deleteListItem = (userName, itemType, fbKey) => {
+    return new Promise(function(resolve, reject) {
+        return api.get("/deleteListItem", { params : {userName, itemType, fbKey} } )
+            .then((result) => resolve(result.data));
+    });
+}
 
+const updateEntries = (userName, items, percentage, itemType, dateObj) => {
+    return new Promise(function(resolve, reject) {
+        return api.get("/updateEntries", { params : {
+                userName,
+                items : JSON.stringify(items),
+                percentage,
+                itemType,
+                dateObj : JSON.stringify(dateObj)
+            }
+        } ).then((result) => resolve(result.data));
+    });
+}
+
+const getFCMToken = (userName) => {
+    return new Promise(function(resolve, reject) {
+        return api.get("/getFCMToken", { params : {userName} } )
+            .then((result) => resolve(result.data));
+    });
+}
+
+const saveFCMToken = (userName, fcmToken) => {
+    return new Promise(function(resolve, reject) {
+        return api.get("/saveFCMToken", { params : { userName, fcmToken } } )
+            .then((result) => resolve(result.data));
+    });
+}
+
+const sendNotification = (to, title, body) => {
+    return new Promise(function(resolve, reject) {
+        return api.get("/sendNotification", { params : { to, title, body } } )
+            .then((result) => resolve(result.data));
+    });
 }
 
 module.exports = {
@@ -80,5 +117,9 @@ module.exports = {
     isPasswordValid,
     getListItems,
     saveListItem,
-    deleteListItem
+    deleteListItem,
+    updateEntries,
+    saveFCMToken,
+    getFCMToken,
+    sendNotification
 }
