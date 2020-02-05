@@ -40,20 +40,6 @@ class ListContainer extends React.Component{
         // notify.askPermissionForMessaging(this.user.userName);
     }
 
-    insertNewListItems(){
-        const newItems = [
-            "Yapma 1",
-            "Yapma 2"
-        ];
-
-        const dontItemsRef = `users/${this.user.userName}/list1/items/dontItems`;
-
-        newItems.forEach((item) => {
-            fbRef.child(dontItemsRef)
-                .push(item);
-        });
-    }
-
     setItemsAndDate() {
         const newEntries = this.entries[this.currentIndex];
 
