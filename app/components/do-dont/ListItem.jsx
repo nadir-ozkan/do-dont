@@ -4,6 +4,8 @@ import utils from '../../Utils/utils';
 import TotalPercent from './TotalPercent.jsx';
 import Chain from './Chain.jsx';
 
+import SvgCheckBox from './SvgCheckBox.jsx';
+
 class ListItem extends React.Component {
     constructor(props){
         super(props);
@@ -34,13 +36,15 @@ class ListItem extends React.Component {
             LabelStyle.textDecoration = "line-through";
         }
 
+        const cb = <input type="checkbox"
+            value = {this.props.text}
+            defaultChecked={this.state.checked}
+            style = {CheckboxStyle}
+        />;
+
         return(
             <div style={ItemStyle} onClick={this.handleClick.bind(this)}>
-                <input type="checkbox"
-                    value = {this.props.text}
-                    defaultChecked={this.state.checked}
-                    style = {CheckboxStyle}
-                />
+                <SvgCheckBox {...CheckboxStyle}/>
                 <span style={LabelStyle}>{this.props.text}</span>
                 <TotalPercent {...this.props}/>
                 <Chain {...this.props}/>
