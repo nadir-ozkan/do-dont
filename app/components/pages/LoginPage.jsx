@@ -200,7 +200,6 @@ class LoginPage extends React.Component {
                     </div>
 
                 </div>
-
             </div>
         );
     }
