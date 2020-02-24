@@ -37,8 +37,14 @@ class SvgCheckBox extends React.Component {
             background : backgroundColor
         }
 
+        const outerDivSyle = {
+            marginLeft : (paddingTop * 1.2) + "px",
+            marginTop : (paddingTop * 1.2) + "px",
+            marginRight : (paddingTop * 1.2 * 2) + "px"
+        }
+
         return(
-            <div onClick={this.handleClick.bind(this)} style = {{width : "0px"}}>
+            <div onClick={this.handleClick.bind(this)} style={outerDivSyle}>
 
                 <div style={innerDivStyle}>
                     <svg fill={boxColor} xmlns="http://www.w3.org/2000/svg" width={height} height={height} viewBox="0 0 24 24">
