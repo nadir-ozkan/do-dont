@@ -51,8 +51,8 @@ const Styles = {
       textAlign : "center",
       zIndex : 1,
       height : utils.hUnit(4),
-      padding : "5px",
-      margin : "5px 0",
+      padding : utils.hUnit(0.5),
+      margin : utils.hUnit(1.5) + " 0",
       fontSize : utils.hUnit(3),
       color : "#f7f7f7"
     }
