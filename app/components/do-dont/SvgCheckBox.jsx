@@ -22,6 +22,12 @@ class SvgCheckBox extends React.Component {
         );
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.checkColor != this.state.checked) {
+            this.setState({checked : nextProps.checked});
+        }
+    }
+
     render(){
 
         const {checkColor, boxColor, backgroundColor, height} = this.state;
@@ -40,7 +46,8 @@ class SvgCheckBox extends React.Component {
         const outerDivSyle = {
             marginLeft : (paddingTop * 1.2) + "px",
             marginTop : (paddingTop * 1.2) + "px",
-            marginRight : (paddingTop * 1.2 * 2) + "px"
+            marginRight : (paddingTop * 1.2 * 2) + "px",
+            cursor : "pointer"
         }
 
         return(

@@ -26,7 +26,7 @@ class ListItem extends React.Component {
 
     render(){
 
-        const {ItemStyle, CheckboxStyle, PercentStyle} = Styles;
+        const {ItemStyle, CheckboxStyle} = Styles;
 
         const LabelStyle = {};
 
@@ -44,7 +44,7 @@ class ListItem extends React.Component {
 
         return(
             <div style={ItemStyle} onClick={this.handleClick.bind(this)}>
-                <SvgCheckBox {...CheckboxStyle}/>
+                <SvgCheckBox {...CheckboxStyle} checked = {this.state.checked}/>
                 <span style={LabelStyle}>{this.props.text}</span>
                 <TotalPercent {...this.props}/>
                 <Chain {...this.props}/>
