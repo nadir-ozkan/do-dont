@@ -63,10 +63,6 @@ const hUnit = function (percent) {
     return (window.innerHeight / 100 * percent) + "px";
 }
 
-const getConfig = function() {
-    return require('../../config.js').config;
-}
-
 module.exports = {
     getDateObj,
     addLeadingZero,
@@ -74,6 +70,5 @@ module.exports = {
     mergeObjects,
     isToday,
     hUnit,
-    config : getConfig(),
     getJsTime
 }
