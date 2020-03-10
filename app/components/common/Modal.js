@@ -17,12 +17,20 @@ class Modal extends React.Component{
         }
     }
 
+    handleOverlayClick(e) {
+        e.preventDefault();
+        this.setState({isVisible:false});
+        if (this.props.onModalClose) {
+            this.props.onModalClose();
+        }
+    }
+
     render(){
-        const {OverlayStyle} = Styles;
+        const {OverlayStyle, HeaderStyle} = Styles;
         return(
             this.state.isVisible
-            ?   <div style = {OverlayStyle} onClick={() => {this.setState({isVisible:false})}}>
-                    {this.props.children}
+            ?   <div style = {OverlayStyle} onClick={this.handleOverlayClick.bind(this)}>
+                    {React.cloneElement(this.props.children, {onModalClose : this.props.onModalClose})}
                 </div>
             :   null
         );

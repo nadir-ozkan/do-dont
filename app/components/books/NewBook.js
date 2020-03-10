@@ -28,7 +28,7 @@ class NewBook extends React.Component {
             alert("Lütfen eksik alanları doldurup, tekrar deneyiniz.");
             return;
         }
-        
+
         if (this.props.onSave){
             this.props.onSave({ bookName, authorName, isbn });
         }
@@ -37,6 +37,9 @@ class NewBook extends React.Component {
     onClose(){
         if (this.props.onClose){
             this.props.onClose();
+        }
+        if (this.props.onModalClose){
+            this.props.onModalClose();
         }
     }
 

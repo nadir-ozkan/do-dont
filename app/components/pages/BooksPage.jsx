@@ -71,7 +71,11 @@ class BooksPage extends React.Component {
 
                 </div>
                 <div id="modalDiv">
-                    <Modal isVisible={this.state.showModal}>
+                    <Modal
+                        isVisible={this.state.showModal}
+                        onModalClose={() => alert("Closing modal...")}
+                        closeButtonVisible = {true}
+                    >
                         <NewBook
                             onClose={this.showModal.bind(this, false)}
                             onSave ={this.onSaveBook.bind(this)}
