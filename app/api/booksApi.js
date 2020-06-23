@@ -6,14 +6,14 @@ const api = axios.create({
 
 const getBooks = (userName) => {
     return new Promise(function(resolve, reject) {
-        api.get("/getBooks", { params : { userName } } )
+        api.post("/getBooks", { userName } )
             .then(result => resolve(result.data));
     });
 }
 
 const deleteBook = (userName, id) => {
     return new Promise(function(resolve, reject) {
-        api.get("/deleteBook", {params : { userName, id} })
+        api.post("/deleteBook", { userName, id })
             .then(result => resolve(result.data));
     });
 
@@ -21,7 +21,7 @@ const deleteBook = (userName, id) => {
 
 const saveBook = (userName, book) => {
     return new Promise(function(resolve, reject) {
-        api.get("/saveBook", {params : { userName, book} })
+        api.post("/saveBook", { userName, book })
             .then(result => resolve(result.data));
     });
 }

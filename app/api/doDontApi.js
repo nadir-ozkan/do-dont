@@ -5,104 +5,104 @@ const api = axios.create({
 });
 
 const calculatePercentage = (userName, itemId, itemType, dateStr) => {
-    return api.get("/totalPercentage", { params : { userName, itemId, itemType, dateStr} } );
+    // Nadir: get için parametre gönderirken alttaki yazım biçimini kullan.
+    // return api.get("/totalPercentage", { params : { userName, itemId, itemType, dateStr} } );
+    return api.post("/totalPercentage", { userName, itemId, itemType, dateStr } );
 }
 
 const calculateChain = (userName, itemId, itemType, dateStr) => {
-    return api.get("/chain", { params : { userName, itemId, itemType, dateStr} } );
+    return api.post("/chain", { userName, itemId, itemType, dateStr } );
 }
 
 const getEntries = (userName) => {
     return new Promise(function(resolve, reject) {
-        return api.get("/getEntries", { params : { userName} } )
+        return api.post("/getEntries", { userName } )
             .then((result) => resolve(result.data));
     });
 }
 
 const saveNewEntry = (userName, doEntries, dontEntries, dateObj) => {
     return new Promise(function(resolve, reject) {
-        return api.get("/saveNewEntry", { params : {
+        return api.post("/saveNewEntry", {
                 userName,
                 doEntries : JSON.stringify(doEntries),
                 dontEntries : JSON.stringify(dontEntries),
                 dateObj : JSON.stringify(dateObj)
-            }
         } ).then((result) => resolve(result.data));
     });
 }
 
 const userExists = (userName) => {
     return new Promise(function(resolve, reject) {
-        return api.get("/userExists", { params : { userName} } )
+        return api.post("/userExists", { userName } )
             .then((result) => resolve(result.data));
     });
 }
 
 const createUser = (userName, userPass) => {
     return new Promise(function(resolve, reject) {
-        return api.get("/createUser", { params : { userName, userPass} } )
+        return api.post("/createUser", { userName, userPass } )
             .then((result) => resolve(result.data));
     });
 }
 
 const isPasswordValid = (userName, userPass) => {
     return new Promise(function(resolve, reject) {
-        return api.get("/isPasswordValid", { params : { userName, userPass} } )
+        return api.post("/isPasswordValid", { userName, userPass } )
             .then((result) => resolve(result.data));
     });
 }
 
 const getListItems = (userName, itemType) => {
     return new Promise(function(resolve, reject) {
-        return api.get("/getListItems", { params : { userName, itemType} } )
+        return api.post("/getListItems", { userName, itemType } )
             .then((result) => resolve(result.data));
     });
 }
 
 const saveListItem = (userName, itemType, itemText) => {
     return new Promise(function(resolve, reject) {
-        return api.get("/saveListItem", { params : {userName, itemType, itemText} } )
+        return api.post("/saveListItem", { userName, itemType, itemText } )
             .then((result) => resolve(result.data));
     });
 }
 
 const deleteListItem = (userName, itemType, fbKey) => {
     return new Promise(function(resolve, reject) {
-        return api.get("/deleteListItem", { params : {userName, itemType, fbKey} } )
+        return api.post("/deleteListItem", { userName, itemType, fbKey } )
             .then((result) => resolve(result.data));
     });
 }
 
 const updateEntries = (userName, items, percentage, itemType, dateObj) => {
     return new Promise(function(resolve, reject) {
-        return api.get("/updateEntries", { params : {
+        return api.post("/updateEntries", {
                 userName,
                 items : JSON.stringify(items),
                 percentage,
                 itemType,
                 dateObj : JSON.stringify(dateObj)
-            }
         } ).then((result) => resolve(result.data));
     });
 }
 
 const getFCMToken = (userName) => {
     return new Promise(function(resolve, reject) {
-        return api.get("/getFCMToken", { params : {userName} } )
+        return api.post("/getFCMToken", { userName } )
             .then((result) => resolve(result.data));
     });
 }
 
 const saveFCMToken = (userName, fcmToken) => {
     return new Promise(function(resolve, reject) {
-        return api.get("/saveFCMToken", { params : { userName, fcmToken } } )
+        return api.post("/saveFCMToken", { userName, fcmToken } )
             .then((result) => resolve(result.data));
     });
 }
 
 const sendNotification = (to, title, body) => {
     return new Promise(function(resolve, reject) {
-        return api.get("/sendNotification", { params : { to, title, body } } )
+        return api.post("/sendNotification", { to, title, body } )
             .then((result) => resolve(result.data));
     });
 }
