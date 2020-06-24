@@ -3,7 +3,6 @@ import React from 'react';
 import utils from '../../Utils/utils.js';
 import api from '../../api/doDontApi';
 
-import CheckItem from '../do-dont/CheckItem.jsx';
 import CheckItemList from '../do-dont/CheckItemList.jsx';
 import Navbar from './Navbar.jsx';
 
