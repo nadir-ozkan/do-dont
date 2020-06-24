@@ -1,0 +1,16 @@
+How to secure post request:
+
+https://stackoverflow.com/questions/37912937/how-to-send-secure-ajax-requests-with-php-and-jquery/37912989
+
+Genel notlar :
+
+1) Use crs_token as header x-crsf_token
+2) Add a timestamp to request
+3) Check origin of the request
+4) Use a max request number on server
+5) Hash and salt password info
+
+
+To do :
+
+- Tarayýcý refresh düðmesine basýldýðýnda log in sayfasý geliyor, bunun önüne geç, kullanýcý sessionýný local storagea at.
