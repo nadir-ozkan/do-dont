@@ -4,7 +4,9 @@ import utils from '../../Utils/utils.js';
 import api from '../../api/doDontApi';
 
 import CheckItemList from '../do-dont/CheckItemList.jsx';
+import CheckItemForm from '../do-dont/CheckItemForm.jsx';
 import Navbar from './Navbar.jsx';
+import Modal from '../common/Modal.js';
 
 class ListOpsPage extends React.Component {
 
@@ -129,6 +131,15 @@ class ListOpsPage extends React.Component {
                         OnSaveNewItem = {this.SaveNewItem.bind(this, "dontItems")}
                         OnDeleteItem = {this.DeleteItem.bind(this, "dontItems")}
                     />
+                </div>
+                <div id="modalDiv">
+                    <Modal
+                        isVisible={this.state.showModal}
+                        onModalClose={() => alert("Closing modal...")}
+                        closeButtonVisible = {true}
+                    >
+                    <CheckItemForm/>
+                    </Modal>
                 </div>
             </div>
 
