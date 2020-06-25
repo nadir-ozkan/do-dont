@@ -124,12 +124,14 @@ class ListOpsPage extends React.Component {
                         ListLabel = {"Do Items"}
                         OnSaveNewItem = {this.SaveNewItem.bind(this, "doItems")}
                         OnDeleteItem = {this.DeleteItem.bind(this, "doItems")}
+                        OnAddNewItem = {()=> alert("Hellöööö")}
                     />
                     <CheckItemList
                         items={this.state.dontItems}
                         ListLabel = {"Don't Items"}
                         OnSaveNewItem = {this.SaveNewItem.bind(this, "dontItems")}
                         OnDeleteItem = {this.DeleteItem.bind(this, "dontItems")}
+                        OnAddNewItem = {()=> alert("Hellöööö, vvvvvv")}
                     />
                 </div>
                 <div id="modalDiv">

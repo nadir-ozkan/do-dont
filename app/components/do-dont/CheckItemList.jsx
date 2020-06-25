@@ -87,7 +87,10 @@ class CheckItemList extends React.Component {
 
     handleNewEntryClick(e){
         e.preventDefault();
-        this.setState({insertMode : !this.state.insertMode});
+        if (this.props.OnAddNewItem){
+            this.props.OnAddNewItem();
+        }
+        // this.setState({insertMode : !this.state.insertMode});
     }
 
     renderButton(){
