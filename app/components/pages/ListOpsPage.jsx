@@ -111,7 +111,6 @@ class ListOpsPage extends React.Component {
     }
 
     ShowNewItemForm(itemType){
-        alert(itemType);
         this.setState({ itemType, showModal : true });
     }
 
@@ -142,7 +141,7 @@ class ListOpsPage extends React.Component {
                 <div id="modalDiv">
                     <Modal
                         isVisible={this.state.showModal}
-                        onModalClose={() => console.log("Closing modal...")}
+                        onModalClose={() => this.setState({showModal : false})}
                         closeButtonVisible = {true}
                     >
                         <CheckItemForm/>

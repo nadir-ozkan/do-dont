@@ -39,8 +39,8 @@ class CheckItemForm extends React.Component {
     }
 
     HandleCancelClick(e){
-        if (this.props.OnCancelNewEntry){
-            this.props.OnCancelNewEntry();
+        if (this.props.onModalClose){
+            this.props.onModalClose();
         }
     }
 
@@ -55,10 +55,8 @@ class CheckItemForm extends React.Component {
 
     render(){
 
-        const {ItemDivStyle, InputDivStyle, ButtonsDivStyle,
-            ButtonStyle, TextStyle, LabelStyle, ButtonContainerStyle} = Styles;
-
-        const InputStyle = this.state.insertMode ? TextStyle : LabelStyle;
+        const {DivStyle, ButtonStyle, ButtonContainerStyle, HeaderStyle,
+            HeaderDivStyle} = Styles;
 
         const that = this;
 
@@ -84,30 +82,43 @@ class CheckItemForm extends React.Component {
             }
         }
 
-        const renderButtons = () => {
-            return (
-                <div style={ButtonContainerStyle}>
-                    <button id="Cancel_Button" style={ButtonStyle} onClick={this.HandleCancelClick.bind(this)}>İptal</button>
-                    <button id="Save_Button" style={ButtonStyle} onClick={this.HandleSaveClick.bind(this)}>Kaydet</button>
-                </div>
-            );
-        }
 
         return(
-            <div style={ItemDivStyle}>
-                <div style={InputDivStyle}>{renderInput()}</div>
-                <div style={ButtonsDivStyle}>{renderButtons()}</div>
+            <div style={DivStyle}>
+                <div style={HeaderDivStyle}>
+                    <div style={HeaderStyle}>Here is the header</div>
+                    <button onClick={this.props.onModalClose.bind(this)}>X</button>
+                </div>
+                <div style={ButtonContainerStyle}>
+                    <button style={ButtonStyle} onClick={this.HandleCancelClick.bind(this)}>İptal</button>
+                    <button style={ButtonStyle} onClick={this.HandleSaveClick.bind(this)}>Kaydet</button>
+                </div>
             </div>
         );
     }
 }
 
 const Styles = {
-    ItemDivStyle : {
+    DivStyle : {
         display : "flex",
         margin : "0 auto",
         padding : utils.hUnit(0.5),
-        color : "#f7f7f7"
+        color : "#f7f7f7",
+        width : "75%",
+        background : "#314247",
+        flexDirection : "column"
+    },
+    HeaderDivStyle : {
+        display : "flex",
+        alignItems : "center",
+        height : utils.hUnit(5),
+        justifyContent : "flex-end",
+        marginBottom : utils.hUnit(1.6),
+        padding : utils.hUnit(0.8)
+    },
+    HeaderStyle : {
+        flex : "1",
+        marginRight : utils.hUnit(0.8)
     },
     InputDivStyle : {
         flex : 4,
@@ -130,17 +141,19 @@ const Styles = {
     ButtonStyle : {
         flex : "1",
         cursor : "pointer",
-        fontSize : utils.hUnit(2),
-        padding : utils.hUnit(0.4) + " 0",
+        padding : utils.hUnit(0.6) + " 0",
+        fontSize : utils.hUnit(2.5),
         background : "#565b5c",
         color : "#f7f7f7",
         border : "0",
         borderRadius : utils.hUnit(1.4),
+        margin : utils.hUnit(0.4)
     },
     ButtonContainerStyle : {
         display : "flex",
         height : "100%",
-        alignItems : "center"
+        alignItems : "center",
+        marginBottom : utils.hUnit(0.8),
     }
 
 }
