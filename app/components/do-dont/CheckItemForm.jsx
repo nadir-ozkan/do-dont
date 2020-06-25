@@ -86,7 +86,7 @@ class CheckItemForm extends React.Component {
         return(
             <div style={DivStyle}>
                 <div style={HeaderDivStyle}>
-                    <div style={HeaderStyle}>Here is the header</div>
+                    <div style={HeaderStyle}>{this.props.headerText || "Add to list"}</div>
                     <button onClick={this.props.onModalClose.bind(this)}>X</button>
                 </div>
                 <div style={InputDivStyle}>
@@ -116,7 +116,7 @@ const Styles = {
     DivStyle : {
         display : "flex",
         margin : "0 auto",
-        padding : utils.hUnit(0.5),
+        padding : utils.hUnit(1.3),
         color : "#f7f7f7",
         width : "75%",
         background : "#314247",

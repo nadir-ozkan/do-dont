@@ -116,6 +116,7 @@ class ListOpsPage extends React.Component {
 
     render() {
         const {MainDivStyle} = Styles;
+        const listName = this.state.itemType == "doItems" ? "Yap" : "Yapma";
         return(
             <div>
                 <Navbar ActivePage={"ListOps"}
@@ -144,7 +145,7 @@ class ListOpsPage extends React.Component {
                         onModalClose={() => this.setState({showModal : false})}
                         closeButtonVisible = {true}
                     >
-                        <CheckItemForm/>
+                        <CheckItemForm headerText = {listName + " listesine ekle"}/>
                     </Modal>
                 </div>
             </div>
