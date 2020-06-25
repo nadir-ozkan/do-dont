@@ -18,10 +18,14 @@ class Modal extends React.Component{
     }
 
     handleOverlayClick(e) {
+        e.stopPropagation(); // click olayının yayılmasını durdur.
         e.preventDefault();
-        this.setState({isVisible:false});
-        if (this.props.onModalClose) {
-            this.props.onModalClose();
+
+        if (e.target.id == "do-dont-modal-div") {
+            this.setState({isVisible:false});
+            if (this.props.onModalClose) {
+                this.props.onModalClose();
+            }
         }
     }
 
@@ -29,7 +33,7 @@ class Modal extends React.Component{
         const {OverlayStyle, HeaderStyle} = Styles;
         return(
             this.state.isVisible
-            ?   <div style = {OverlayStyle} onClick={this.handleOverlayClick.bind(this)}>
+            ?   <div id="do-dont-modal-div" style = {OverlayStyle} onClick={this.handleOverlayClick.bind(this)}>
                     {React.cloneElement(this.props.children, {onModalClose : this.props.onModalClose})}
                 </div>
             :   null

@@ -142,7 +142,7 @@ class ListOpsPage extends React.Component {
                 <div id="modalDiv">
                     <Modal
                         isVisible={this.state.showModal}
-                        onModalClose={() => alert("Closing modal...")}
+                        onModalClose={() => console.log("Closing modal...")}
                         closeButtonVisible = {true}
                     >
                         <CheckItemForm/>

@@ -87,8 +87,8 @@ class CheckItemForm extends React.Component {
         const renderButtons = () => {
             return (
                 <div style={ButtonContainerStyle}>
-                    <button style={ButtonStyle} onClick={this.HandleCancelClick.bind(this)}>İptal</button>
-                    <button style={ButtonStyle} onClick={this.HandleSaveClick.bind(this)}>Kaydet</button>
+                    <button id="Cancel_Button" style={ButtonStyle} onClick={this.HandleCancelClick.bind(this)}>İptal</button>
+                    <button id="Save_Button" style={ButtonStyle} onClick={this.HandleSaveClick.bind(this)}>Kaydet</button>
                 </div>
             );
         }
