@@ -56,7 +56,7 @@ class CheckItemForm extends React.Component {
     render(){
 
         const {DivStyle, ButtonStyle, ButtonContainerStyle, HeaderStyle,
-            HeaderDivStyle} = Styles;
+            HeaderDivStyle, InputDivStyle} = Styles;
 
         const that = this;
 
@@ -89,6 +89,20 @@ class CheckItemForm extends React.Component {
                     <div style={HeaderStyle}>Here is the header</div>
                     <button onClick={this.props.onModalClose.bind(this)}>X</button>
                 </div>
+                <div style={InputDivStyle}>
+                    <input
+                        // Burada ilgili html öğesine ait ref bir fonksiyon kullanılarak,
+                        // içinde bulunduğu bileşene değişken olarak kaydediliyor!
+                        ref={ (input) => { this.textInput = input; }}
+                        style={{width : "100%"}}
+                        type="text"
+                        value={this.state.itemText}
+                        onChange={this.handleTextChange.bind(this)}
+                        onKeyUp={this.handleKeyUp.bind(this)}
+                        autoFocus="true"
+                        placeholder="Yeni bir öğe ekle!"
+                    />
+                </div>
                 <div style={ButtonContainerStyle}>
                     <button style={ButtonStyle} onClick={this.HandleCancelClick.bind(this)}>İptal</button>
                     <button style={ButtonStyle} onClick={this.HandleSaveClick.bind(this)}>Kaydet</button>
@@ -113,15 +127,17 @@ const Styles = {
         alignItems : "center",
         height : utils.hUnit(5),
         justifyContent : "flex-end",
-        marginBottom : utils.hUnit(1.6),
+        marginBottom : utils.hUnit(1.2),
         padding : utils.hUnit(0.8)
+    },
+    InputDivStyle : {
+        padding : "0 " + utils.hUnit(0.6),
+        marginBottom : utils.hUnit(1.2),
+        marginTop : utils.hUnit(1.2),
     },
     HeaderStyle : {
         flex : "1",
         marginRight : utils.hUnit(0.8)
-    },
-    InputDivStyle : {
-        flex : 4,
     },
     ButtonsDivStyle : {
         flex : 2,
