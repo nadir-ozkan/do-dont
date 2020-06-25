@@ -85,20 +85,12 @@ class CheckItemForm extends React.Component {
         }
 
         const renderButtons = () => {
-            if (this.state.insertMode) {
-                return (
-                    <div style={ButtonContainerStyle}>
-                        <button style={ButtonStyle} onClick={this.HandleCancelClick.bind(this)}>İptal</button>
-                        <button style={ButtonStyle} onClick={this.HandleSaveClick.bind(this)}>Kaydet</button>
-                    </div>
-                );
-            } else {
-                return (
-                    <div style={ButtonContainerStyle}>
-                        <button style={ButtonStyle} onClick={this.HandleDeleteClick.bind(this)}>Sil</button>
-                    </div>
-                );
-            }
+            return (
+                <div style={ButtonContainerStyle}>
+                    <button style={ButtonStyle} onClick={this.HandleCancelClick.bind(this)}>İptal</button>
+                    <button style={ButtonStyle} onClick={this.HandleSaveClick.bind(this)}>Kaydet</button>
+                </div>
+            );
         }
 
         return(

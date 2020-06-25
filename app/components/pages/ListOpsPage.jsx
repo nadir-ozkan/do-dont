@@ -110,6 +110,11 @@ class ListOpsPage extends React.Component {
         this.unregisterLeaveHook();
     }
 
+    ShowNewItemForm(itemType){
+        alert(itemType);
+        this.setState({ itemType, showModal : true });
+    }
+
     render() {
         const {MainDivStyle} = Styles;
         return(
@@ -124,14 +129,14 @@ class ListOpsPage extends React.Component {
                         ListLabel = {"Do Items"}
                         OnSaveNewItem = {this.SaveNewItem.bind(this, "doItems")}
                         OnDeleteItem = {this.DeleteItem.bind(this, "doItems")}
-                        OnAddNewItem = {()=> alert("Hellöööö")}
+                        OnAddNewItem = {this.ShowNewItemForm.bind(this, "doItems")}
                     />
                     <CheckItemList
                         items={this.state.dontItems}
                         ListLabel = {"Don't Items"}
                         OnSaveNewItem = {this.SaveNewItem.bind(this, "dontItems")}
                         OnDeleteItem = {this.DeleteItem.bind(this, "dontItems")}
-                        OnAddNewItem = {()=> alert("Hellöööö, vvvvvv")}
+                        OnAddNewItem = {this.ShowNewItemForm.bind(this, "dontItems")}
                     />
                 </div>
                 <div id="modalDiv">
@@ -140,7 +145,7 @@ class ListOpsPage extends React.Component {
                         onModalClose={() => alert("Closing modal...")}
                         closeButtonVisible = {true}
                     >
-                    <CheckItemForm/>
+                        <CheckItemForm/>
                     </Modal>
                 </div>
             </div>
