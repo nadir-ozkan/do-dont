@@ -34,7 +34,8 @@ class CheckItemForm extends React.Component {
             return;
         }
         if (this.props.OnSaveNewItem){
-            this.props.OnSaveNewItem(itemText.trim());
+            this.props.OnSaveNewItem(this.props.itemType, itemText.trim());
+            this.props.onModalClose();
         }
     }
 
@@ -57,31 +58,6 @@ class CheckItemForm extends React.Component {
 
         const {DivStyle, ButtonStyle, ButtonContainerStyle, HeaderStyle,
             HeaderDivStyle, InputDivStyle} = Styles;
-
-        const that = this;
-
-        const renderInput = () => {
-            if (this.state.insertMode) {
-                return (
-                    <input
-                        // Burada ilgili html öğesine ait ref bir fonksiyon kullanılarak,
-                        // içinde bulunduğu bileşene değişken olarak kaydediliyor!
-                        ref={ (input) => { this.textInput = input; }}
-                        style={InputStyle}
-                        type="text"
-                        value={this.state.itemText}
-                        onChange={this.handleTextChange.bind(this)}
-                        onKeyUp={this.handleKeyUp.bind(this)}
-                        autoFocus="true"
-                    />
-                );
-            } else {
-                return (
-                    <label style={InputStyle}>{this.state.itemText}</label>
-                )
-            }
-        }
-
 
         return(
             <div style={DivStyle}>

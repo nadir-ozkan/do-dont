@@ -69,7 +69,7 @@ class ListOpsPage extends React.Component {
 
         api.saveListItem(userName, itemType, itemText)
             .then((result) => {
-                console.log("Save by api : ", result);
+                console.log("Saved by api : ", result);
                 this.getListData(itemType)
                     .then((itemsArray) => {
                         localStorage.setItem("ListUpdated", true);
@@ -111,12 +111,13 @@ class ListOpsPage extends React.Component {
     }
 
     ShowNewItemForm(itemType){
-        this.setState({ itemType, showModal : true });
+        this.itemType = itemType;
+        this.setState({ showModal : true });
     }
 
     render() {
         const {MainDivStyle} = Styles;
-        const listName = this.state.itemType == "doItems" ? "Yap" : "Yapma";
+        const listName = this.itemType == "doItems" ? "Yap" : "Yapma";
         return(
             <div>
                 <Navbar ActivePage={"ListOps"}
@@ -145,7 +146,11 @@ class ListOpsPage extends React.Component {
                         onModalClose={() => this.setState({showModal : false})}
                         closeButtonVisible = {true}
                     >
-                        <CheckItemForm headerText = {listName + " listesine ekle"}/>
+                        <CheckItemForm
+                            itemType = {this.itemType}
+                            headerText = {listName + " listesine ekle"}
+                            OnSaveNewItem = {this.SaveNewItem.bind(this)}
+                        />
                     </Modal>
                 </div>
             </div>
