@@ -13,15 +13,16 @@ class App extends Component {
 
     constructor(){
         super();
-        this.user = null;
+        this.user = JSON.parse(localStorage.getItem("user")) || null;
         this.state = {
-            hasUser : false,
+            hasUser : this.user != null ? true : false,
             debugMode : false
         }
     }
 
     HandleGetUser(newUser) {
         this.user = newUser;
+        localStorage.setItem("user", JSON.stringify(newUser));
         this.setState({
             hasUser : true
         });
@@ -29,6 +30,10 @@ class App extends Component {
 
     HandleLogOut(){
         this.user = null;
+        localStorage.removeItem("user");
+        localStorage.removeItem("does");
+        localStorage.removeItem("donts");
+        localStorage.removeItem("ListUpdated");
         this.setState({
             hasUser : false
         });
